@@ -1,0 +1,13 @@
+{
+  "name": "adhoc-lms-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "install:client": "npm install --prefix adhoc_test_lms",
+    "install:server": "npm install --prefix lms_backend",
+    "build:client": "npm run build --prefix adhoc_test_lms",
+    "install-all": "npm run install:client && npm run install:server",
+    "build-all": "npm run build:client",
+    "start": "node lms_backend/server.js"
+  }
+}

@@ -1,5 +1,7 @@
 const dotenv = require('dotenv');
 dotenv.config();
+const path = require('path');
+
 
 const passwordRoutes = require('./routes/passwordRoutes');
 const helmet = require('helmet');
@@ -81,9 +83,17 @@ app.get('/health', (req, res) => {
   res.status(200).json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
-app.get('/', (req, res) => {
-  res.json({ message: 'LMS API is running' });
+// Serve static files from the React/Vite app
+app.use(express.static(path.join(__dirname, '../adhoc_test_lms/dist')));
+
+// Serve index.html for all non-API paths (React Router fallback)
+app.get('*', (req, res) => {
+  if (req.path.startsWith('/api')) {
+    return res.status(404).json({ success: false, message: 'API route not found' });
+  }
+  res.sendFile(path.join(__dirname, '../adhoc_test_lms/dist/index.html'));
 });
+
 
 // ============ START SERVER ============
 
