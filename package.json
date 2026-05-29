@@ -10,9 +10,23 @@
     "build-all": "npm run build:client && node copy-build.js",
     "build": "npm run build-all",
     "postinstall": "npm run install-all && npm run build-all",
-    "start": "node lms_backend/server.js"
+    "start": "node app.js"
 
+  },
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cors": "^2.8.6",
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1",
+    "express-rate-limit": "^8.3.2",
+    "helmet": "^8.1.0",
+    "jsonwebtoken": "^9.0.3",
+    "mysql2": "^3.20.0",
+    "node-cron": "^4.2.1",
+    "nodemailer": "^8.0.5",
+    "pdfkit": "^0.18.0",
+    "razorpay": "^2.9.6",
+    "resend": "^6.9.4",
+    "sequelize": "^6.37.8"
   }
-
-
 }
