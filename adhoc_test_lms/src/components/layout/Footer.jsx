@@ -95,7 +95,7 @@ export function Footer() {
 
           {/* Contact Base */}
           <div className="sm:col-span-2 lg:col-span-4">
-            <h4 className="text-xs font-bold text-primary uppercase tracking-[0.3em] mb-6 sm:mb-8 italic">Base</h4>
+            <h2 className="text-xs font-bold text-primary uppercase tracking-[0.3em] mb-6 sm:mb-8 italic">Base</h2>
             <ul className="space-y-4 sm:space-y-6">
               <li className="flex items-start gap-3">
                 <MapPin className="w-5 h-5 text-primary shrink-0 mt-0.5" strokeWidth={2.5} />
@@ -130,7 +130,7 @@ export function Footer() {
 
         {/* Bottom Shard */}
         <div className="pt-4 border-t border-surface-dim/20 flex flex-col lg:flex-row justify-between items-center gap-6">
-          <p className="text-[10px] sm:text-xs font-bold text-outline uppercase tracking-widest text-center  lg:text-left">
+          <p className="text-[10px] sm:text-xs font-bold text-[#A1A1AA] uppercase tracking-widest text-center  lg:text-left">
             &copy; {currentYear} Adhoc Network Tech.
           </p>
         </div>
