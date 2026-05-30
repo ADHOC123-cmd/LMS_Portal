@@ -77,7 +77,18 @@ export function QuizPlayer({
                   )}
                 </div>
                 <div className="space-y-3 pl-8">
-                  {q.options?.map((option, optIdx) => {
+                  {(() => {
+                    if (!q.options) return [];
+                    if (Array.isArray(q.options)) return q.options;
+                    if (typeof q.options === 'string') {
+                      try {
+                        return JSON.parse(q.options);
+                      } catch (e) {
+                        return [];
+                      }
+                    }
+                    return [];
+                  })().map((option, optIdx) => {
                     let variantClasses = "border-surface-dim/20 bg-surface-container-low hover:border-primary/30";
                     if (showFeedback) {
                       if (optIdx === correctIdx) {

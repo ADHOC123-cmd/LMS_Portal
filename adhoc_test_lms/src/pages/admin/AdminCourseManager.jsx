@@ -499,12 +499,27 @@ function AdminCourseManagerContent() {
                         </button>
                         <p className="font-bold text-primary text-sm pr-6"><span className="text-secondary">{idx + 1}.</span> {q.questionText}</p>
                         <ul className="mt-2 space-y-1 pl-4">
-                          {q.options?.map((opt, oIdx) => (
-                            <li key={oIdx} className={`text-xs ${q.correctOptionIndex === oIdx ? 'text-emerald-600 font-bold' : 'text-secondary'}`}>
-                              {oIdx === 0 ? 'A' : oIdx === 1 ? 'B' : oIdx === 2 ? 'C' : 'D'}. {opt}
-                              {q.correctOptionIndex === oIdx && ' ✓'}
-                            </li>
-                          ))}
+                          {(() => {
+                            if (!q.options) return [];
+                            if (Array.isArray(q.options)) return q.options;
+                            if (typeof q.options === 'string') {
+                              try {
+                                return JSON.parse(q.options);
+                              } catch (e) {
+                                return [];
+                              }
+                            }
+                            return [];
+                          })().map((opt, oIdx) => {
+                            const correctIdx = q.correctAnswer ?? q.correctOptionIndex ?? q.correctOption;
+                            const isCorrect = correctIdx === oIdx;
+                            return (
+                              <li key={oIdx} className={`text-xs ${isCorrect ? 'text-emerald-600 font-bold' : 'text-secondary'}`}>
+                                {oIdx === 0 ? 'A' : oIdx === 1 ? 'B' : oIdx === 2 ? 'C' : 'D'}. {opt}
+                                {isCorrect && ' ✓'}
+                              </li>
+                            );
+                          })}
                         </ul>
                       </div>
                     ))}
