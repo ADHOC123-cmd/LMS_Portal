@@ -23,6 +23,9 @@ const ticketRoutes = require('./routes/ticketRoutes');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+// Trust reverse proxy (needed for express-rate-limit behind Hostinger/Passenger)
+app.set('trust proxy', 1);
+
 // ============ RATE LIMITERS ============
 
 const limiter = rateLimit({
