@@ -93,7 +93,8 @@ app.get('/health', (req, res) => {
 app.use(express.static(path.join(__dirname, '../dist')));
 
 // Serve index.html for all non-API paths (React Router fallback)
-app.get('*', (req, res) => {
+// Note: In Express 5, catch-all routing requires a named parameter (e.g. /*splat)
+app.get('/*splat', (req, res) => {
   if (req.path.startsWith('/api')) {
     return res.status(404).json({ success: false, message: 'API route not found' });
   }
