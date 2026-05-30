@@ -416,8 +416,9 @@ function PlayerContent() {
                       src={getEmbedUrl(activeItem.videoUrl)}
                       className="absolute inset-0 w-full h-full bg-black"
                       frameBorder="0"
-                      allow="autoplay; fullscreen; picture-in-picture"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                       allowFullScreen
+                      referrerPolicy="strict-origin-when-cross-origin"
                     />
                   )
                 ) : (
