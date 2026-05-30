@@ -91,7 +91,6 @@ export default function Home() {
       try {
         setCoursesLoading(true)
         const data = await StorageService.getCourses()
-        console.log(data)
         // Randomize and take 3 for variety on every refresh
         const randomized = [...data].sort(() => 0.5 - Math.random())
         setFeaturedCourses(randomized.slice(0, 3))
@@ -264,7 +263,7 @@ export default function Home() {
               {[
                 "150+ Expert Mentors from Global Firms",
                 "Certifications recognized across the tech industry",
-
+                 "Limited-time access to premium course assets", 
                 "24/7 Mentor Support & Community Access"
               ].map((text, i) => (
                 <li key={i} className="flex items-center gap-3 text-on-surface font-medium group">
@@ -457,12 +456,12 @@ export default function Home() {
             className="bg-white dark:bg-black rounded-[2rem] p-6 sm:p-10 flex flex-col lg:flex-row items-center lg:items-start gap-12 border border-black/5 dark:border-white/5"
           >
             {/* CEO Image */}
-            <div className="w-full lg:w-1/3 max-w-[320px]">
-              <div className="aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl border border-black/10 dark:border-white/10">
+            <div className="w-full lg:w-1/3 max-w-[380px]">
+              <div className="rounded-3xl overflow-hidden shadow-2xl border border-black/10 dark:border-white/10 bg-black/5 dark:bg-white/5">
                 <img
-                  src="https://th.bing.com/th/id/OIP.i51_D3UKjIuOrKBkRQ9X6QAAAA"
+                  src="https://github.com/saiakhil1629/ascs_bootcamp/blob/main/WhatsApp%20Image%202026-05-17%20at%2011.16.33%20AM.jpeg?raw=true"
                   alt="Devika Pakruthi - CEO"
-                  className="w-full h-full object-cover"
+                  className="w-full h-auto max-h-[400px] object-contain"
                 />
               </div>
             </div>
@@ -495,9 +494,9 @@ export default function Home() {
       {/* CTA Section (NEW) */}
       <section className="py-12 px-8 signature-gradient">
         <div className="max-w-4xl mx-auto text-center text-white">
-          <h2 className="text-3xl font-headline font-bold mb-4">Ready to Elevate Your Career?</h2>
-          <p className="text-base opacity-90 mb-8 max-w-2xl mx-auto">
-            Join an exclusive community of professionals transforming their careers with our premium courses.
+          <h2 className="text-4xl font-headline font-bold mb-4">Ready to Elevate Your Career?</h2>
+          <p className="text-lg opacity-90 mb-8 max-w-2xl mx-auto">
+             Join an exclusive community of professionals transforming their careers with our premium courses.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link

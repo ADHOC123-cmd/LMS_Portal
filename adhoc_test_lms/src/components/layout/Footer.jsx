@@ -22,10 +22,11 @@ export function Footer() {
       { name: "Careers", href: "#" },
     ],
     legal: [
-      { name: "Terms of Engagement", href: "#" },
-      { name: "Privacy Protocol", href: "#" },
-      { name: "Cookie Policy", href: "#" },
-      { name: "Data Processing", href: "#" },
+      { name: "Terms of Engagement", href: "/terms" },
+      { name: "Privacy Protocol", href: "/privacy" },
+      { name: "Refund Policy", href: "/RefundPolicy" },
+      // { name: "Cookie Policy", href: "#" },
+      // { name: "Data Processing", href: "#" },
     ]
   }
 
@@ -129,7 +130,7 @@ export function Footer() {
 
         {/* Bottom Shard */}
         <div className="pt-4 border-t border-surface-dim/20 flex flex-col lg:flex-row justify-between items-center gap-6">
-          <p className="text-[10px] sm:text-xs font-bold text-outline uppercase tracking-widest text-center lg:text-left">
+          <p className="text-[10px] sm:text-xs font-bold text-outline uppercase tracking-widest text-center  lg:text-left">
             &copy; {currentYear} Adhoc Network Tech.
           </p>
         </div>

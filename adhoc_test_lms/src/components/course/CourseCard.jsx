@@ -17,6 +17,7 @@ export const CourseCard = React.memo(({
   originalPrice, 
   rating = 4.5, 
   reviewCount = 120, 
+  enrolled = 0,
   image, 
   isFavorite, 
   onFavoriteToggle, 
@@ -24,6 +25,7 @@ export const CourseCard = React.memo(({
   level = "intermediate" 
 }) => {
   const discount = originalPrice ? Math.round(((originalPrice - price) / originalPrice) * 100) : 0
+  const formattedEnrolled = enrolled >= 1000 ? `${(enrolled / 1000).toFixed(1).replace(/\.0$/, '')}k` : enrolled
 
   return (
     <div className="group relative bg-surface-container-lowest rounded-2xl overflow-hidden border border-surface-dim/20 hover:border-primary/30 transition-all hover:shadow-xl">
@@ -76,7 +78,7 @@ export const CourseCard = React.memo(({
           <span className="text-xs text-on-surface-variant">({reviewCount} reviews)</span>
           <div className="flex items-center gap-1 ml-auto">
             <Users className="w-3 h-3 text-on-surface-variant" />
-            <span className="text-xs text-on-surface-variant">1.2k enrolled</span>
+            <span className="text-xs text-on-surface-variant">{formattedEnrolled} enrolled</span>
           </div>
         </div>
 

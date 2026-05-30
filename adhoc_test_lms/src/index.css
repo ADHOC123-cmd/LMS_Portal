@@ -179,3 +179,44 @@
 .safe-bottom {
   padding-bottom: env(safe-area-inset-bottom, 0px);
 }
+.policy-wrapper{
+  background:#f4f4f4;
+  padding:40px;
+  display:flex;
+  justify-content:center;
+}
+
+.policy-card{
+  width:100%;
+  max-width:1200px;
+  background:white;
+  padding:60px;
+  border-radius:20px;
+  box-shadow:0 0 10px rgba(0,0,0,0.08);
+}
+
+.policy-card h1{
+  font-size:72px;
+  font-weight:800;
+  color:#000;
+  margin-bottom:40px;
+}
+
+.policy-card h2{
+  font-size:38px;
+  margin-top:45px;
+  margin-bottom:20px;
+  color:#111;
+}
+
+.policy-card p{
+  font-size:22px;
+  line-height:1.9;
+  color:#444;
+}
+
+.email{
+  font-weight:bold;
+  color:#000;
+  font-size:24px;
+}

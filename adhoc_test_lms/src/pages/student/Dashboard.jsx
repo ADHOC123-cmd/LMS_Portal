@@ -9,13 +9,11 @@ import {
   Trophy, 
   Target, 
   ArrowRight, 
-  Calendar, 
   TrendingUp, 
   Award, 
   Flame,
   ChevronRight,
-  Sparkles,
-  BarChart3
+  Sparkles
 } from "lucide-react"
 import { StorageService, ENROLLMENTS_KEY } from "../../services/storage"
 import { Link, useNavigate } from "react-router-dom"
@@ -50,15 +48,23 @@ function DashboardContent() {
       
       const token = StorageService.getToken()
       
+      // Create a map to store course details (durations, etc)
+      const courseDetailsMap = {}
+      
       // Load progress and full course data
       const progressPromises = enrolled.map(async (course) => {
         const prog = await StorageService.getProgress(course.id)
         const completedLessonsCount = Object.values(prog).filter(p => p === 'completed').length
         
-        const courseData = await api.courses.getById(course.id, token)
+        const courseRes = await api.courses.getById(course.id, token)
+        const courseData = courseRes?.data || {}
+        
+        // Store course details for deadline calculation
+        courseDetailsMap[course.id] = courseData
+        
         let totalLessons = 0;
-        if (courseData && courseData.data && courseData.data.modules) {
-          totalLessons = courseData.data.modules.reduce((acc, mod) => acc + (mod.lessons?.length || 0), 0)
+        if (courseData.modules) {
+          totalLessons = courseData.modules.reduce((acc, mod) => acc + (mod.lessons?.length || 0), 0)
         }
         totalLessons = totalLessons > 0 ? totalLessons : 1;
         
@@ -124,19 +130,58 @@ function DashboardContent() {
 
       setRecentActivity(activities.sort((a, b) => new Date(b.date) - new Date(a.date)))
 
-      // Generate Deadlines based on enrolled courses
-      if (enrolled.length > 0) {
-        const deadlines = enrolled.slice(0, 2).map((course, idx) => ({
+      // Generate Dynamic Deadlines based on subscription object data
+      const deadlines = enrolled.map(course => {
+        const sub = course.subscription || {};
+        
+        // Use expiresAt directly from subscription
+        const deadlineDate = sub.expiresAt ? new Date(sub.expiresAt) : null;
+        
+        // Fallback for enrollment date
+        const rawDate = course.startDate ||
+                        course.registrationDate || 
+                        course.enrolledAt || 
+                        course.subscriptionDate || 
+                        course.createdAt;
+        const enrollmentDate = new Date(sub.startDate || sub.purchasedAt || rawDate);
+        
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        
+        let diffDays = 0;
+        let finalDeadlineDate = null;
+
+        if (deadlineDate && !isNaN(deadlineDate.getTime())) {
+          finalDeadlineDate = new Date(deadlineDate);
+          finalDeadlineDate.setHours(0, 0, 0, 0);
+          const diffTime = finalDeadlineDate - today;
+          diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        } else if (sub.daysRemaining !== undefined) {
+          // Use daysRemaining if expiresAt is not available
+          diffDays = parseInt(sub.daysRemaining);
+          finalDeadlineDate = new Date(today);
+          finalDeadlineDate.setDate(today.getDate() + diffDays);
+        }
+        
+        return {
           id: course.id,
           course: course.title,
-          assignment: `Complete Module ${idx + 1} Assessment`,
-          due: `${idx + 2} days`,
-          priority: idx === 0 ? 'high' : 'medium'
-        }))
-        setUpcomingDeadlines(deadlines)
-      }
+          assignment: "Program Completion",
+          registrationDate: enrollmentDate.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' }),
+          deadlineDate: finalDeadlineDate ? finalDeadlineDate.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' }) : 'N/A',
+          due: diffDays < 0 ? 'Expired' : (diffDays === 0 ? 'Due Today' : `${diffDays} days`),
+          diffDays: diffDays,
+          priority: diffDays < 0 ? 'expired' : (diffDays < 15 ? 'high' : 'medium')
+        };
+      }).filter(d => d.deadlineDate !== 'N/A').sort((a, b) => a.diffDays - b.diffDays).slice(0, 2);
+      // Finalize and set the dynamic deadlines for display on the dashboard
+      setUpcomingDeadlines(deadlines)
       
+      /* 
+      // Calculate and set the learning streak
+      // Currently using a placeholder logic that maps completed lessons to streak days (capped at 7)
       setStreak(totalCompletedLessons > 0 ? Math.min(totalCompletedLessons, 7) : 0)
+      */
       
       // Load Recommended Courses
       try {
@@ -202,23 +247,24 @@ function DashboardContent() {
               </p>
             </div>
             
-            {/* Streak Badge */}
-            <div className="flex flex-col sm:flex-row gap-4 w-full lg:w-auto">
-              <div className="flex-1 bg-surface-container-low px-4 sm:px-6 py-4 rounded-2xl border border-surface-dim/20 flex items-center gap-4">
+            <div className="flex flex-col sm:flex-row gap-4 w-full lg:w-fit lg:mr-20">
+              {/* Learning Streak Badge - Commented for now and we'll update this section after Deployment
+              <div className="flex-1 lg:flex-none lg:min-w-[220px] bg-surface-container-low px-4 sm:px-6 py-4 rounded-2xl border border-surface-dim/20 flex items-center gap-4">
                 <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-orange-500/10 flex items-center justify-center">
                   <Flame className="w-5 h-5 sm:w-6 sm:h-6 text-orange-500" />
                 </div>
                 <div>
-                  <p className="text-[10px] font-bold text-secondary uppercase tracking-widest leading-none mb-1">Learning Streak</p>
+                  <p className="text-[10px] font-bold text-secondary uppercase tracking-widest leading-none mb-1 whitespace-nowrap">Learning Streak</p>
                   <p className="text-primary font-headline font-bold text-xl sm:text-2xl">{streak} days</p>
                 </div>
               </div>
-              <div className="flex-1 bg-surface-container-low px-4 sm:px-6 py-4 rounded-2xl border border-surface-dim/20 flex items-center gap-4">
+              */}
+              <div className="flex-1 lg:flex-none lg:min-w-[220px] bg-surface-container-low px-4 sm:px-6 py-4 rounded-2xl border border-surface-dim/20 flex items-center gap-4">
                 <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full signature-gradient flex items-center justify-center text-white shadow-lg">
                   <Target className="w-5 h-5 sm:w-6 sm:h-6" />
                 </div>
                 <div>
-                  <p className="text-[10px] font-bold text-secondary uppercase tracking-widest leading-none mb-1">Global Standing</p>
+                  <p className="text-[10px] font-bold text-secondary uppercase tracking-widest leading-none mb-1 whitespace-nowrap">Global Standing</p>
                   <p className="text-primary font-headline font-bold text-sm sm:text-base">Top 5% of Scholars</p>
                 </div>
               </div>
@@ -296,11 +342,13 @@ function DashboardContent() {
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.3 }}
-            className="bg-surface-container-lowest rounded-3xl p-6 border border-surface-dim/20"
+            className="bg-surface-container-lowest rounded-3xl p-6 border border-surface-dim/20 flex flex-col"
           >
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-2xl font-headline font-bold text-primary">Deadlines</h2>
-              
+              <Link to="/student/deadlines" className="text-sm font-medium text-primary flex items-center gap-1 hover:opacity-80 transition-opacity">
+                View More <ChevronRight className="w-4 h-4" />
+              </Link>
             </div>
             
             {upcomingDeadlines.length === 0 ? (
@@ -308,21 +356,40 @@ function DashboardContent() {
                 <p className="text-on-surface-variant">No upcoming deadlines</p>
               </div>
             ) : (
-              <div className="space-y-4">
+              <div className="flex-1 flex flex-col gap-4">
                 {upcomingDeadlines.map((deadline) => (
-                  <div key={deadline.id} className="p-4 rounded-xl bg-surface-container-high/50">
-                    <div className="flex justify-between items-start mb-2">
-                      <h3 className="font-bold text-on-surface">{deadline.course}</h3>
-                      <span className={`text-xs px-2 py-0.5 rounded-full ${
-                        deadline.priority === 'high' ? 'bg-red-500/10 text-red-500' : 'bg-yellow-500/10 text-yellow-500'
+                  <div key={deadline.id} className="py-6 px-5 flex-1 min-h-[120px] flex flex-col justify-between rounded-2xl bg-surface-container-high/40 border border-surface-dim/10 hover:bg-surface-container-high/60 transition-all group">
+                    <div className="flex justify-between items-start mb-3">
+                      <h3 className="font-bold text-primary leading-tight group-hover:text-blue-500 transition-colors">{deadline.course}</h3>
+                      <span className={`text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-widest ${
+                        deadline.priority === 'expired' ? 'bg-red-500 text-white shadow-lg' :
+                        deadline.priority === 'high' ? 'bg-red-500/10 text-red-500' : 'bg-primary/10 text-primary'
                       }`}>
-                        {deadline.priority === 'high' ? 'Urgent' : 'Upcoming'}
+                        {deadline.priority === 'expired' ? 'Expired' : (deadline.priority === 'high' ? 'Urgent' : 'Upcoming')}
                       </span>
                     </div>
-                    <p className="text-sm text-on-surface-variant mb-2">{deadline.assignment}</p>
-                    <div className="flex justify-between items-center">
-                      <span className="text-xs text-primary font-medium">Due in {deadline.due}</span>
-                     
+                    
+                    <div className="space-y-2 mb-4">
+                      <div className="flex justify-between text-[10px] font-medium text-on-surface-variant">
+                        <span>Registered on</span>
+                        <span className="text-on-surface font-bold">{deadline.registrationDate}</span>
+                      </div>
+                      <div className="flex justify-between text-[10px] font-medium text-on-surface-variant">
+                        <span>Completion Target</span>
+                        <span className="text-on-surface font-bold">{deadline.deadlineDate}</span>
+                      </div>
+                    </div>
+
+                    <div className="flex justify-between items-center pt-3 border-t border-surface-dim/10">
+                      <div className="flex items-center gap-2">
+                        <Clock className={`w-3.5 h-3.5 ${deadline.priority === 'high' ? 'text-red-500' : 'text-primary'}`} />
+                        <span className={`text-xs font-bold ${
+                          deadline.priority === 'expired' || deadline.priority === 'high' ? 'text-red-500' : 'text-primary'
+                        }`}>
+                          {deadline.diffDays < 0 ? 'Subscription Expired' : (deadline.diffDays === 0 ? 'Expires today' : `Due in ${deadline.diffDays} days`)}
+                        </span>
+                      </div>
+
                     </div>
                   </div>
                 ))}
