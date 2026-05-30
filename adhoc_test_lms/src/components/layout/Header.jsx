@@ -200,6 +200,7 @@ export function Header() {
         {/* Mobile Menu Button */}
         <button
           type="button"
+          aria-label="Open menu"
           className="inline-flex items-center justify-center rounded-md p-2 text-on-surface hover:bg-surface-dim lg:hidden"
           onClick={() => setIsOpen((prev) => !prev)}
         >

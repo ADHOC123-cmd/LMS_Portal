@@ -71,7 +71,7 @@ export function Footer() {
 
           {/* Newsletter Signup */}
           <div className="sm:col-span-2 lg:col-span-4">
-            <h4 className="text-[10px] sm:text-xs font-bold text-primary uppercase tracking-[0.3em] mb-6 sm:mb-8 italic">Newsletter</h4>
+            <h2 className="text-[10px] sm:text-xs font-bold text-primary uppercase tracking-[0.3em] mb-6 sm:mb-8 italic">Newsletter</h2>
             <p className="text-sm text-on-surface-variant mb-6 leading-relaxed">
               Subscribe to receive tactical insights, curriculum updates, and exclusive content.
             </p>
@@ -87,7 +87,7 @@ export function Footer() {
                   Subscribe
                 </button>
               </div>
-              <p className="text-[10px] text-on-surface-variant opacity-60">
+              <p className="text-[10px] text-white">
                 No spam. Unsubscribe anytime.
               </p>
             </div>
