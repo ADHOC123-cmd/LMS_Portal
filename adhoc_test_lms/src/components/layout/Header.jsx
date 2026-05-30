@@ -100,7 +100,7 @@ export function Header() {
           <div className="w-8 h-8 sm:w-10 sm:h-10 signature-gradient rounded-xl flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform">
             <span className="text-white font-headline font-bold text-base sm:text-xl">A</span>
           </div>
-          <span className="text-lg sm:text-2xl font-bold tracking-tighter text-primary font-headline whitespace-nowrap">ADHOC LMS</span>
+          <span className="text-lg sm:text-2xl font-bold tracking-tighter text-primary font-headline whitespace-nowrap">Adhoc Skills Hub</span>
         </Link>
 
         {/* Desktop Navigation */}
