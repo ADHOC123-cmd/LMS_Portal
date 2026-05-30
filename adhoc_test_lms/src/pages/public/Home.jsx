@@ -355,16 +355,15 @@ export default function Home() {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
-            className="flex flex-col sm:grid sm:grid-cols-2 lg:grid-cols-3 gap-6"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch"
           >
             <motion.div
               variants={fadeUp}
-              className="w-full sm:col-span-2 bg-surface-container-low p-6 sm:p-10 rounded-[2rem] border border-surface-dim/20 hover:border-primary/20 transition-all group relative overflow-hidden"
+              className="flex flex-col h-full p-6 rounded-xl border border-outline-variant bg-surface-container-low dark:bg-surface-container-high transition-colors group"
             >
-              <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full blur-2xl pointer-events-none" />
               <Award className="w-12 h-12 text-primary mb-6 group-hover:scale-110 transition-transform" />
-              <h3 className="text-2xl font-headline font-bold mb-4">Industry Accreditation</h3>
-              <p className="text-secondary max-w-md">Our certs are designed directly with enterprise CTOs, providing immediate professional legitimacy.</p>
+              <h3 className="text-2xl font-headline font-bold mb-2">Industry Accreditation</h3>
+              <p className="text-secondary flex-grow">Our certs are designed directly with enterprise CTOs, providing immediate professional legitimacy.</p>
               <div className="mt-6 flex items-center gap-2 text-primary text-sm font-medium">
                 Recognized by 500+ companies
               </div>
@@ -372,33 +371,30 @@ export default function Home() {
 
             <motion.div
               variants={fadeUp}
-              className="w-full sm:col-span-1 bg-primary text-on-primary p-8 sm:p-10 rounded-[2rem] shadow-xl ambient-shadow flex flex-col justify-between group hover:scale-[1.02] transition-transform"
+              className="flex flex-col h-full p-6 rounded-xl border border-outline-variant bg-surface-container-low dark:bg-surface-container-high transition-colors group"
             >
-              <Brain className="w-12 h-12 mb-6 group-hover:rotate-6 transition-transform" />
-              <div>
-                <h3 className="text-2xl font-headline font-bold mb-2">Expert Focus</h3>
-                <p className="opacity-80 text-sm">Mentors leading deep technical pathways from FAANG and Fortune 500.</p>
-              </div>
+              <Brain className="w-12 h-12 text-primary mb-6 group-hover:scale-110 transition-transform" />
+              <h3 className="text-2xl font-headline font-bold mb-2">Expert Focus</h3>
+              <p className="text-secondary flex-grow">Mentors leading deep technical pathways from FAANG and Fortune 500.</p>
             </motion.div>
-            <div className="md:col-span-3 grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
-              <motion.div
-                variants={fadeUp}
-                className="bg-surface-container-lowest p-10 rounded-[2rem] border border-surface-dim/20 ambient-shadow hover:shadow-xl transition-all"
-              >
-                <History className="w-10 h-10 text-primary mb-6" />
-                <h3 className="text-xl font-headline font-bold mb-2">Limited time Access</h3>
-                <p className="text-secondary text-sm">Purchase once, review forever. All future updates included.</p>
-              </motion.div>
+            
+            <motion.div
+              variants={fadeUp}
+              className="flex flex-col h-full p-6 rounded-xl border border-outline-variant bg-surface-container-low dark:bg-surface-container-high transition-colors group"
+            >
+              <History className="w-10 h-10 text-primary mb-6 group-hover:scale-110 transition-transform" />
+              <h3 className="text-2xl font-headline font-bold mb-2">Limited time Access</h3>
+              <p className="text-secondary flex-grow">Purchase once, review forever. All future updates included.</p>
+            </motion.div>
 
-              <motion.div
-                variants={fadeUp}
-                className="bg-surface-container-lowest p-10 rounded-[2rem] border border-surface-dim/20 ambient-shadow hover:shadow-xl transition-all"
-              >
-                <Globe className="w-10 h-10 text-primary mb-6" />
-                <h3 className="text-xl font-headline font-bold mb-2">Global Network</h3>
-                <p className="text-secondary text-sm">Join 45k+ alumni worldwide across 80+ countries.</p>
-              </motion.div>
-            </div>
+            <motion.div
+              variants={fadeUp}
+              className="flex flex-col h-full p-6 rounded-xl border border-outline-variant bg-surface-container-low dark:bg-surface-container-high transition-colors group"
+            >
+              <Globe className="w-10 h-10 text-primary mb-6 group-hover:scale-110 transition-transform" />
+              <h3 className="text-2xl font-headline font-bold mb-2">Global Network</h3>
+              <p className="text-secondary flex-grow">Join 45k+ alumni worldwide across 80+ countries.</p>
+            </motion.div>
           </motion.div>
         </div>
       </section>
