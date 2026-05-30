@@ -32,8 +32,9 @@ export const CourseCard = React.memo(({
       {/* Image Section */}
       <Link to={`/course/${id}`} className="block relative overflow-hidden aspect-video">
         <img
-          src={image || `https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=2560&auto=format&q=100`}
+          src={image || `https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=2560&fm=webp&q=100`}
           alt={title}
+          loading="lazy"
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
         />
         

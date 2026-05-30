@@ -87,7 +87,7 @@ export function Footer() {
                   Subscribe
                 </button>
               </div>
-              <p className="text-[10px] text-white">
+              <p className="text-[10px] text-[#17191b]">
                 No spam. Unsubscribe anytime.
               </p>
             </div>
@@ -99,7 +99,7 @@ export function Footer() {
             <ul className="space-y-4 sm:space-y-6">
               <li className="flex items-start gap-3">
                 <MapPin className="w-5 h-5 text-primary shrink-0 mt-0.5" strokeWidth={2.5} />
-                <span className="text-sm font-medium text-on-surface-variant leading-relaxed opacity-70">
+                <span className="text-sm font-medium text-[#4a4b50] leading-relaxed">
                   Adhoc Network <br />
                   Sunrise Towers, 1st floor, IT Sez, Hill-03, Rushikonda <br />
                   Visakhapatnam, Andhra Pradesh, India - 530048
@@ -107,11 +107,11 @@ export function Footer() {
               </li>
               <li className="flex items-center gap-3">
                 <Phone className="w-5 h-5 text-primary shrink-0" strokeWidth={2.5} />
-                <span className="text-sm font-medium text-on-surface-variant opacity-70">+91 7815823764</span>
+                <span className="text-sm font-medium text-[#4a4b50]">+91 7815823764</span>
               </li>
               <li className="flex items-center gap-3">
                 <Mail className="w-5 h-5 text-primary shrink-0" strokeWidth={2.5} />
-                <span className="text-sm font-medium text-on-surface-variant opacity-70">hr@adhocnetwork.tech</span>
+                <span className="text-sm font-medium text-[#4a4b50]">hr@adhocnetwork.tech</span>
               </li>
             </ul>
           </div>
@@ -130,7 +130,7 @@ export function Footer() {
 
         {/* Bottom Shard */}
         <div className="pt-4 border-t border-surface-dim/20 flex flex-col lg:flex-row justify-between items-center gap-6">
-          <p className="text-[10px] sm:text-xs font-bold text-[#A1A1AA] uppercase tracking-widest text-center  lg:text-left">
+          <p className="text-[10px] sm:text-xs font-bold text-[#17191b] uppercase tracking-widest text-center  lg:text-left">
             &copy; {currentYear} Adhoc Network Tech.
           </p>
         </div>
