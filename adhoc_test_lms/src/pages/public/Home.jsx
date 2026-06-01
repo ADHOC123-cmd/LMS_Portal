@@ -117,14 +117,11 @@ export default function Home() {
 
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           <div className="relative z-10 space-y-8">
-            <motion.span
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.2 }}
+            <span
               className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary font-bold text-xs uppercase tracking-widest"
             >
               Learn Any Thing And Any Where
-            </motion.span>
+            </span>
 
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
