@@ -96,11 +96,11 @@ export function Header() {
     <nav className={`fixed top-0 w-full z-50 transition-all duration-300 min-h-[72px] sm:min-h-[80px] ${isAtTop ? 'bg-surface/90' : 'bg-surface shadow-sm border-b border-surface-dim'}`}>
       <div className="flex justify-between items-center w-full px-4 sm:px-8 py-4 max-w-7xl mx-auto min-h-[72px] sm:min-h-[80px]">
         {/* Logo */}
-        <Link to="/" className="flex items-center gap-2 sm:gap-4 group">
+        <Link to="/" className="flex items-center gap-2 sm:gap-4 group shrink-0">
           <div className="w-8 h-8 sm:w-10 sm:h-10 signature-gradient rounded-xl flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform">
             <span className="text-white font-headline font-bold text-base sm:text-xl">A</span>
           </div>
-          <span className="text-base sm:text-2xl font-bold tracking-tighter text-primary font-headline whitespace-normal lg:whitespace-nowrap line-clamp-2 lg:line-clamp-none">Adhoc Skills Hub</span>
+          <span className="text-sm sm:text-xl lg:text-2xl font-bold tracking-tighter text-primary font-headline whitespace-normal lg:whitespace-nowrap line-clamp-2 lg:line-clamp-none">Adhoc Skills Hub</span>
         </Link>
 
         {/* Desktop Navigation */}
