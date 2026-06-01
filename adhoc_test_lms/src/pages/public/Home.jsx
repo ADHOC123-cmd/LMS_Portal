@@ -450,13 +450,16 @@ export default function Home() {
             {/* CEO Image */}
             <div className="w-full lg:w-1/3 max-w-[380px]">
               <div className="rounded-3xl overflow-hidden shadow-2xl border border-surface-dim/20 bg-surface-container-low">
-                <img
-                  src="/ceo-profile.webp"
-                  alt="Devika Pakruthi - CEO"
-                  width="380"
-                  height="400"
-                  className="w-full h-auto max-h-[400px] object-contain"
-                />
+                <picture>
+                  <source srcset="/ceo-mobile.webp" media="(max-width: 640px)" />
+                  <img
+                    src="/ceo-profile.webp"
+                    alt="Devika Pakruthi - CEO"
+                    width="380"
+                    height="400"
+                    className="w-full h-auto max-h-[400px] object-contain"
+                  />
+                </picture>
               </div>
             </div>
 
