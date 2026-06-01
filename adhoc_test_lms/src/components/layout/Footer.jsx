@@ -83,10 +83,14 @@ export function Footer() {
             </p>
             <div className="flex flex-col gap-3">
               <div className="flex flex-col sm:flex-row lg:flex-col gap-2">
+                <label htmlFor="newsletter-email" className="sr-only">Email Address</label>
                 <input
+                  id="newsletter-email"
+                  name="email"
                   type="email"
                   placeholder="your@email.com"
                   className="w-full px-4 py-2.5 bg-surface-container border border-outline-variant rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition"
+                  autoComplete="email"
                 />
                 <button className="w-full sm:w-auto lg:w-full px-6 py-2.5 signature-gradient text-white rounded-lg text-sm font-semibold hover:opacity-90 transition-all active:scale-95 flex items-center justify-center gap-2">
                   <Send className="w-4 h-4" />
