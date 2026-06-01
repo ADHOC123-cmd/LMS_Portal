@@ -479,7 +479,7 @@ export default function Home() {
                 <div>
                   <p className="text-xl font-bold text-on-surface">Devika Pakruthi</p>
                   <p className="text-secondary font-medium">Chief Executive Officer</p>
-                  <p className="text-primary text-sm font-bold uppercase tracking-wider">ADHOC NETWORK</p>
+                  <p className="text-primary text-sm font-bold uppercase tracking-wider">ADHOC NETWORK TECH</p>
                 </div>
                 <Link
                   to="/about-us"
