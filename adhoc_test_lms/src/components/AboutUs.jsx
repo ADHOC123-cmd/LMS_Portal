@@ -82,20 +82,20 @@ export default function AboutUs() {
                 </li>
                 <li className="flex items-start gap-3">
                   <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mt-1">
-                    <span className="text-xl">🔍</span>
+                    <span className="text-xl">💻</span>
                   </div>
                   <div>
-                    <strong className="text-on-surface block text-lg">SEO-Optimized Learning Spaces</strong>
-                    <span className="text-secondary">Helping institutions reach more learners through smart digital visibility.</span>
+                    <strong className="text-on-surface block text-lg">Software & Product Development</strong>
+                    <span className="text-secondary">Building innovative web applications, software solutions, and custom technology products tailored to industry needs.</span>
                   </div>
                 </li>
                 <li className="flex items-start gap-3">
                   <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mt-1">
-                    <span className="text-xl">💡</span>
+                    <span className="text-xl">🎓</span>
                   </div>
                   <div>
-                    <strong className="text-on-surface block text-lg">Next-Gen Tech Integration</strong>
-                    <span className="text-secondary">Leveraging AI, analytics, and automation to enrich the learning experience.</span>
+                    <strong className="text-on-surface block text-lg">Skill Development & Training Services</strong>
+                    <span className="text-secondary">Conducting hackathons, short-term and long-term internships, webinars, guest lectures, tech fests, and industry-focused training programs to empower students with practical skills and real-world experience.</span>
                   </div>
                 </li>
               </ul>
