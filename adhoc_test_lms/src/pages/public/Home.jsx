@@ -221,17 +221,20 @@ export default function Home() {
             className="relative rounded-[2rem] overflow-hidden bg-surface-container-low border border-surface-dim/20 p-1.5 sm:p-2 ambient-shadow hidden sm:block"
           >
             <div className="relative rounded-3xl overflow-hidden h-[300px] sm:h-[400px] lg:h-[500px]">
-              <img
-                alt="Students Learning"
-                width="600"
-                height="500"
-                className="w-full h-full object-cover"
-                src="https://images.unsplash.com/photo-1629904853716-f0bc54eea481?w=1200&q=80&fm=webp&crop=entropy&cs=tinysrgb&fit=max"
-                srcset="https://images.unsplash.com/photo-1629904853716-f0bc54eea481?w=600&q=80&fm=webp&crop=entropy&cs=tinysrgb&fit=max 600w, https://images.unsplash.com/photo-1629904853716-f0bc54eea481?w=1200&q=80&fm=webp&crop=entropy&cs=tinysrgb&fit=max 1200w"
-                sizes="(max-width: 600px) 100vw, 50vw"
-                fetchpriority="high"
-                loading="eager"
-              />
+              <picture>
+                <source media="(max-width: 640px)" srcSet="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" />
+                <img
+                  alt="Students Learning"
+                  width="600"
+                  height="500"
+                  className="w-full h-full object-cover"
+                  src="https://images.unsplash.com/photo-1629904853716-f0bc54eea481?w=1200&q=80&fm=webp&crop=entropy&cs=tinysrgb&fit=max"
+                  srcSet="https://images.unsplash.com/photo-1629904853716-f0bc54eea481?w=600&q=80&fm=webp&crop=entropy&cs=tinysrgb&fit=max 600w, https://images.unsplash.com/photo-1629904853716-f0bc54eea481?w=1200&q=80&fm=webp&crop=entropy&cs=tinysrgb&fit=max 1200w"
+                  sizes="50vw"
+                  fetchPriority="high"
+                  loading="eager"
+                />
+              </picture>
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
               <div className="absolute bottom-6 left-6 right-6 p-6 bg-surface-container/80 backdrop-blur-xl rounded-2xl border border-surface-dim/20 flex justify-between items-center shadow-2xl">
                 <div>
