@@ -486,10 +486,18 @@ export default function Home() {
                 </p>
               </div>
 
-              <div className="pt-4 border-t border-black/10 dark:border-white/10">
-                <p className="text-xl font-bold text-black dark:text-white">Devika Pakruthi</p>
-                <p className="text-black dark:text-white font-medium">Chief Executive Officer</p>
-                <p className="text-black dark:text-white text-sm font-bold uppercase tracking-wider">ADHOC NETWORK</p>
+              <div className="pt-4 border-t border-black/10 dark:border-white/10 flex justify-between items-center">
+                <div>
+                  <p className="text-xl font-bold text-black dark:text-white">Devika Pakruthi</p>
+                  <p className="text-black dark:text-white font-medium">Chief Executive Officer</p>
+                  <p className="text-black dark:text-white text-sm font-bold uppercase tracking-wider">ADHOC NETWORK</p>
+                </div>
+                <Link
+                  to="/about-us"
+                  className="px-6 py-2 bg-primary text-on-primary rounded-xl font-bold text-sm hover:scale-105 transition-transform shadow-lg whitespace-nowrap"
+                >
+                  About Us
+                </Link>
               </div>
             </div>
           </motion.div>

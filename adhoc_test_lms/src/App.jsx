@@ -27,7 +27,7 @@ const AdminDashboard = React.lazy(() => import('./pages/admin/AdminDashboard'))
 const MyCourses = React.lazy(() => import('./pages/student/MyCourses'))
 const Certificates = React.lazy(() => import('./pages/student/Certificates'))
 const MyDoubts = React.lazy(() => import('./pages/student/MyDoubts'))
-const Settings = React.lazy(() => import('./pages/student/Settings'))
+// const Settings = React.lazy(() => import('./pages/student/Settings'))
 const Referral = React.lazy(() => import('./pages/student/Referral'))
 const AdminCourses = React.lazy(() => import('./pages/admin/AdminCourses'))
 const AdminCourseManager = React.lazy(() => import('./pages/admin/AdminCourseManager'))
@@ -38,6 +38,7 @@ const BlogPost = React.lazy(() => import('./pages/public/BlogPost'))
 const AdminBlogs = React.lazy(() => import('./pages/admin/AdminBlogs'))
 const AdminFeedbacks = React.lazy(() => import('./pages/admin/AdminFeedbacks'))
 const StudentFeedback = React.lazy(() => import('./pages/student/StudentFeedback'))
+const AboutUs = React.lazy(() => import('./components/AboutUs'))
 import { ErrorBoundary } from './components/common/ErrorBoundary'
 
 function App() {
@@ -74,7 +75,7 @@ function App() {
             <Route path="/my-courses" element={<MyCourses />} />
             <Route path="/certificates" element={<Certificates />} />
             <Route path="/my-doubts" element={<MyDoubts />} />
-            <Route path="/settings" element={<Settings />} />
+            {/* <Route path="/settings" element={<Settings />} /> */}
             <Route path="/referral" element={<Referral />} />
             <Route path="/feedback" element={<StudentFeedback />} />
             <Route path="/admin" element={<AdminDashboard />} />
@@ -89,6 +90,7 @@ function App() {
             <Route path="/terms" element={<Terms />} />
             <Route path="/privacy" element={<Privacy />} />
             <Route path="RefundPolicy" element={<RefundPolicy/>} />
+            <Route path="/about-us" element={<AboutUs />} />
           </Routes>
           </React.Suspense>
         </main>

@@ -14,7 +14,7 @@ export const DROPDOWN_ITEMS = [
   { href: "/my-courses", label: "My Courses", icon: "BookOpen" },
   { href: "/certificates", label: "Certificates", icon: "Award" },
   { href: "/my-doubts", label: "My Doubts", icon: "MessageCircle" },
-  { href: "/settings", label: "Settings", icon: "Settings" },
+  // { href: "/settings", label: "Settings", icon: "Settings" },
   { href: "/referral", label: "Refer & Earn", icon: "Gift" },
 ]
 

@@ -194,9 +194,9 @@ function CertificatesContent() {
                       href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(window.location.origin + '/verify-certificate/' + (cert.verificationCode || cert.id))}&text=I just earned my certificate for ${encodeURIComponent(cert.course?.title)}!`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex-1 flex items-center justify-center gap-2 px-3 py-2 bg-[#1DA1F2]/10 text-[#1DA1F2] rounded-lg font-bold text-xs hover:bg-[#1DA1F2]/20 transition-colors"
+                      className="flex-1 flex items-center justify-center gap-2 px-3 py-2 bg-on-surface/5 text-on-surface rounded-lg font-bold text-xs hover:bg-on-surface/10 transition-colors"
                     >
-                      Twitter
+                      X (Twitter)
                     </a>
                     <a
                       href={`https://api.whatsapp.com/send?text=I just earned my certificate for ${encodeURIComponent(cert.course?.title)}! Check it out: ${encodeURIComponent(window.location.origin + '/verify-certificate/' + (cert.verificationCode || cert.id))}`}
