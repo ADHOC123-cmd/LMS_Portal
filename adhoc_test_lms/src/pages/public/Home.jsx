@@ -50,17 +50,17 @@ export default function Home() {
   // Testimonials state
   const [testimonials, setTestimonials] = React.useState([
     {
-      user: { name: "Dr. Sarah Chen", role: "CTO, TechForward", avatar: "https://i.pravatar.cc/150?img=1" },
+      user: { name: "Dr. Sarah Chen", role: "CTO, TechForward", avatar: "https://i.pravatar.cc/50?img=1" },
       content: "The curriculum depth and production quality are unmatched. This platform accelerated our team's upskilling by 3x.",
       rating: 5,
     },
     {
-      user: { name: "Michael Rodriguez", role: "Lead Architect", avatar: "https://i.pravatar.cc/150?img=2" },
+      user: { name: "Michael Rodriguez", role: "Lead Architect", avatar: "https://i.pravatar.cc/50?img=2" },
       content: "Finally, a learning platform that respects design sophistication. The bento layout makes discovery effortless.",
       rating: 5,
     },
     {
-      user: { name: "Priya Sharma", role: "Product Manager", avatar: "https://i.pravatar.cc/150?img=3" },
+      user: { name: "Priya Sharma", role: "Product Manager", avatar: "https://i.pravatar.cc/50?img=3" },
       content: "The certification helped me transition into a leadership role. Highly recommend for serious professionals.",
       rating: 5,
     }
@@ -195,7 +195,7 @@ export default function Home() {
                 {[1, 2, 3, 4].map(i => (
                   <img
                     key={i}
-                    src={`https://i.pravatar.cc/96?img=${i + 10}`}
+                    src={`https://i.pravatar.cc/40?img=${i + 10}`}
                     width="40"
                     height="40"
                     className="w-10 h-10 rounded-full border-2 border-surface shadow-sm object-cover"

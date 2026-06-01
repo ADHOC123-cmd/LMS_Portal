@@ -94,7 +94,7 @@ function App() {
           </Routes>
           </React.Suspense>
         </main>
-        <React.Suspense fallback={null}>
+        <React.Suspense fallback={<div className="h-[400px]" />}>
           <Footer />
           <BottomNav />
         </React.Suspense>

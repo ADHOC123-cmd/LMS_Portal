@@ -22,7 +22,7 @@ export default function TestimonialsSection({ testimonials }) {
               <p className="text-on-surface mb-6 leading-relaxed">"{testimonial.content}"</p>
               <div className="flex items-center gap-3">
                 <img
-                  src={testimonial.user?.avatar || `https://i.pravatar.cc/96?u=${testimonial.id || testimonial.user?.name}`}
+                  src={testimonial.user?.avatar || `https://i.pravatar.cc/40?u=${testimonial.id || testimonial.user?.name}`}
                   alt={testimonial.user?.name || "User"}
                   width="40"
                   height="40"
