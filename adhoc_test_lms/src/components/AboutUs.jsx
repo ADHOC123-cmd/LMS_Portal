@@ -173,9 +173,9 @@ export default function AboutUs() {
 
                   {/* Award Card 2 */}
                   <div className="group relative bg-surface-container hover:bg-surface-container-high transition-colors p-5 rounded-2xl border border-surface-dim/10 overflow-hidden">
-                    <div className="absolute right-0 top-0 w-24 h-24 bg-amber-500/10 rounded-full blur-2xl group-hover:bg-amber-500/20 transition-all" />
+                    <div className="absolute right-0 top-0 w-24 h-24 bg-blue-500/10 rounded-full blur-2xl group-hover:bg-blue-500/20 transition-all" />
                     <div className="flex gap-4 relative z-10 items-start">
-                      <div className="w-12 h-12 rounded-xl bg-amber-500/10 flex items-center justify-center flex-shrink-0 text-amber-500 mt-1">
+                      <div className="w-12 h-12 rounded-xl bg-blue-500/10 flex items-center justify-center flex-shrink-0 text-blue-500 mt-1">
                         <Award className="w-6 h-6" />
                       </div>
                       <div>
@@ -187,9 +187,9 @@ export default function AboutUs() {
 
                   {/* Award Card 3 */}
                   <div className="group relative bg-surface-container hover:bg-surface-container-high transition-colors p-5 rounded-2xl border border-surface-dim/10 overflow-hidden">
-                    <div className="absolute right-0 top-0 w-24 h-24 bg-amber-500/10 rounded-full blur-2xl group-hover:bg-amber-500/20 transition-all" />
+                    <div className="absolute right-0 top-0 w-24 h-24 bg-emerald-500/10 rounded-full blur-2xl group-hover:bg-emerald-500/20 transition-all" />
                     <div className="flex gap-4 relative z-10 items-start">
-                      <div className="w-12 h-12 rounded-xl bg-amber-500/10 flex items-center justify-center flex-shrink-0 text-amber-500 mt-1">
+                      <div className="w-12 h-12 rounded-xl bg-emerald-500/10 flex items-center justify-center flex-shrink-0 text-emerald-500 mt-1">
                         <Award className="w-6 h-6" />
                       </div>
                       <div>
@@ -201,9 +201,9 @@ export default function AboutUs() {
 
                   {/* Award Card 4 */}
                   <div className="group relative bg-surface-container hover:bg-surface-container-high transition-colors p-5 rounded-2xl border border-surface-dim/10 overflow-hidden">
-                    <div className="absolute right-0 top-0 w-24 h-24 bg-blue-500/10 rounded-full blur-2xl group-hover:bg-blue-500/20 transition-all" />
+                    <div className="absolute right-0 top-0 w-24 h-24 bg-amber-500/10 rounded-full blur-2xl group-hover:bg-amber-500/20 transition-all" />
                     <div className="flex gap-4 relative z-10 items-start">
-                      <div className="w-12 h-12 rounded-xl bg-blue-500/10 flex items-center justify-center flex-shrink-0 text-blue-500 mt-1">
+                      <div className="w-12 h-12 rounded-xl bg-amber-500/10 flex items-center justify-center flex-shrink-0 text-amber-500 mt-1">
                         <Trophy className="w-6 h-6" />
                       </div>
                       <div>
@@ -215,9 +215,9 @@ export default function AboutUs() {
 
                   {/* Award Card 5 */}
                   <div className="group relative bg-surface-container hover:bg-surface-container-high transition-colors p-5 rounded-2xl border border-surface-dim/10 overflow-hidden">
-                    <div className="absolute right-0 top-0 w-24 h-24 bg-emerald-500/10 rounded-full blur-2xl group-hover:bg-emerald-500/20 transition-all" />
+                    <div className="absolute right-0 top-0 w-24 h-24 bg-blue-500/10 rounded-full blur-2xl group-hover:bg-blue-500/20 transition-all" />
                     <div className="flex gap-4 relative z-10 items-start">
-                      <div className="w-12 h-12 rounded-xl bg-emerald-500/10 flex items-center justify-center flex-shrink-0 text-emerald-500 mt-1">
+                      <div className="w-12 h-12 rounded-xl bg-blue-500/10 flex items-center justify-center flex-shrink-0 text-blue-500 mt-1">
                         <Star className="w-6 h-6" />
                       </div>
                       <div>
