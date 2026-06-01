@@ -329,6 +329,7 @@ export default function Home() {
                   </div>
                   <Link
                     to={`/course/${course.id}`}
+                    aria-label={`Learn more about ${course.title}`}
                     className="inline-flex items-center gap-2 text-primary font-medium text-sm group-hover:gap-3 transition-all"
                   >
                     Learn More <ArrowRight className="w-3 h-3" />
