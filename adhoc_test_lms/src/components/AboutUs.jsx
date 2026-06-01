@@ -43,7 +43,16 @@ export default function AboutUs() {
                 <h3 className="text-2xl font-headline font-bold text-primary">Who We Are</h3>
               </div>
               <p className="text-lg text-secondary leading-relaxed">
-                Founded by <span className="font-bold text-on-surface">Devika Pakruthi</span>, Adhoc Networks Tech is a forward-thinking technology company dedicated to building innovative solutions for modern education. Our flagship product — a powerful Learning Management System (LMS) portal — is designed to make learning accessible, engaging, and future-ready.
+                Founded by <span className="font-bold text-on-surface">Devika Pakruthi</span>, Adhoc Network Tech is a technology-driven company focused on product development, software solutions, and industry-oriented internship programs.we believe that education should be engaging, inclusive, and aligned with the evolving demands of the digital world .By integrating cutting-edge technology, industry-relevant content, skill development programs, internships, and real-time learning analytics, we create an ecosystem that fosters continuous growth and career success.
+              </p>
+            </motion.div>
+
+            {/* Our Vision */}
+            <motion.div variants={fadeUp} className="space-y-4 bg-primary text-on-primary p-8 rounded-[2rem] shadow-xl ambient-shadow relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-2xl pointer-events-none" />
+              <h3 className="text-2xl font-headline font-bold relative z-10">Our Vision</h3>
+              <p className="opacity-90 leading-relaxed text-lg relative z-10">
+                To become a global leader in educational technology, creating platforms that not only deliver knowledge but also inspire curiosity, creativity, and lifelong learning.
               </p>
             </motion.div>
 
@@ -109,15 +118,6 @@ export default function AboutUs() {
                 </div>
               ))}
             </motion.div>
-
-            {/* Our Vision */}
-            <motion.div variants={fadeUp} className="space-y-4 bg-primary text-on-primary p-8 rounded-[2rem] shadow-xl ambient-shadow relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-2xl pointer-events-none" />
-              <h3 className="text-2xl font-headline font-bold relative z-10">Our Vision</h3>
-              <p className="opacity-90 leading-relaxed text-lg relative z-10">
-                To become a global leader in educational technology, creating platforms that not only deliver knowledge but also inspire curiosity, creativity, and lifelong learning.
-              </p>
-            </motion.div>
           </motion.div>
 
           {/* Right Side: Founder Section */}
@@ -165,13 +165,41 @@ export default function AboutUs() {
                         <Award className="w-6 h-6" />
                       </div>
                       <div>
-                        <h5 className="font-bold text-on-surface text-lg mb-1">Visionary Leader 2024</h5>
-                        <p className="text-sm text-secondary leading-relaxed">Recognized for outstanding contributions to EdTech innovation globally.</p>
+                        <h5 className="font-bold text-on-surface text-lg mb-1">National MSME Award 2025–26</h5>
+                        <p className="text-sm text-secondary leading-relaxed">Awarded by FICCI FLO for excellence in skill development and creating employment opportunities.</p>
                       </div>
                     </div>
                   </div>
 
                   {/* Award Card 2 */}
+                  <div className="group relative bg-surface-container hover:bg-surface-container-high transition-colors p-5 rounded-2xl border border-surface-dim/10 overflow-hidden">
+                    <div className="absolute right-0 top-0 w-24 h-24 bg-amber-500/10 rounded-full blur-2xl group-hover:bg-amber-500/20 transition-all" />
+                    <div className="flex gap-4 relative z-10 items-start">
+                      <div className="w-12 h-12 rounded-xl bg-amber-500/10 flex items-center justify-center flex-shrink-0 text-amber-500 mt-1">
+                        <Award className="w-6 h-6" />
+                      </div>
+                      <div>
+                        <h5 className="font-bold text-on-surface text-lg mb-1">Global Visionary in Skill Development & Internship Innovation</h5>
+                        <p className="text-sm text-secondary leading-relaxed">Recognized globally for pioneering innovative learning and internship ecosystems.</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Award Card 3 */}
+                  <div className="group relative bg-surface-container hover:bg-surface-container-high transition-colors p-5 rounded-2xl border border-surface-dim/10 overflow-hidden">
+                    <div className="absolute right-0 top-0 w-24 h-24 bg-amber-500/10 rounded-full blur-2xl group-hover:bg-amber-500/20 transition-all" />
+                    <div className="flex gap-4 relative z-10 items-start">
+                      <div className="w-12 h-12 rounded-xl bg-amber-500/10 flex items-center justify-center flex-shrink-0 text-amber-500 mt-1">
+                        <Award className="w-6 h-6" />
+                      </div>
+                      <div>
+                        <h5 className="font-bold text-on-surface text-lg mb-1"> BNI Guntur Young Entrepreneur Award 2025</h5>
+                        <p className="text-sm text-secondary leading-relaxed">Celebrated for outstanding entrepreneurial achievements and business leadership.</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Award Card 4 */}
                   <div className="group relative bg-surface-container hover:bg-surface-container-high transition-colors p-5 rounded-2xl border border-surface-dim/10 overflow-hidden">
                     <div className="absolute right-0 top-0 w-24 h-24 bg-blue-500/10 rounded-full blur-2xl group-hover:bg-blue-500/20 transition-all" />
                     <div className="flex gap-4 relative z-10 items-start">
@@ -179,13 +207,13 @@ export default function AboutUs() {
                         <Trophy className="w-6 h-6" />
                       </div>
                       <div>
-                        <h5 className="font-bold text-on-surface text-lg mb-1">Best LMS Platform</h5>
-                        <p className="text-sm text-secondary leading-relaxed">Awarded by Tech Education Summit for unparalleled user experience.</p>
+                        <h5 className="font-bold text-on-surface text-lg mb-1">Youngest CEO of the Year</h5>
+                        <p className="text-sm text-secondary leading-relaxed">Honored by Global Pride Awards for remarkable leadership and organizational impact.</p>
                       </div>
                     </div>
                   </div>
 
-                  {/* Award Card 3 */}
+                  {/* Award Card 5 */}
                   <div className="group relative bg-surface-container hover:bg-surface-container-high transition-colors p-5 rounded-2xl border border-surface-dim/10 overflow-hidden">
                     <div className="absolute right-0 top-0 w-24 h-24 bg-emerald-500/10 rounded-full blur-2xl group-hover:bg-emerald-500/20 transition-all" />
                     <div className="flex gap-4 relative z-10 items-start">
@@ -193,8 +221,8 @@ export default function AboutUs() {
                         <Star className="w-6 h-6" />
                       </div>
                       <div>
-                        <h5 className="font-bold text-on-surface text-lg mb-1">Women in Tech Excellence</h5>
-                        <p className="text-sm text-secondary leading-relaxed">Honored for empowering communities through inclusive technological growth.</p>
+                        <h5 className="font-bold text-on-surface text-lg mb-1">Women Rising Star of the Year</h5>
+                        <p className="text-sm text-secondary leading-relaxed">Recognized for driving inclusive growth, innovation, and community empowerment.</p>
                       </div>
                     </div>
                   </div>
