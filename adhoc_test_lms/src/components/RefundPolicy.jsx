@@ -3,7 +3,7 @@ function RefundPolicy() {
     <div className="min-h-screen bg-surface-container-low flex items-center justify-center p-4 sm:p-8 lg:p-12">
       <div className="w-full max-w-4xl bg-surface p-8 sm:p-12 lg:p-16 rounded-[var(--radius-3xl)] shadow-[0_20px_40px_rgba(0,0,0,0.04)] dark:shadow-[0_20px_40px_rgba(0,0,0,0.4)] border border-outline-variant dark:border-surface-variant transition-all duration-300">
         
-        <h1 className="font-headline text-[var(--text-5xl)] font-extrabold mb-10 tracking-tight bg-gradient-to-br from-on-surface to-primary bg-clip-text text-transparent">
+        <h1 className="text-4xl md:text-5xl font-bold text-primary mb-8">
           Refund Policy
         </h1>
 
