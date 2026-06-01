@@ -132,7 +132,7 @@ export default function Home() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
-              className="text-4xl sm:text-5xl lg:text-7xl font-headline font-extrabold text-primary tracking-tight leading-[1.1]"
+              className="text-3xl sm:text-5xl lg:text-7xl font-headline font-extrabold text-primary tracking-tight leading-[1.1]"
             >
               Elevate Your <br />
               <span className="opacity-80 bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
@@ -183,7 +183,7 @@ export default function Home() {
                   <stat.icon className="w-5 h-5 text-primary/60" />
                   <div>
                     <p className="text-xl font-bold text-primary">{stat.value}</p>
-                    <p className="text-[10px] font-bold text-secondary uppercase tracking-wider">{stat.label}</p>
+                    <p className="text-xs font-bold text-secondary uppercase tracking-wider">{stat.label}</p>
                   </div>
                 </div>
               ))}
@@ -450,13 +450,16 @@ export default function Home() {
             {/* CEO Image */}
             <div className="w-full lg:w-1/3 max-w-[380px]">
               <div className="rounded-3xl overflow-hidden shadow-2xl border border-surface-dim/20 bg-surface-container-low">
-                <img
-                  src="/ceo-profile.webp"
-                  alt="Devika Pakruthi - CEO"
-                  width="380"
-                  height="400"
-                  className="w-full h-auto max-h-[400px] object-contain"
-                />
+                <picture>
+                  <source srcset="/ceo-mobile.webp" media="(max-width: 640px)" />
+                  <img
+                    src="/ceo-profile.webp"
+                    alt="Devika Pakruthi - CEO"
+                    width="380"
+                    height="400"
+                    className="w-full h-auto max-h-[400px] object-contain"
+                  />
+                </picture>
               </div>
             </div>
 
