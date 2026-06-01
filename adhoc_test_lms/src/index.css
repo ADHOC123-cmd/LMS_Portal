@@ -5,19 +5,19 @@
 :root {
   --background: #f7f9fc;
   --foreground: #191c1e;
-  
+
   --primary: #00020e;
   --primary-container: #0d1b3e;
   --primary-fixed: #dbe1ff;
   --on-primary-fixed: #0b1a3d;
   --on-primary-fixed-variant: #39456b;
   --on-primary: #ffffff;
-  
+
   --secondary: #5e5e5f;
   --on-secondary: #ffffff;
   --secondary-fixed: #e3e2e2;
   --on-secondary-fixed: #1a1c1c;
-  
+
   --surface: #f7f9fc;
   --surface-bright: #f7f9fc;
   --surface-dim: #d8dadd;
@@ -27,22 +27,22 @@
   --surface-container: #eceef1;
   --surface-container-high: #e6e8eb;
   --surface-container-highest: #e0e3e6;
-  
+
   --on-surface: #191c1e;
   --on-surface-variant: #45464e;
-  
+
   --outline: #76767f;
   --outline-variant: #c6c6cf;
-  
+
   --error: #ba1a1a;
   --error-container: #ffdad6;
-  
+
   --radius-lg: 0.25rem;
   --radius-xl: 0.5rem;
   --radius-2xl: 1rem;
   --radius-3xl: 1.5rem;
   --radius-full: 9999px;
-  
+
   /* Fluid Typography - Clamp(min, preferred, max) */
   --text-xs: clamp(0.7rem, 0.65rem + 0.25vw, 0.75rem);
   --text-sm: clamp(0.8rem, 0.75rem + 0.25vw, 0.875rem);
@@ -53,7 +53,7 @@
   --text-3xl: clamp(1.75rem, 1.5rem + 1.25vw, 2rem);
   --text-4xl: clamp(2.25rem, 2rem + 1.25vw, 2.5rem);
   --text-5xl: clamp(3rem, 2.5rem + 2.5vw, 3.75rem);
-  
+
   --font-manrope: 'Manrope', sans-serif;
   --font-inter: 'Inter', sans-serif;
 }
@@ -61,19 +61,19 @@
 .dark {
   --background: #00020e;
   --foreground: #f7f9fc;
-  
+
   --primary: #f7f9fc;
   --primary-container: #1a2f6b;
   --primary-fixed: #0d1b3e;
   --on-primary-fixed: #dbe1ff;
   --on-primary-fixed-variant: #b0bbf6;
   --on-primary: #000108;
-  
+
   --secondary: #a3a3a3;
   --on-secondary: #000108;
   --secondary-fixed: #3d3d3d;
   --on-secondary-fixed: #e3e2e2;
-  
+
   --surface: #00020e;
   --surface-bright: #050a1a;
   --surface-dim: #05102a;
@@ -83,13 +83,13 @@
   --surface-container: #05102a;
   --surface-container-high: #0d1b3e;
   --surface-container-highest: #1a2f6b;
-  
+
   --on-surface: #f7f9fc;
   --on-surface-variant: #c6c6cf;
-  
+
   --outline: #76767f;
   --outline-variant: #39456b;
-  
+
   --error: #ff4d4d;
   --error-container: #ba1a1a;
 }
@@ -98,7 +98,7 @@
   --font-headline: var(--font-manrope);
   --font-body: var(--font-inter);
   --font-sans: var(--font-inter);
-  
+
   --color-primary: var(--primary);
   --color-primary-container: var(--primary-container);
   --color-primary-fixed: var(--primary-fixed);
@@ -106,13 +106,13 @@
   --color-on-primary-fixed-variant: var(--on-primary-fixed-variant);
   --color-on-primary: var(--on-primary);
   --color-primary-foreground: var(--on-primary);
-  
+
   --color-secondary: var(--secondary);
   --color-on-secondary: var(--on-secondary);
   --color-secondary-foreground: var(--on-secondary);
   --color-secondary-fixed: var(--secondary-fixed);
   --color-on-secondary-fixed: var(--on-secondary-fixed);
-  
+
   --color-surface: var(--surface);
   --color-surface-bright: var(--surface-bright);
   --color-surface-dim: var(--surface-dim);
@@ -122,16 +122,16 @@
   --color-surface-container: var(--surface-container);
   --color-surface-container-high: var(--surface-container-high);
   --color-surface-container-highest: var(--surface-container-highest);
-  
+
   --color-on-surface: var(--on-surface);
   --color-on-surface-variant: var(--on-surface-variant);
-  
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  
+
   --color-outline: var(--outline);
   --color-outline-variant: var(--outline-variant);
-  
+
   --color-error: var(--error);
   --color-error-container: var(--error-container);
 
@@ -150,9 +150,13 @@
   body {
     @apply bg-surface font-body text-on-surface antialiased;
   }
-  input, textarea, select {
+
+  input,
+  textarea,
+  select {
     @apply text-on-surface;
   }
+
   ::placeholder {
     @apply text-on-surface-variant opacity-60;
   }
@@ -163,12 +167,15 @@
     /* High-contrast solid blue to dark blue */
     background: linear-gradient(135deg, #001529 0%, #00020e 100%);
   }
+
   .ambient-shadow {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   }
+
   .no-scrollbar::-webkit-scrollbar {
     display: none;
   }
+
   .no-scrollbar {
     -ms-overflow-style: none;
     scrollbar-width: none;
@@ -178,44 +185,49 @@
 .safe-bottom {
   padding-bottom: env(safe-area-inset-bottom, 0px);
 }
-.policy-wrapper{
-  background:#f4f4f4;
-  padding:40px;
-  display:flex;
-  justify-content:center;
+
+.policy-wrapper {
+  background: var(--surface-container-low);
+  padding: 40px;
+  display: flex;
+  justify-content: center;
 }
 
-.policy-card{
-  width:100%;
-  max-width:1200px;
-  background:white;
-  padding:60px;
-  border-radius:20px;
-  box-shadow:0 0 10px rgba(0,0,0,0.08);
+.policy-card {
+  width: 100%;
+  max-width: 1200px;
+  background: var(--surface);
+  padding: 60px;
+  border-radius: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.08);
 }
 
-.policy-card h1{
-  font-size:72px;
-  font-weight:800;
-  color:#000;
-  margin-bottom:40px;
+.dark .policy-card {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
 }
 
-.policy-card h2{
-  font-size:38px;
-  margin-top:45px;
-  margin-bottom:20px;
-  color:#111;
+.policy-card h1 {
+  font-size: 72px;
+  font-weight: 800;
+  color: var(--on-surface);
+  margin-bottom: 40px;
 }
 
-.policy-card p{
-  font-size:22px;
-  line-height:1.9;
-  color:#444;
+.policy-card h2 {
+  font-size: 38px;
+  margin-top: 45px;
+  margin-bottom: 20px;
+  color: var(--on-surface);
 }
 
-.email{
-  font-weight:bold;
-  color:#000;
-  font-size:24px;
+.policy-card p {
+  font-size: 22px;
+  line-height: 1.9;
+  color: var(--on-surface-variant);
+}
+
+.email {
+  font-weight: bold;
+  color: var(--on-surface);
+  font-size: 24px;
 }

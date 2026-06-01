@@ -1,19 +1,20 @@
 // src/pages/student/Dashboard.jsx
 import * as React from "react"
 import { ProtectedRoute } from "../../context/ProtectedRoute"
-import { 
-  BookOpen, 
-  GraduationCap, 
-  Clock, 
-  Play, 
-  Trophy, 
-  Target, 
-  ArrowRight, 
-  TrendingUp, 
-  Award, 
+import {
+  BookOpen,
+  GraduationCap,
+  Clock,
+  Play,
+  Trophy,
+  Target,
+  ArrowRight,
+  TrendingUp,
+  Award,
   Flame,
   ChevronRight,
-  Sparkles
+  Sparkles,
+  FileText
 } from "lucide-react"
 import { StorageService, ENROLLMENTS_KEY } from "../../services/storage"
 import { Link, useNavigate } from "react-router-dom"
@@ -45,29 +46,29 @@ function DashboardContent() {
     const loadEnrolledCourses = async () => {
       const enrolled = await StorageService.getEnrolledCourses()
       setCourses(enrolled)
-      
+
       const token = StorageService.getToken()
-      
+
       // Create a map to store course details (durations, etc)
       const courseDetailsMap = {}
-      
+
       // Load progress and full course data
       const progressPromises = enrolled.map(async (course) => {
         const prog = await StorageService.getProgress(course.id)
         const completedLessonsCount = Object.values(prog).filter(p => p === 'completed').length
-        
+
         const courseRes = await api.courses.getById(course.id, token)
         const courseData = courseRes?.data || {}
-        
+
         // Store course details for deadline calculation
         courseDetailsMap[course.id] = courseData
-        
+
         let totalLessons = 0;
         if (courseData.modules) {
           totalLessons = courseData.modules.reduce((acc, mod) => acc + (mod.lessons?.length || 0), 0)
         }
         totalLessons = totalLessons > 0 ? totalLessons : 1;
-        
+
         return {
           id: course.id,
           percent: Math.round((completedLessonsCount / totalLessons) * 100),
@@ -77,18 +78,18 @@ function DashboardContent() {
       })
 
       const progressResults = await Promise.all(progressPromises)
-      
+
       const progressData = {}
       let totalCompletedLessons = 0;
-      
+
       progressResults.forEach(res => {
         progressData[res.id] = res.percent
         totalCompletedLessons += res.completedLessons
       })
-      
+
       setProgress(progressData)
       setLearningHours(totalCompletedLessons)
-      
+
       // Fetch Activity: Quiz Attempts
       const activities = []
       try {
@@ -114,7 +115,7 @@ function DashboardContent() {
         if (certData && certData.success) {
           const certs = certData.data || []
           setCertificates(certs)
-          
+
           const certActivities = certs.slice(0, 2).map(cert => ({
             id: `cert-${cert.id}`,
             type: 'completed',
@@ -133,21 +134,21 @@ function DashboardContent() {
       // Generate Dynamic Deadlines based on subscription object data
       const deadlines = enrolled.map(course => {
         const sub = course.subscription || {};
-        
+
         // Use expiresAt directly from subscription
         const deadlineDate = sub.expiresAt ? new Date(sub.expiresAt) : null;
-        
+
         // Fallback for enrollment date
         const rawDate = course.startDate ||
-                        course.registrationDate || 
-                        course.enrolledAt || 
-                        course.subscriptionDate || 
-                        course.createdAt;
+          course.registrationDate ||
+          course.enrolledAt ||
+          course.subscriptionDate ||
+          course.createdAt;
         const enrollmentDate = new Date(sub.startDate || sub.purchasedAt || rawDate);
-        
+
         const today = new Date();
         today.setHours(0, 0, 0, 0);
-        
+
         let diffDays = 0;
         let finalDeadlineDate = null;
 
@@ -162,7 +163,7 @@ function DashboardContent() {
           finalDeadlineDate = new Date(today);
           finalDeadlineDate.setDate(today.getDate() + diffDays);
         }
-        
+
         return {
           id: course.id,
           course: course.title,
@@ -176,13 +177,13 @@ function DashboardContent() {
       }).filter(d => d.deadlineDate !== 'N/A').sort((a, b) => a.diffDays - b.diffDays).slice(0, 2);
       // Finalize and set the dynamic deadlines for display on the dashboard
       setUpcomingDeadlines(deadlines)
-      
+
       /* 
       // Calculate and set the learning streak
       // Currently using a placeholder logic that maps completed lessons to streak days (capped at 7)
       setStreak(totalCompletedLessons > 0 ? Math.min(totalCompletedLessons, 7) : 0)
       */
-      
+
       // Load Recommended Courses
       try {
         const allCourses = await StorageService.getCourses()
@@ -208,7 +209,7 @@ function DashboardContent() {
   const stats = [
     { label: "Active Courses", value: totalCourses.toString(), icon: BookOpen, accent: "primary", trend: "Your learning path" },
     { label: "Completed", value: completedCourses.toString(), icon: GraduationCap, accent: "secondary", trend: `${completedCourses} finished` },
-    { label: "Hours Learned", value: learningHours.toString(), icon: Clock, accent: "primary", trend: "Based on lessons" },
+    { label: "Lessons Learned", value: learningHours.toString(), icon: FileText, accent: "primary", trend: "Based on course progress" },
     { label: "Certificates", value: certificatesEarned.toString(), icon: Trophy, accent: "secondary", trend: certificatesEarned > 0 ? "Ready to download" : "Complete a course" },
   ]
 
@@ -229,7 +230,7 @@ function DashboardContent() {
     <main className="min-h-screen bg-surface pt-24 pb-20 px-4 sm:px-8 transition-all duration-300">
       <div className="max-w-7xl mx-auto">
         {/* Welcome Header */}
-        <motion.section 
+        <motion.section
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           className="mb-16"
@@ -246,7 +247,7 @@ function DashboardContent() {
                 Your tactical learning dashboard is ready.
               </p>
             </div>
-            
+
             <div className="flex flex-col sm:flex-row gap-4 w-full lg:w-fit lg:mr-20">
               {/* Learning Streak Badge - Commented for now and we'll update this section after Deployment
               <div className="flex-1 lg:flex-none lg:min-w-[220px] bg-surface-container-low px-4 sm:px-6 py-4 rounded-2xl border border-surface-dim/20 flex items-center gap-4">
@@ -273,7 +274,7 @@ function DashboardContent() {
         </motion.section>
 
         {/* Stats Bento Grid */}
-        <motion.section 
+        <motion.section
           variants={containerVariants}
           initial="hidden"
           animate="visible"
@@ -297,7 +298,7 @@ function DashboardContent() {
         {/* Two Column Layout for Activity and Deadlines */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
           {/* Recent Activity Feed */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.2 }}
@@ -305,9 +306,9 @@ function DashboardContent() {
           >
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-2xl font-headline font-bold text-primary">Recent Activity</h2>
-              
+
             </div>
-            
+
             {recentActivity.length === 0 ? (
               <div className="text-center py-8">
                 <p className="text-on-surface-variant">No recent activity</p>
@@ -316,13 +317,12 @@ function DashboardContent() {
               <div className="space-y-4">
                 {recentActivity.map((activity) => (
                   <div key={activity.id} className="flex items-center gap-4 p-3 rounded-xl hover:bg-surface-container-high transition-all">
-                    <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
-                      activity.type === 'completed' ? 'bg-green-500/10' :
-                      activity.type === 'started' ? 'bg-blue-500/10' : 'bg-yellow-500/10'
-                    }`}>
+                    <div className={`w-10 h-10 rounded-full flex items-center justify-center ${activity.type === 'completed' ? 'bg-green-500/10' :
+                        activity.type === 'started' ? 'bg-blue-500/10' : 'bg-yellow-500/10'
+                      }`}>
                       {activity.type === 'completed' ? <Trophy className="w-4 h-4 text-green-500" /> :
-                       activity.type === 'started' ? <Play className="w-4 h-4 text-blue-500" /> :
-                       <Award className="w-4 h-4 text-yellow-500" />}
+                        activity.type === 'started' ? <Play className="w-4 h-4 text-blue-500" /> :
+                          <Award className="w-4 h-4 text-yellow-500" />}
                     </div>
                     <div className="flex-1">
                       <p className="text-sm font-medium text-on-surface">
@@ -330,7 +330,7 @@ function DashboardContent() {
                       </p>
                       <p className="text-xs text-right text-on-surface-variant">{activity.date}</p>
                     </div>
-                    
+
                   </div>
                 ))}
               </div>
@@ -338,7 +338,7 @@ function DashboardContent() {
           </motion.div>
 
           {/* Upcoming Deadlines */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.3 }}
@@ -350,7 +350,7 @@ function DashboardContent() {
                 View More <ChevronRight className="w-4 h-4" />
               </Link>
             </div>
-            
+
             {upcomingDeadlines.length === 0 ? (
               <div className="text-center py-8">
                 <p className="text-on-surface-variant">No upcoming deadlines</p>
@@ -361,14 +361,13 @@ function DashboardContent() {
                   <div key={deadline.id} className="py-6 px-5 flex-1 min-h-[120px] flex flex-col justify-between rounded-2xl bg-surface-container-high/40 border border-surface-dim/10 hover:bg-surface-container-high/60 transition-all group">
                     <div className="flex justify-between items-start mb-3">
                       <h3 className="font-bold text-primary leading-tight group-hover:text-blue-500 transition-colors">{deadline.course}</h3>
-                      <span className={`text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-widest ${
-                        deadline.priority === 'expired' ? 'bg-red-500 text-white shadow-lg' :
-                        deadline.priority === 'high' ? 'bg-red-500/10 text-red-500' : 'bg-primary/10 text-primary'
-                      }`}>
+                      <span className={`text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-widest ${deadline.priority === 'expired' ? 'bg-red-500 text-white shadow-lg' :
+                          deadline.priority === 'high' ? 'bg-red-500/10 text-red-500' : 'bg-primary/10 text-primary'
+                        }`}>
                         {deadline.priority === 'expired' ? 'Expired' : (deadline.priority === 'high' ? 'Urgent' : 'Upcoming')}
                       </span>
                     </div>
-                    
+
                     <div className="space-y-2 mb-4">
                       <div className="flex justify-between text-[10px] font-medium text-on-surface-variant">
                         <span>Registered on</span>
@@ -383,9 +382,8 @@ function DashboardContent() {
                     <div className="flex justify-between items-center pt-3 border-t border-surface-dim/10">
                       <div className="flex items-center gap-2">
                         <Clock className={`w-3.5 h-3.5 ${deadline.priority === 'high' ? 'text-red-500' : 'text-primary'}`} />
-                        <span className={`text-xs font-bold ${
-                          deadline.priority === 'expired' || deadline.priority === 'high' ? 'text-red-500' : 'text-primary'
-                        }`}>
+                        <span className={`text-xs font-bold ${deadline.priority === 'expired' || deadline.priority === 'high' ? 'text-red-500' : 'text-primary'
+                          }`}>
                           {deadline.diffDays < 0 ? 'Subscription Expired' : (deadline.diffDays === 0 ? 'Expires today' : `Due in ${deadline.diffDays} days`)}
                         </span>
                       </div>
@@ -420,7 +418,7 @@ function DashboardContent() {
               <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
             </div>
           ) : courses.length === 0 ? (
-            <motion.div 
+            <motion.div
               initial={{ scale: 0.95 }}
               animate={{ scale: 1 }}
               className="bg-surface-container-lowest rounded-[3rem] p-16 text-center border-2 border-dashed border-surface-dim shadow-inner"
@@ -439,7 +437,7 @@ function DashboardContent() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
               <AnimatePresence>
                 {courses.map((course, idx) => (
-                  <motion.div 
+                  <motion.div
                     key={course.id}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -448,10 +446,10 @@ function DashboardContent() {
                     className="bg-surface-container-lowest rounded-3xl sm:rounded-[3rem] overflow-hidden border border-surface-dim/20 hover:border-blue-500/50 shadow-xl hover:shadow-2xl transition-all group flex flex-col sm:flex-row h-full"
                   >
                     <div className="w-full sm:w-48 h-48 sm:h-auto shrink-0 relative overflow-hidden">
-                      <img 
-                        src={course.thumbnail || course.image || course.imageUrl || "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=2560&auto=format&q=100"} 
-                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" 
-                        alt={course.title} 
+                      <img
+                        src={course.thumbnail || course.image || course.imageUrl || "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=2560&auto=format&q=100"}
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                        alt={course.title}
                       />
                       <div className="absolute inset-0 group-hover:bg-transparent transition-colors"></div>
 
@@ -484,13 +482,13 @@ function DashboardContent() {
                           <span>{progress[course.id] || 0}%</span>
                         </div>
                         <div className="h-2 w-full bg-surface-container rounded-full overflow-hidden">
-                          <div 
-                            className="h-full bg-primary rounded-full transition-all duration-1000" 
+                          <div
+                            className="h-full bg-primary rounded-full transition-all duration-1000"
                             style={{ width: `${progress[course.id] || 0}%` }}
                           />
                         </div>
                         <div className="flex gap-3">
-                          <button 
+                          <button
                             onClick={() => navigate(`/student/course/${course.id}`)}
                             className="flex-1 py-4 bg-primary text-on-primary rounded-2xl font-bold text-sm hover:opacity-90 transition-all flex items-center justify-center gap-2 active:scale-[0.98]"
                           >

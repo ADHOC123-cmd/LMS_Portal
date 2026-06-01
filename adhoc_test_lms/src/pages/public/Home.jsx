@@ -476,7 +476,7 @@ export default function Home() {
               <h2 className="text-2xl font-headline font-bold text-black dark:text-white mb-2">Message from the CEO</h2>
               <div className="space-y-3 text-black dark:text-white leading-relaxed text-base">
                 <p>
-                  <span className="font-bold text-black dark:text-white">ADHOC NETWORK LMS</span> is dedicated to a comprehensive ecosystem for trending courses from Data Analytics to AI cutting-edge cases in EdTech. We construct each course to help overcome the divide between academic exposure and world grounded experience.
+                  <span className="font-bold text-black dark:text-white">ADHOC NETWORK TECH LMS</span> is dedicated to providing a comprehensive educational ecosystem featuring high-demand, trending courses—from Data Analytics to cutting-edge AI applications in EdTech. We meticulously design each course to bridge the gap between academic theory and real-world, practical experience.
                 </p>
                 <p>
                   It gives us great joy to see our students learn the various components of professional tools to prepare them for the future. We offer a full range of trending technology courses.

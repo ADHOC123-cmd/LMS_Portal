@@ -286,7 +286,7 @@ export default function CourseDetail() {
             {/* Tabs */}
             <div className="border-b border-surface-dim/20">
               <div className="flex gap-6">
-                {["curriculum", "instructor", "reviews"].map((tab) => (
+                {["curriculum"].map((tab) => (
                   <button
                     key={tab}
                     onClick={() => setActiveTab(tab)}
@@ -295,7 +295,7 @@ export default function CourseDetail() {
                         : "text-secondary hover:text-primary"
                       }`}
                   >
-                    {tab === "curriculum" ? "Curriculum" : tab === "instructor" ? "Instructor" : "Reviews"}
+                    Curriculum
                   </button>
                 ))}
               </div>
@@ -367,91 +367,7 @@ export default function CourseDetail() {
               </motion.div>
             )}
 
-            {/* Instructor Tab */}
-            {activeTab === "instructor" && (
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="space-y-6"
-              >
-                <div className="flex flex-col sm:flex-row gap-6 p-6 bg-surface-container-lowest rounded-3xl border border-surface-dim/20">
-                  <img
-                    src={`https://i.pravatar.cc/150?u=${course.instructor}`}
-                    className="w-24 h-24 rounded-2xl object-cover shadow-lg"
-                    alt={course.instructor}
-                  />
-                  <div>
-                    <h2 className="text-2xl font-headline font-bold text-primary mb-2">{course.instructor}</h2>
-                    <p className="text-secondary text-sm mb-4">Lead Instructor & Industry Expert</p>
-                    <p className="text-on-surface-variant leading-relaxed">
-                      {course.instructorBio || "A seasoned professional with over 15 years of experience in the industry, specializing in cutting-edge technologies and methodologies. Has trained thousands of students worldwide and helped them accelerate their careers."}
-                    </p>
-                    <div className="flex items-center gap-4 mt-4">
-                      <div className="flex items-center gap-1">
-                        <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                        <span className="text-sm font-bold">4.9</span>
-                        <span className="text-xs text-secondary">(2,500+ ratings)</span>
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <Users className="w-4 h-4 text-primary" />
-                        <span className="text-sm">15,000+ students</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-            )}
 
-            {/* Reviews Tab */}
-            {activeTab === "reviews" && (
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="space-y-6"
-              >
-                <div className="flex justify-between items-center">
-                  <h2 className="text-2xl font-headline font-bold text-primary">Student Reviews</h2>
-                  <button onClick={() => handlePlaceholder("Review writing")} className="text-primary text-sm font-medium flex items-center gap-1">
-                    Write a Review <ArrowRight className="w-3 h-3" />
-                  </button>
-                </div>
-
-                <div className="space-y-4">
-                  {[
-                    { id: 1, name: "Sarah Chen", role: "CTO", rating: 5, comment: "Excellent course! The curriculum is well-structured and the instructor is highly knowledgeable.", date: "2 weeks ago", avatar: "https://i.pravatar.cc/100?img=1" },
-                    { id: 2, name: "Michael Rodriguez", role: "Lead Architect", rating: 5, comment: "This course transformed my approach to system design. Highly recommended!", date: "1 month ago", avatar: "https://i.pravatar.cc/100?img=2" },
-                  ].map((review) => (
-                    <div key={review.id} className="bg-surface-container-lowest p-5 rounded-2xl border border-surface-dim/20">
-                      <div className="flex justify-between items-start mb-3">
-                        <div className="flex items-center gap-3">
-                          <img src={review.avatar} className="w-10 h-10 rounded-full object-cover" alt={review.name} />
-                          <div>
-                            <p className="font-bold text-on-surface">{review.name}</p>
-                            <p className="text-xs text-secondary">{review.role}</p>
-                          </div>
-                        </div>
-                        <div className="flex items-center gap-1">
-                          {[...Array(5)].map((_, i) => (
-                            <Star key={i} className={`w-4 h-4 ${i < review.rating ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300'}`} />
-                          ))}
-                        </div>
-                      </div>
-                      <p className="text-on-surface-variant text-sm leading-relaxed mb-2">{review.comment}</p>
-                      <div className="flex items-center gap-4">
-                        <button onClick={() => handlePlaceholder("Review helpfulness voting")} className="flex items-center gap-1 text-xs text-secondary hover:text-primary transition">
-                          <ThumbsUp className="w-3 h-3" /> Helpful
-                        </button>
-                        <span className="text-xs text-secondary">{review.date}</span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-
-                <button onClick={() => handlePlaceholder("Review pagination")} className="w-full py-3 text-primary border border-primary/30 rounded-xl font-medium hover:bg-primary/5 transition">
-                  Load More Reviews
-                </button>
-              </motion.div>
-            )}
           </div>
 
           {/* Sidebar - Enrollment Card */}

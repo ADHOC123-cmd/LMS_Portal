@@ -43,7 +43,7 @@ export default function AboutUs() {
                 <h3 className="text-2xl font-headline font-bold text-primary">Who We Are</h3>
               </div>
               <p className="text-lg text-secondary leading-relaxed">
-                Founded by <span className="font-bold text-on-surface">Devika Parkuthi</span>, Adhoc Networks Tech is a forward-thinking technology company dedicated to building innovative solutions for modern education. Our flagship product — a powerful Learning Management System (LMS) portal — is designed to make learning accessible, engaging, and future-ready.
+                Founded by <span className="font-bold text-on-surface">Devika Pakruthi</span>, Adhoc Networks Tech is a forward-thinking technology company dedicated to building innovative solutions for modern education. Our flagship product — a powerful Learning Management System (LMS) portal — is designed to make learning accessible, engaging, and future-ready.
               </p>
             </motion.div>
 
