@@ -46,9 +46,9 @@ function App() {
     <ErrorBoundary>
       <Router>
       <ScrollToTop />
-      <div className="min-h-screen bg-surface font-body text-on-surface flex flex-col">
+      <div className="min-h-screen bg-surface font-body text-on-surface flex flex-col w-full overflow-x-hidden">
         <Header />
-        <main className="flex-grow pt-20 pb-20 md:pb-8 w-full max-w-[1920px] mx-auto">
+        <main className="flex-grow pt-20 pb-20 md:pb-8 w-full max-w-[1920px] mx-auto min-w-0">
           <React.Suspense fallback={
             <div className="flex items-center justify-center min-h-[50vh]">
               <div className="w-12 h-12 border-4 border-primary/20 border-t-primary rounded-full animate-spin"></div>

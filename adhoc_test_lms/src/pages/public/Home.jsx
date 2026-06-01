@@ -200,7 +200,7 @@ export default function Home() {
                 {[1, 2, 3, 4].map(i => (
                   <img
                     key={i}
-                    src={`https://i.pravatar.cc/300?img=${i + 10}`}
+                    src={`https://i.pravatar.cc/96?img=${i + 10}`}
                     width="40"
                     height="40"
                     className="w-10 h-10 rounded-full border-2 border-surface shadow-sm object-cover"
@@ -421,7 +421,7 @@ export default function Home() {
                 <p className="text-on-surface mb-6 leading-relaxed">"{testimonial.content}"</p>
                 <div className="flex items-center gap-3">
                   <img
-                    src={testimonial.user?.avatar || `https://i.pravatar.cc/150?u=${testimonial.id || testimonial.user?.name}`}
+                    src={testimonial.user?.avatar || `https://i.pravatar.cc/96?u=${testimonial.id || testimonial.user?.name}`}
                     alt={testimonial.user?.name || "User"}
                     width="40"
                     height="40"
@@ -451,7 +451,7 @@ export default function Home() {
             <div className="w-full lg:w-1/3 max-w-[380px]">
               <div className="rounded-3xl overflow-hidden shadow-2xl border border-surface-dim/20 bg-surface-container-low">
                 <img
-                  src="/ceo-profile.jpg"
+                  src="/ceo-profile.webp"
                   alt="Devika Pakruthi - CEO"
                   width="380"
                   height="400"
