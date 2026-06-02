@@ -99,9 +99,12 @@ app.get('/health', (req, res) => {
 app.use(express.static(path.join(__dirname, '../dist'), {
   maxAge: '1y',
   setHeaders: (res, filePath) => {
+    const ext = path.extname(filePath).toLowerCase();
+    const isMediaOrFont = ['.webp', '.png', '.jpg', '.jpeg', '.gif', '.svg', '.ico', '.woff', '.woff2', '.ttf', '.eot'].includes(ext);
+
     if (filePath.endsWith('.html')) {
       res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
-    } else if (/[\\/]assets[\\/]/.test(filePath) || filePath.includes('assets/')) {
+    } else if (/[\\/]assets[\\/]/.test(filePath) || filePath.includes('assets/') || isMediaOrFont) {
       res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
     } else {
       res.setHeader('Cache-Control', 'public, max-age=86400');
