@@ -230,7 +230,7 @@ export default function Home() {
                   className="w-full h-full object-cover"
                   src="/hero-optimized.webp"
                   srcSet="/hero-optimized-mobile.webp 600w, /hero-optimized.webp 1200w"
-                  sizes="50vw"
+                  sizes="(max-width: 768px) 100vw, 50vw"
                   fetchPriority="high"
                   loading="eager"
                 />
