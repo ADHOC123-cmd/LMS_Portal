@@ -403,7 +403,7 @@ function DashboardContent() {
             ) : (
               <div className="flex-1 flex flex-col gap-4">
                 {upcomingDeadlines.map((deadline) => (
-                  <div key={deadline.id} className="py-6 px-5 flex-1 min-h-[120px] flex flex-col justify-between rounded-2xl bg-surface-container-high/40 border border-surface-dim/10 hover:bg-surface-container-high/60 transition-all group">
+                  <div key={deadline.id} className="py-6 px-5 min-h-[120px] flex flex-col rounded-2xl bg-surface-container-high/40 border border-surface-dim/10 hover:bg-surface-container-high/60 transition-all group">
                     <div className="flex justify-between items-start mb-3">
                       <h3 className="font-bold text-primary leading-tight group-hover:text-blue-500 transition-colors">{deadline.course}</h3>
                       <span className={`text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-widest ${deadline.priority === 'expired' ? 'bg-red-500 text-white shadow-lg' :
