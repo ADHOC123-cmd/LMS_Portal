@@ -1,10 +1,6 @@
-// src/utils/criticalCss.js
-// Placeholder utility for extracting and inlining critical CSS.
-// In a real implementation you might use a library like `critical` or `vite-plugin-critical`.
-// This function can be called during the build step to generate critical CSS for above‑the‑fold content.
-
-export async function generateCriticalCss(htmlContent) {
-  // TODO: Analyze `htmlContent` and extract CSS needed for initial render.
-  // For now, return an empty string.
+// Utility to extract critical CSS for above‑the‑fold rendering.
+// Placeholder implementation; integrate a tool like `critical` for production.
+export function extractCriticalCss(html) {
+  // TODO: generate critical CSS from HTML
   return '';
 }

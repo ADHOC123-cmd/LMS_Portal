@@ -49,26 +49,21 @@ function App() {
       <div className="min-h-screen bg-surface font-body text-on-surface flex flex-col w-full overflow-x-hidden">
         <Header />
         <main className="flex-grow pt-20 pb-20 md:pb-8 w-full max-w-[1920px] mx-auto min-w-0 min-h-[85vh]">
-          <React.Suspense fallback={
-            <div className="flex items-center justify-center min-h-[50vh]">
-              <div className="w-12 h-12 border-4 border-primary/20 border-t-primary rounded-full animate-spin"></div>
-            </div>
-          }>
-            <Routes>
+          <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/catalog" element={<Catalog />} />
-            <Route path="/course/:id" element={<CourseDetail />} />
-            <Route path="/verify-certificate" element={<VerifyCertificate />} />
-            <Route path="/verify-certificate/:code" element={<VerifyCertificate />} />
-            <Route path="/blog" element={<BlogList />} />
-            <Route path="/blog/:slug" element={<BlogPost />} />
-            <Route path="/auth" element={<Navigate to="/login" replace />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/auth/register" element={<Navigate to="/register" replace />} />
-            <Route path="/forgot-password" element={<ForgotPassword />} />
-            <Route path="/reset-password/:token" element={<ResetPassword />} />
-            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/catalog" element={<React.Suspense fallback={<div className=\"flex items-center justify-center min-h-[50vh]\"><div className=\"w-12 h-12 border-4 border-primary/20 border-t-primary rounded-full animate-spin\"></div></div>}><Catalog /></React.Suspense>} />
+            <Route path="/course/:id" element={<React.Suspense fallback={<div className=\"flex items-center justify-center min-h-[50vh]\"><div className=\"w-12 h-12 border-4 border-primary/20 border-t-primary rounded-full animate-spin\"></div></div>}><CourseDetail /></React.Suspense>} />
+            <Route path="/verify-certificate" element={<React.Suspense fallback={<div className=\"flex items-center justify-center min-h-[50vh]\"><div className=\"w-12 h-12 border-4 border-primary/20 border-t-primary rounded-full animate-spin\"></div></div>}><VerifyCertificate /></React.Suspense>} />
+            <Route path="/verify-certificate/:code" element={<React.Suspense fallback={<div className=\"flex items-center justify-center min-h-[50vh]\"><div className=\"w-12 h-12 border-4 border-primary/20 border-t-primary rounded-full animate-spin\"></div></div>}><VerifyCertificate /></React.Suspense>} />
+            <Route path="/blog" element={<React.Suspense fallback={<div className=\"flex items-center justify-center min-h-[50vh]\"><div className=\"w-12 h-12 border-4 border-primary/20 border-t-primary rounded-full animate-spin\"></div></div>}><BlogList /></React.Suspense>} />
+            <Route path="/blog/:slug" element={<React.Suspense fallback={<div className=\"flex items-center justify-center min-h-[50vh]\"><div className=\"w-12 h-12 border-4 border-primary/20 border-t-primary rounded-full animate-spin\"></div></div>}><BlogPost /></React.Suspense>} />
+            <Route path="/auth" element={<Navigate to=\"/login\" replace />} />
+            <Route path="/login" element={<React.Suspense fallback={<div className=\"flex items-center justify-center min-h-[50vh]\"><div className=\"w-12 h-12 border-4 border-primary/20 border-t-primary rounded-full animate-spin\"></div></div>}><Login /></React.Suspense>} />
+            <Route path="/register" element={<React.Suspense fallback={<div className=\"flex items-center justify-center min-h-[50vh]\"><div className=\"w-12 h-12 border-4 border-primary/20 border-t-primary rounded-full animate-spin\"></div></div>}><Register /></React.Suspense>} />
+            <Route path="/auth/register" element={<Navigate to=\"/register\" replace />} />
+            <Route path="/forgot-password" element={<React.Suspense fallback={<div className=\"flex items-center justify-center min-h-[50vh]\"><div className=\"w-12 h-12 border-4 border-primary/20 border-t-primary rounded-full animate-spin\"></div></div>}><ForgotPassword /></React.Suspense>} />
+            <Route path="/reset-password/:token" element={<React.Suspense fallback={<div className=\"flex items-center justify-center min-h-[50vh]\"><div className=\"w-12 h-12 border-4 border-primary/20 border-t-primary rounded-full animate-spin\"></div></div>}><ResetPassword /></React.Suspense>} />
+            <Route path="/dashboard" element={<React.Suspense fallback={<div className=\"flex items-center justify-center min-h-[50vh]\"><div className=\"w-12 h-12 border-4 border-primary/20 border-t-primary rounded-full animate-spin\"></div></div>}><Dashboard /></React.Suspense>} />
             <Route path="/student/deadlines" element={<AllDeadlines />} />
             <Route path="/student/course/:id" element={<CoursePlayer />} />
             <Route path="/profile" element={<Profile />} />
@@ -92,7 +87,7 @@ function App() {
             <Route path="RefundPolicy" element={<RefundPolicy/>} />
             <Route path="/about-us" element={<AboutUs />} />
           </Routes>
-          </React.Suspense>
+          
         </main>
         <Footer />
         <BottomNav />
