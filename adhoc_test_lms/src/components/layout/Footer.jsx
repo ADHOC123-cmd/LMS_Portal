@@ -1,7 +1,15 @@
 // src/components/layout/Footer.jsx
-import * as React from "react"
-import { Link } from "react-router-dom"
-import { Instagram, Linkedin, Mail, MapPin, Phone, Send, TextAlignCenter } from "lucide-react"
+import * as React from "react";
+import { Link } from "react-router-dom";
+import {
+  Instagram,
+  Linkedin,
+  Mail,
+  MapPin,
+  Phone,
+  Send,
+  TextAlignCenter,
+} from "lucide-react";
 
 const XIcon = (props) => (
   <svg viewBox="0 0 24 24" fill="currentColor" stroke="none" {...props}>
@@ -10,7 +18,7 @@ const XIcon = (props) => (
 );
 
 export function Footer() {
-  const currentYear = new Date().getFullYear()
+  const currentYear = new Date().getFullYear();
 
   const links = {
     platform: [
@@ -33,13 +41,11 @@ export function Footer() {
       { name: "Refund Policy", href: "/RefundPolicy" },
       // { name: "Cookie Policy", href: "#" },
       // { name: "Data Processing", href: "#" },
-    ]
-  }
+    ],
+  };
 
   return (
-    <footer 
-      className="bg-surface-container-lowest border-t border-surface-dim/20 pt-12 md:pt-20 pb-12 lg:pb-12 font-body relative overflow-hidden min-h-[400px]"
-    >
+    <footer className="bg-surface-container-lowest border-t border-surface-dim/20 pt-12 md:pt-20 pb-12 lg:pb-12 font-body relative overflow-hidden min-h-[400px]">
       {/* Background Ambience */}
       <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-primary/3 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute top-0 left-0 w-[300px] h-[300px] bg-primary/2 rounded-full blur-[100px] pointer-events-none" />
@@ -48,20 +54,40 @@ export function Footer() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-y-12 sm:gap-x-8 lg:gap-x-12 lg:gap-y-8 mb-16 md:mb-20">
           {/* Brand Shard */}
           <div className="sm:col-span-2 lg:col-span-4">
-            <Link to="/" className="inline-flex items-center gap-3 mb-6 sm:mb-8 group">
-              <div aria-hidden="true" className="w-8 h-8 sm:w-10 sm:h-10 signature-gradient rounded-xl flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform">
-                <span className="text-white font-headline font-bold text-lg sm:text-xl">A</span>
+            <Link
+              to="/"
+              className="inline-flex items-center gap-3 mb-6 sm:mb-8 group"
+            >
+              <div
+                aria-hidden="true"
+                className="w-8 h-8 sm:w-10 sm:h-10 signature-gradient rounded-xl flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform"
+              >
+                <span className="text-white font-headline font-bold text-lg sm:text-xl">
+                  A
+                </span>
               </div>
-              <span className="text-lg sm:text-xl font-headline font-bold tracking-tighter text-primary">Adhoc Network Tech</span>
+              <span className="text-lg sm:text-xl font-headline font-bold tracking-tighter text-primary">
+                Adhoc Network Tech
+              </span>
             </Link>
             <p className="text-[#1a1a1a] dark:text-white/80 text-sm font-medium leading-relaxed max-w-sm mb-8 italic">
-              Empowering the next generation of academic leaders through sophisticated learning ecosystems and decentralized knowledge protocols.
+              Empowering the next generation of academic leaders through
+              sophisticated learning ecosystems and decentralized knowledge
+              protocols.
             </p>
             <div className="flex items-center gap-4">
               {[
                 { Icon: XIcon, href: "#", label: "X (Twitter)" },
-                { Icon: Instagram, href: "https://www.instagram.com/adhocnetworktech?igsh=MXFkcXZqb2w2ajRubg%3D%3D&utm_source=qr", label: "Instagram" },
-                { Icon: Linkedin, href: "https://www.linkedin.com/company/adhocnetwork/", label: "LinkedIn" }
+                {
+                  Icon: Instagram,
+                  href: "https://www.instagram.com/adhocnetworktech?igsh=MXFkcXZqb2w2ajRubg%3D%3D&utm_source=qr",
+                  label: "Instagram",
+                },
+                {
+                  Icon: Linkedin,
+                  href: "https://www.linkedin.com/company/adhocnetwork/",
+                  label: "LinkedIn",
+                },
               ].map((social, i) => (
                 <a
                   key={i}
@@ -71,7 +97,10 @@ export function Footer() {
                   className="w-11 h-11 rounded-xl bg-surface-container border border-outline-variant flex items-center justify-center text-on-surface hover:bg-primary hover:text-on-primary transition-all shadow-sm"
                   aria-label={social.label}
                 >
-                  <social.Icon className="w-4 h-4 sm:w-5 sm:h-5" strokeWidth={2.5} />
+                  <social.Icon
+                    className="w-4 h-4 sm:w-5 sm:h-5"
+                    strokeWidth={2.5}
+                  />
                 </a>
               ))}
             </div>
@@ -79,13 +108,18 @@ export function Footer() {
 
           {/* Newsletter Signup */}
           <div className="sm:col-span-2 lg:col-span-4">
-            <h2 className="text-[10px] sm:text-xs font-bold text-primary uppercase tracking-[0.3em] mb-6 sm:mb-8 italic">Newsletter</h2>
+            <h2 className="text-[10px] sm:text-xs font-bold text-primary uppercase tracking-[0.3em] mb-6 sm:mb-8 italic">
+              Newsletter
+            </h2>
             <p className="text-sm text-[#1a1a1a] dark:text-white mb-6 leading-relaxed">
-              Subscribe to receive tactical insights, curriculum updates, and exclusive content.
+              Subscribe to receive tactical insights, curriculum updates, and
+              exclusive content.
             </p>
             <div className="flex flex-col gap-3">
               <div className="flex flex-col sm:flex-row lg:flex-col gap-2">
-                <label htmlFor="newsletter-email" className="sr-only">Email Address</label>
+                <label htmlFor="newsletter-email" className="sr-only">
+                  Email Address
+                </label>
                 <input
                   id="newsletter-email"
                   name="email"
@@ -94,7 +128,10 @@ export function Footer() {
                   className="w-full px-4 py-2.5 bg-surface-container border border-outline-variant rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition"
                   autoComplete="email"
                 />
-                <button aria-label="Subscribe to newsletter" className="w-full sm:w-auto lg:w-full px-6 py-2.5 signature-gradient text-white rounded-lg text-sm font-semibold hover:opacity-90 transition-all active:scale-95 flex items-center justify-center gap-2">
+                <button
+                  aria-label="Subscribe to newsletter"
+                  className="w-full sm:w-auto lg:w-full px-6 py-2.5 signature-gradient text-white rounded-lg text-sm font-semibold hover:opacity-90 transition-all active:scale-95 flex items-center justify-center gap-2"
+                >
                   <Send className="w-4 h-4" />
                   Subscribe
                 </button>
@@ -107,23 +144,38 @@ export function Footer() {
 
           {/* Contact Base */}
           <div className="sm:col-span-2 lg:col-span-4">
-            <h2 className="text-xs font-bold text-primary uppercase tracking-[0.3em] mb-6 sm:mb-8 italic">Base</h2>
+            <h2 className="text-xs font-bold text-primary uppercase tracking-[0.3em] mb-6 sm:mb-8 italic">
+              Base
+            </h2>
             <ul className="space-y-4 sm:space-y-6">
               <li className="flex items-start gap-3">
-                <MapPin className="w-5 h-5 text-primary shrink-0 mt-0.5" strokeWidth={2.5} />
+                <MapPin
+                  className="w-5 h-5 text-primary shrink-0 mt-0.5"
+                  strokeWidth={2.5}
+                />
                 <span className="text-sm font-medium text-[#1a1a1a] dark:text-white leading-relaxed">
                   Adhoc Network <br />
                   Sunrise Towers, 1st floor, IT Sez, Hill-03, Rushikonda <br />
                   Visakhapatnam, Andhra Pradesh, India - 530048
-                </span>             
+                </span>
               </li>
               <li className="flex items-center gap-3">
-                <Phone className="w-5 h-5 text-primary shrink-0" strokeWidth={2.5} />
-                <span className="text-sm font-medium text-[#1a1a1a] dark:text-white">+91 7815823764</span>
+                <Phone
+                  className="w-5 h-5 text-primary shrink-0"
+                  strokeWidth={2.5}
+                />
+                <span className="text-sm font-medium text-[#1a1a1a] dark:text-white">
+                  +91 7815823764
+                </span>
               </li>
               <li className="flex items-center gap-3">
-                <Mail className="w-5 h-5 text-primary shrink-0" strokeWidth={2.5} />
-                <span className="text-sm font-medium text-[#1a1a1a] dark:text-white">hr@adhocnetwork.tech</span>
+                <Mail
+                  className="w-5 h-5 text-primary shrink-0"
+                  strokeWidth={2.5}
+                />
+                <span className="text-sm font-medium text-[#1a1a1a] dark:text-white">
+                  hr@adhocnetwork.tech
+                </span>
               </li>
             </ul>
           </div>
@@ -132,8 +184,12 @@ export function Footer() {
         {/* Legal Links Row (Mobile Friendly) */}
         <div className="pt-8 pb-6 border-t border-surface-dim/20">
           <div className="flex flex-nowrap justify-center gap-2 md:gap-6 mb-6 whitespace-nowrap text-[8px] sm:text-[10px]">
-            {links.legal.map(link => (
-              <Link key={link.name} to={link.href} className="text-sm text-[#1a1a1a] dark:text-white/80 hover:text-primary dark:hover:text-white transition-colors py-2 px-1">
+            {links.legal.map((link) => (
+              <Link
+                key={link.name}
+                to={link.href}
+                className="text-sm text-[#1a1a1a] dark:text-white/80 hover:text-primary dark:hover:text-white transition-colors py-2 px-1"
+              >
                 {link.name}
               </Link>
             ))}
@@ -142,11 +198,11 @@ export function Footer() {
 
         {/* Bottom Shard */}
         <div className="pt-4 border-t border-surface-dim/20 flex flex-col lg:flex-row justify-between items-center gap-6">
-            <p className="text-[10px] sm:text-xs font-bold text-[#1a1a1a] dark:text-white uppercase tracking-widest text-center  lg:text-left">
-              &copy; {currentYear} Adhoc Network Tech.
-            </p>
+          <p className="text-[10px] sm:text-xs font-bold text-[#1a1a1a] dark:text-white uppercase tracking-widest text-center  lg:text-left">
+            &copy; {currentYear} Adhoc Network Tech.
+          </p>
         </div>
       </div>
     </footer>
-  )
+  );
 }

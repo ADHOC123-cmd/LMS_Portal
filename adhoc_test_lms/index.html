@@ -1,50 +1,135 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="preload" fetchpriority="high" as="image" href="/hero-optimized.webp" imagesrcset="/hero-optimized-mobile.webp 600w, /hero-optimized.webp 1200w" imagesizes="(max-width: 768px) 100vw, 50vw" media="(min-width: 640px)">
+    <link
+      rel="preload"
+      fetchpriority="high"
+      as="image"
+      href="/hero-optimized.webp"
+      imagesrcset="/hero-optimized-mobile.webp 600w, /hero-optimized.webp 1200w"
+      imagesizes="(max-width: 768px) 100vw, 50vw"
+      media="(min-width: 640px)"
+    />
     <link rel="icon" type="image/svg+xml" href="/icon.svg" />
     <link rel="canonical" href="https://adhocnetwork.tech/" />
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https: data:; script-src 'self' 'unsafe-inline' https://checkout.razorpay.com https://cdn.razorpay.com data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.gstatic.com; img-src 'self' data: https:; font-src https://fonts.gstatic.com; connect-src 'self' https://api.razorpay.com;"/>
-    
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self' https: data:; script-src 'self' 'unsafe-inline' https://checkout.razorpay.com https://cdn.razorpay.com data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.gstatic.com; img-src 'self' data: https:; font-src https://fonts.gstatic.com; connect-src 'self' https://api.razorpay.com;"
+    />
+
     <!-- Secondary Meta & Preloading -->
-    <link rel="preload" href="/api/courses" as="fetch" crossorigin="anonymous">
-    <link rel="preload" href="/api/feedbacks/home" as="fetch" crossorigin="anonymous">
-    <link rel="preconnect" href="https://checkout.razorpay.com">
-    <link rel="preconnect" href="https://api.razorpay.com">
+    <link
+      rel="preload"
+      href="/api/courses"
+      as="fetch"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="preload"
+      href="/api/feedbacks/home"
+      as="fetch"
+      crossorigin="anonymous"
+    />
+    <link rel="preconnect" href="https://checkout.razorpay.com" />
+    <link rel="preconnect" href="https://api.razorpay.com" />
     <link rel="preload" href="/src/index.css" as="style" />
     <link rel="preload" href="/src/main.jsx" as="script" />
     <meta name="theme-color" content="#002244" />
-    <meta name="description" content="Adhoc Network Tech - The next generation learning management system for tech and design professionals. High-fidelity curriculum, cinematic player, and strategic proctoring." />
-    
+    <meta
+      name="description"
+      content="Adhoc Network Tech - The next generation learning management system for tech and design professionals. High-fidelity curriculum, cinematic player, and strategic proctoring."
+    />
+
     <!-- Open Graph / Social -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://adhocnetwork.tech/" />
-    <meta property="og:title" content="Adhoc Network Tech | Next-Gen Learning Platform" />
-    <meta property="og:description" content="Empowering the next generation of academic leaders through sophisticated learning ecosystems." />
+    <meta
+      property="og:title"
+      content="Adhoc Network Tech | Next-Gen Learning Platform"
+    />
+    <meta
+      property="og:description"
+      content="Empowering the next generation of academic leaders through sophisticated learning ecosystems."
+    />
     <meta property="og:image" content="/apple-icon.png" />
 
     <title>Adhoc Network Tech | Next-Gen Learning Platform</title>
   </head>
   <body>
     <div id="root">
-      <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; height: 100vh; background-color: #000108; color: #f7f9fc; font-family: 'Inter', sans-serif; overflow: hidden; margin: 0; padding: 0;">
-        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 24px; animation: adhoc-pulse 2s infinite ease-in-out;">
-          <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #0052cc 0%, #00a3ff 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 20px rgba(0, 82, 204, 0.3);">
-            <span style="color: white; font-weight: bold; font-size: 20px;">A</span>
+      <div
+        style="
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          min-height: 100vh;
+          height: 100vh;
+          background-color: #000108;
+          color: #f7f9fc;
+          font-family: &quot;Inter&quot;, sans-serif;
+          overflow: hidden;
+          margin: 0;
+          padding: 0;
+        "
+      >
+        <div
+          style="
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+            animation: adhoc-pulse 2s infinite ease-in-out;
+          "
+        >
+          <div
+            style="
+              width: 40px;
+              height: 40px;
+              background: linear-gradient(135deg, #0052cc 0%, #00a3ff 100%);
+              border-radius: 12px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              box-shadow: 0 10px 20px rgba(0, 82, 204, 0.3);
+            "
+          >
+            <span style="color: white; font-weight: bold; font-size: 20px"
+              >A</span
+            >
           </div>
-          <span style="font-weight: bold; font-size: 20px; letter-spacing: -0.02em;">Adhoc Network Tech</span>
+          <span
+            style="font-weight: bold; font-size: 20px; letter-spacing: -0.02em"
+            >Adhoc Network Tech</span
+          >
         </div>
-        <div style="width: 24px; height: 24px; border: 3px solid rgba(247, 249, 252, 0.15); border-top-color: #00a3ff; border-radius: 50%; animation: adhoc-spin 1s linear infinite;"></div>
+        <div
+          style="
+            width: 24px;
+            height: 24px;
+            border: 3px solid rgba(247, 249, 252, 0.15);
+            border-top-color: #00a3ff;
+            border-radius: 50%;
+            animation: adhoc-spin 1s linear infinite;
+          "
+        ></div>
       </div>
       <style>
         @keyframes adhoc-spin {
-          to { transform: rotate(360deg); }
+          to {
+            transform: rotate(360deg);
+          }
         }
         @keyframes adhoc-pulse {
-          0%, 100% { opacity: 0.6; }
-          50% { opacity: 1; }
+          0%,
+          100% {
+            opacity: 0.6;
+          }
+          50% {
+            opacity: 1;
+          }
         }
         body {
           margin: 0;

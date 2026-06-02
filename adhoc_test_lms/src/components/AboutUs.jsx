@@ -1,19 +1,27 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { Award, Star, Trophy, Target, Sparkles, CheckCircle2, ShieldCheck } from 'lucide-react';
+import React from "react";
+import { motion } from "framer-motion";
+import {
+  Award,
+  Star,
+  Trophy,
+  Target,
+  Sparkles,
+  CheckCircle2,
+  ShieldCheck,
+} from "lucide-react";
 
 export default function AboutUs() {
   const staggerContainer = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: { staggerChildren: 0.1 }
-    }
+      transition: { staggerChildren: 0.1 },
+    },
   };
 
   const fadeUp = {
     hidden: { opacity: 0, y: 30 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
   };
 
   return (
@@ -23,11 +31,12 @@ export default function AboutUs() {
           <span className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary font-bold text-xs uppercase tracking-widest mb-4">
             🌐 Discover Our Story
           </span>
-          <h2 className="text-4xl md:text-5xl font-headline font-bold text-primary mb-4">About Us</h2>
+          <h2 className="text-4xl md:text-5xl font-headline font-bold text-primary mb-4">
+            About Us
+          </h2>
         </div>
 
         <div className="flex flex-col lg:flex-row gap-12 lg:gap-16">
-
           {/* Left Side: Content Section */}
           <motion.div
             variants={staggerContainer}
@@ -40,42 +49,78 @@ export default function AboutUs() {
             <motion.div variants={fadeUp} className="space-y-4">
               <div className="flex items-center gap-3">
                 <Sparkles className="w-6 h-6 text-primary" />
-                <h3 className="text-2xl font-headline font-bold text-primary">Who We Are</h3>
+                <h3 className="text-2xl font-headline font-bold text-primary">
+                  Who We Are
+                </h3>
               </div>
               <p className="text-lg text-secondary leading-relaxed">
-                Founded by <span className="font-bold text-on-surface">Devika Pakruthi</span>, Adhoc Network Tech is a technology-driven company focused on product development, software solutions, and industry-oriented internship programs.we believe that education should be engaging, inclusive, and aligned with the evolving demands of the digital world .By integrating cutting-edge technology, industry-relevant content, skill development programs, internships, and real-time learning analytics, we create an ecosystem that fosters continuous growth and career success.
+                Founded by{" "}
+                <span className="font-bold text-on-surface">
+                  Devika Pakruthi
+                </span>
+                , Adhoc Network Tech is a technology-driven company focused on
+                product development, software solutions, and industry-oriented
+                internship programs.we believe that education should be
+                engaging, inclusive, and aligned with the evolving demands of
+                the digital world .By integrating cutting-edge technology,
+                industry-relevant content, skill development programs,
+                internships, and real-time learning analytics, we create an
+                ecosystem that fosters continuous growth and career success.
               </p>
             </motion.div>
 
             {/* Our Vision */}
-            <motion.div variants={fadeUp} className="space-y-4 bg-primary text-on-primary p-8 rounded-[2rem] shadow-xl ambient-shadow relative overflow-hidden">
+            <motion.div
+              variants={fadeUp}
+              className="space-y-4 bg-primary text-on-primary p-8 rounded-[2rem] shadow-xl ambient-shadow relative overflow-hidden"
+            >
               <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-2xl pointer-events-none" />
-              <h3 className="text-2xl font-headline font-bold relative z-10">Our Vision</h3>
+              <h3 className="text-2xl font-headline font-bold relative z-10">
+                Our Vision
+              </h3>
               <p className="opacity-90 leading-relaxed text-lg relative z-10">
-                To be a leading technology and skill development organization that empowers learners, educators, and institutions through innovative digital solutions, industry-focused training, and transformative learning experiences.
+                To be a leading technology and skill development organization
+                that empowers learners, educators, and institutions through
+                innovative digital solutions, industry-focused training, and
+                transformative learning experiences.
               </p>
             </motion.div>
 
             {/* Our Mission */}
-            <motion.div variants={fadeUp} className="space-y-4 bg-primary text-on-primary p-8 rounded-[2rem] shadow-xl ambient-shadow relative overflow-hidden">
+            <motion.div
+              variants={fadeUp}
+              className="space-y-4 bg-primary text-on-primary p-8 rounded-[2rem] shadow-xl ambient-shadow relative overflow-hidden"
+            >
               <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-2xl pointer-events-none" />
-              <h3 className="text-2xl font-headline font-bold relative z-10">Our Mission</h3>
+              <h3 className="text-2xl font-headline font-bold relative z-10">
+                Our Mission
+              </h3>
               <p className="opacity-90 leading-relaxed text-lg relative z-10">
-                To deliver innovative technology solutions, industry-relevant training, internships, and experiential learning opportunities that enhance skills, foster innovation, and prepare learners for successful careers.
+                To deliver innovative technology solutions, industry-relevant
+                training, internships, and experiential learning opportunities
+                that enhance skills, foster innovation, and prepare learners for
+                successful careers.
               </p>
             </motion.div>
 
             {/* What We Do */}
             <motion.div variants={fadeUp} className="space-y-4">
-              <h3 className="text-2xl font-headline font-bold text-primary">What We Do</h3>
+              <h3 className="text-2xl font-headline font-bold text-primary">
+                What We Do
+              </h3>
               <ul className="space-y-4">
                 <li className="flex items-start gap-3">
                   <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mt-1">
                     <span className="text-xl">🚀</span>
                   </div>
                   <div>
-                    <strong className="text-on-surface block text-lg">LMS Portal Development</strong>
-                    <span className="text-secondary">A robust platform for online courses, assessments, and certifications.</span>
+                    <strong className="text-on-surface block text-lg">
+                      LMS Portal Development
+                    </strong>
+                    <span className="text-secondary">
+                      A robust platform for online courses, assessments, and
+                      certifications.
+                    </span>
                   </div>
                 </li>
                 <li className="flex items-start gap-3">
@@ -83,8 +128,13 @@ export default function AboutUs() {
                     <span className="text-xl">💻</span>
                   </div>
                   <div>
-                    <strong className="text-on-surface block text-lg">Software & Product Development</strong>
-                    <span className="text-secondary">Building innovative web applications, software solutions, and custom technology products tailored to industry needs.</span>
+                    <strong className="text-on-surface block text-lg">
+                      Software & Product Development
+                    </strong>
+                    <span className="text-secondary">
+                      Building innovative web applications, software solutions,
+                      and custom technology products tailored to industry needs.
+                    </span>
                   </div>
                 </li>
                 <li className="flex items-start gap-3">
@@ -92,8 +142,15 @@ export default function AboutUs() {
                     <span className="text-xl">🎓</span>
                   </div>
                   <div>
-                    <strong className="text-on-surface block text-lg">Skill Development & Training Services</strong>
-                    <span className="text-secondary">Conducting hackathons, short-term and long-term internships, webinars, guest lectures, tech fests, and industry-focused training programs to empower students with practical skills and real-world experience.</span>
+                    <strong className="text-on-surface block text-lg">
+                      Skill Development & Training Services
+                    </strong>
+                    <span className="text-secondary">
+                      Conducting hackathons, short-term and long-term
+                      internships, webinars, guest lectures, tech fests, and
+                      industry-focused training programs to empower students
+                      with practical skills and real-world experience.
+                    </span>
                   </div>
                 </li>
               </ul>
@@ -102,16 +159,32 @@ export default function AboutUs() {
             {/* Why Choose Us */}
             <motion.div variants={fadeUp} className="grid sm:grid-cols-2 gap-4">
               <div className="col-span-full">
-                <h3 className="text-2xl font-headline font-bold text-primary mb-4">Why Choose Us</h3>
+                <h3 className="text-2xl font-headline font-bold text-primary mb-4">
+                  Why Choose Us
+                </h3>
               </div>
               {[
-                { title: "Innovation at Core", desc: "We constantly evolve with the latest in edtech and generative AI." },
-                { title: "User-Centric Design", desc: "Built for simplicity, speed, and scalability." },
-                { title: "Trusted Leadership", desc: "Guided by Devika Pakruthi's vision of making technology a bridge to better education." }
+                {
+                  title: "Innovation at Core",
+                  desc: "We constantly evolve with the latest in edtech and generative AI.",
+                },
+                {
+                  title: "User-Centric Design",
+                  desc: "Built for simplicity, speed, and scalability.",
+                },
+                {
+                  title: "Trusted Leadership",
+                  desc: "Guided by Devika Pakruthi's vision of making technology a bridge to better education.",
+                },
               ].map((item, idx) => (
-                <div key={idx} className="bg-surface-container-lowest p-5 rounded-2xl border border-surface-dim/20 ambient-shadow hover:border-primary/30 transition-all">
+                <div
+                  key={idx}
+                  className="bg-surface-container-lowest p-5 rounded-2xl border border-surface-dim/20 ambient-shadow hover:border-primary/30 transition-all"
+                >
                   <ShieldCheck className="w-6 h-6 text-primary mb-3" />
-                  <h4 className="font-bold text-on-surface mb-2">{item.title}</h4>
+                  <h4 className="font-bold text-on-surface mb-2">
+                    {item.title}
+                  </h4>
                   <p className="text-sm text-secondary">{item.desc}</p>
                 </div>
               ))}
@@ -127,7 +200,6 @@ export default function AboutUs() {
             className="w-full lg:w-5/12"
           >
             <div className="sticky top-8 bg-surface-container-lowest rounded-[2rem] p-6 sm:p-8 border border-surface-dim/20 ambient-shadow">
-
               {/* Founder Image and Info */}
               <div className="text-center mb-8">
                 <div className="relative inline-block mb-6 group">
@@ -142,16 +214,24 @@ export default function AboutUs() {
                   </div>
                 </div>
 
-                <h3 className="text-3xl font-headline font-bold text-primary mb-1">Devika Pakruthi</h3>
-                <p className="text-lg font-semibold text-secondary mb-2">Chief Executive Officer</p>
-                <p className="text-sm font-bold text-primary/80 uppercase tracking-widest bg-primary/5 inline-block px-3 py-1 rounded-full border border-primary/10">ADHOC NETWORK TECH</p>
+                <h3 className="text-3xl font-headline font-bold text-primary mb-1">
+                  Devika Pakruthi
+                </h3>
+                <p className="text-lg font-semibold text-secondary mb-2">
+                  Chief Executive Officer
+                </p>
+                <p className="text-sm font-bold text-primary/80 uppercase tracking-widest bg-primary/5 inline-block px-3 py-1 rounded-full border border-primary/10">
+                  ADHOC NETWORK TECH
+                </p>
               </div>
 
               {/* Awards and Prices Section */}
               <div className="space-y-6">
                 <div className="flex items-center gap-3 mb-6">
                   <Trophy className="w-6 h-6 text-amber-500" />
-                  <h4 className="text-xl font-headline font-bold text-on-surface">Awards & Recognition</h4>
+                  <h4 className="text-xl font-headline font-bold text-on-surface">
+                    Awards & Recognition
+                  </h4>
                 </div>
 
                 <div className="grid gap-4">
@@ -163,8 +243,13 @@ export default function AboutUs() {
                         <Award className="w-6 h-6" />
                       </div>
                       <div>
-                        <h5 className="font-bold text-on-surface text-lg mb-1">National MSME Award 2025–26</h5>
-                        <p className="text-sm text-secondary leading-relaxed">Awarded by FICCI FLO for excellence in skill development and creating employment opportunities.</p>
+                        <h5 className="font-bold text-on-surface text-lg mb-1">
+                          National MSME Award 2025–26
+                        </h5>
+                        <p className="text-sm text-secondary leading-relaxed">
+                          Awarded by FICCI FLO for excellence in skill
+                          development and creating employment opportunities.
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -177,8 +262,14 @@ export default function AboutUs() {
                         <Award className="w-6 h-6" />
                       </div>
                       <div>
-                        <h5 className="font-bold text-on-surface text-lg mb-1">Global Visionary in Skill Development & Internship Innovation</h5>
-                        <p className="text-sm text-secondary leading-relaxed">Recognized globally for pioneering innovative learning and internship ecosystems.</p>
+                        <h5 className="font-bold text-on-surface text-lg mb-1">
+                          Global Visionary in Skill Development & Internship
+                          Innovation
+                        </h5>
+                        <p className="text-sm text-secondary leading-relaxed">
+                          Recognized globally for pioneering innovative learning
+                          and internship ecosystems.
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -191,8 +282,14 @@ export default function AboutUs() {
                         <Award className="w-6 h-6" />
                       </div>
                       <div>
-                        <h5 className="font-bold text-on-surface text-lg mb-1"> BNI Guntur Young Entrepreneur Award 2025</h5>
-                        <p className="text-sm text-secondary leading-relaxed">Celebrated for outstanding entrepreneurial achievements and business leadership.</p>
+                        <h5 className="font-bold text-on-surface text-lg mb-1">
+                          {" "}
+                          BNI Guntur Young Entrepreneur Award 2025
+                        </h5>
+                        <p className="text-sm text-secondary leading-relaxed">
+                          Celebrated for outstanding entrepreneurial
+                          achievements and business leadership.
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -205,8 +302,13 @@ export default function AboutUs() {
                         <Trophy className="w-6 h-6" />
                       </div>
                       <div>
-                        <h5 className="font-bold text-on-surface text-lg mb-1">Youngest CEO of the Year</h5>
-                        <p className="text-sm text-secondary leading-relaxed">Honored by Global Pride Awards for remarkable leadership and organizational impact.</p>
+                        <h5 className="font-bold text-on-surface text-lg mb-1">
+                          Youngest CEO of the Year
+                        </h5>
+                        <p className="text-sm text-secondary leading-relaxed">
+                          Honored by Global Pride Awards for remarkable
+                          leadership and organizational impact.
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -219,8 +321,13 @@ export default function AboutUs() {
                         <Star className="w-6 h-6" />
                       </div>
                       <div>
-                        <h5 className="font-bold text-on-surface text-lg mb-1">Women Rising Star of the Year</h5>
-                        <p className="text-sm text-secondary leading-relaxed">Recognized for driving inclusive growth, innovation, and community empowerment.</p>
+                        <h5 className="font-bold text-on-surface text-lg mb-1">
+                          Women Rising Star of the Year
+                        </h5>
+                        <p className="text-sm text-secondary leading-relaxed">
+                          Recognized for driving inclusive growth, innovation,
+                          and community empowerment.
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -228,7 +335,6 @@ export default function AboutUs() {
               </div>
             </div>
           </motion.div>
-
         </div>
       </div>
     </section>

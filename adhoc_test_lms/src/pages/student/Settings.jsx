@@ -1,6 +1,6 @@
-import React from 'react'
-import { ProtectedRoute } from "../../context/ProtectedRoute"
-import { Settings as SettingsIcon } from "lucide-react"
+import React from "react";
+import { ProtectedRoute } from "../../context/ProtectedRoute";
+import { Settings as SettingsIcon } from "lucide-react";
 
 export default function Settings() {
   return (
@@ -13,15 +13,21 @@ export default function Settings() {
                 <div className="w-12 h-12 signature-gradient rounded-2xl flex items-center justify-center text-white shadow-lg">
                   <SettingsIcon className="w-6 h-6" />
                 </div>
-                <h1 className="text-4xl font-headline font-bold text-primary">Settings</h1>
+                <h1 className="text-4xl font-headline font-bold text-primary">
+                  Settings
+                </h1>
               </div>
-              <p className="text-on-surface-variant">Manage your account preferences and notifications.</p>
+              <p className="text-on-surface-variant">
+                Manage your account preferences and notifications.
+              </p>
             </div>
           </div>
 
           <div className="bg-surface-container-lowest rounded-[3rem] p-16 text-center border-2 border-dashed border-surface-dim shadow-inner">
             <SettingsIcon className="w-16 h-16 text-surface-dim mx-auto mb-6" />
-            <h3 className="text-2xl font-headline font-bold text-primary mb-4">Account Settings</h3>
+            <h3 className="text-2xl font-headline font-bold text-primary mb-4">
+              Account Settings
+            </h3>
             <p className="text-on-surface-variant max-w-sm mx-auto">
               Settings functionality is currently under construction.
             </p>
@@ -29,5 +35,5 @@ export default function Settings() {
         </div>
       </div>
     </ProtectedRoute>
-  )
+  );
 }

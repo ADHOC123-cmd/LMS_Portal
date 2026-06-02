@@ -1,6 +1,6 @@
-import * as React from "react"
-import { Link } from "react-router-dom"
-import { motion } from "framer-motion"
+import * as React from "react";
+import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 
 export default function CeoMessageSection() {
   return (
@@ -31,24 +31,43 @@ export default function CeoMessageSection() {
 
           {/* Content */}
           <div className="lg:w-3/4 text-on-surface space-y-4">
-            <h2 className="text-2xl font-headline font-bold text-on-surface mb-2">Message from the CEO</h2>
+            <h2 className="text-2xl font-headline font-bold text-on-surface mb-2">
+              Message from the CEO
+            </h2>
             <div className="space-y-3 text-on-surface leading-relaxed text-base">
               <p>
-                <span className="font-bold text-on-surface">ADHOC NETWORK TECH LMS</span> is dedicated to providing a comprehensive educational ecosystem featuring high-demand, trending courses—from intelligent data insights to next-generation AI innovations, shaping smarter learning experiences. We meticulously design each course to bridge the gap between academic theory and real-world, practical experience.
+                <span className="font-bold text-on-surface">
+                  ADHOC NETWORK TECH LMS
+                </span>{" "}
+                is dedicated to providing a comprehensive educational ecosystem
+                featuring high-demand, trending courses—from intelligent data
+                insights to next-generation AI innovations, shaping smarter
+                learning experiences. We meticulously design each course to
+                bridge the gap between academic theory and real-world, practical
+                experience.
               </p>
               <p>
-                It gives us great joy to see our students learn the various components of professional tools to prepare them for the future. We offer a full range of trending technology courses.
+                It gives us great joy to see our students learn the various
+                components of professional tools to prepare them for the future.
+                We offer a full range of trending technology courses.
               </p>
               <p>
-                This empowers students to learn the skills needed to succeed in the global IT domain.
+                This empowers students to learn the skills needed to succeed in
+                the global IT domain.
               </p>
             </div>
 
             <div className="pt-4 border-t border-surface-dim/20 flex justify-between items-center">
               <div>
-                <p className="text-xl font-bold text-on-surface">Devika Pakruthi</p>
-                <p className="text-secondary font-medium">Chief Executive Officer</p>
-                <p className="text-primary text-sm font-bold uppercase tracking-wider">ADHOC NETWORK TECH</p>
+                <p className="text-xl font-bold text-on-surface">
+                  Devika Pakruthi
+                </p>
+                <p className="text-secondary font-medium">
+                  Chief Executive Officer
+                </p>
+                <p className="text-primary text-sm font-bold uppercase tracking-wider">
+                  ADHOC NETWORK TECH
+                </p>
               </div>
               <Link
                 to="/about-us"
@@ -61,5 +80,5 @@ export default function CeoMessageSection() {
         </motion.div>
       </div>
     </section>
-  )
+  );
 }
