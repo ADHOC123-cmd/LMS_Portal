@@ -157,7 +157,7 @@ function AdminDashboardContent() {
                     const maxRevenue = Math.max(...analytics.monthlyRevenue.map(d => d.revenue)) || 1000;
                     const heightPercent = Math.max((data.revenue / maxRevenue) * 100, 5);
                     return (
-                      <div key={index} className="flex flex-col items-center gap-2 group w-1/12">
+                      <div key={index} className="flex flex-col items-center gap-2 group w-1/12 h-full justify-end">
                         <div 
                           className="w-full bg-primary/20 group-hover:bg-primary transition-colors rounded-t-md relative"
                           style={{ height: `${heightPercent}%` }}
