@@ -32,6 +32,18 @@ export default defineConfig({
     target: 'esnext',
     cssMinify: true,
     chunkSizeWarningLimit: 1000,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          // Separate vendor chunk
+          vendor: ['react', 'react-dom', 'react-router-dom', 'framer-motion', 'lucide-react', '@radix-ui/react-accordion', '@radix-ui/react-dialog'],
+        },
+      },
+    },
+    // Enable minification for production
+    minify: 'esbuild',
+    // Enable terser for further optimization if needed
+    // terserOptions: { compress: true, mangle: true },
   },
   optimizeDeps: {
     include: [
