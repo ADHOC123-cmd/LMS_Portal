@@ -8,15 +8,6 @@ export default defineConfig({
   plugins: [
     react(),
     tailwindcss(),
-    {
-      name: 'async-css',
-      transformIndexHtml(html) {
-        return html.replace(
-          /<link rel="stylesheet" crossorigin href="([^"]+)">/g,
-          '<link rel="preload" href="$1" as="style" onload="this.onload=null;this.rel=\'stylesheet\'"><noscript><link rel="stylesheet" href="$1"></noscript>'
-        );
-      }
-    }
   ],
   resolve: {
     alias: {
