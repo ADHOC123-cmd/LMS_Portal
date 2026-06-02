@@ -27,24 +27,65 @@ exports.getAnalytics = async (req, res) => {
     });
     const totalRevenue = revenueResult || 0;
         
-    // Simple monthly revenue (last 6 months)
+    // Fetch actual monthly revenue and registrations (last 6 months)
+    const startOfPeriod = new Date();
+    startOfPeriod.setMonth(startOfPeriod.getMonth() - 5);
+    startOfPeriod.setDate(1);
+    startOfPeriod.setHours(0, 0, 0, 0);
+
+    const subscriptions = await Subscription.findAll({
+      where: {
+        createdAt: {
+          [Op.gte]: startOfPeriod
+        }
+      }
+    });
+
+    const students = await User.findAll({
+      where: {
+        role: 'student',
+        createdAt: {
+          [Op.gte]: startOfPeriod
+        }
+      }
+    });
+
     const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     const currentMonth = new Date().getMonth();
+    const currentYear = new Date().getFullYear();
     const monthlyRevenue = [];
+    const newUsers = [];
     
     for (let i = 5; i >= 0; i--) {
-      const monthIndex = (currentMonth - i + 12) % 12;
+      const targetMonthIndex = (currentMonth - i + 12) % 12;
+      const targetYear = (currentMonth - i < 0) ? currentYear - 1 : currentYear;
+      const monthName = months[targetMonthIndex];
+      
+      const subsInMonth = subscriptions.filter(sub => {
+        const d = new Date(sub.createdAt);
+        return d.getMonth() === targetMonthIndex && d.getFullYear() === targetYear;
+      });
+      
+      const rev = subsInMonth.reduce((sum, sub) => sum + parseFloat(sub.amount || 0), 0);
+      
+      const studentsInMonth = students.filter(std => {
+        const d = new Date(std.createdAt);
+        return d.getMonth() === targetMonthIndex && d.getFullYear() === targetYear;
+      });
+      
       monthlyRevenue.push({
-        month: months[monthIndex],
-        revenue: 0
+        month: monthName,
+        revenue: parseFloat(rev.toFixed(2))
+      });
+      
+      newUsers.push({
+        month: monthName,
+        users: studentsInMonth.length
       });
     }
     
-    // Simple new users data
-    const newUsers = monthlyRevenue.map(m => ({ month: m.month, users: 0 }));
-    
     // Get popular courses
-    const subscriptions = await Subscription.findAll({
+    const activeSubsForPopularity = await Subscription.findAll({
       where: { status: 'active' },
       attributes: ['courseId'],
       include: [{ model: Course, as: 'course', attributes: ['id', 'title'] }],
@@ -52,7 +93,7 @@ exports.getAnalytics = async (req, res) => {
     });
     
     const courseCount = {};
-    for (const sub of subscriptions) {
+    for (const sub of activeSubsForPopularity) {
       const courseId = sub.courseId;
       courseCount[courseId] = (courseCount[courseId] || 0) + 1;
     }
@@ -61,7 +102,7 @@ exports.getAnalytics = async (req, res) => {
       .map(([courseId, count]) => ({
         courseId: parseInt(courseId),
         enrollmentCount: count,
-        course: subscriptions.find(s => s.courseId == courseId)?.course || null
+        course: activeSubsForPopularity.find(s => s.courseId == courseId)?.course || null
       }))
       .sort((a, b) => b.enrollmentCount - a.enrollmentCount)
       .slice(0, 5);
