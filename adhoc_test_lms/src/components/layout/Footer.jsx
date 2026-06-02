@@ -49,8 +49,8 @@ export function Footer() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-y-12 sm:gap-x-8 lg:gap-x-12 lg:gap-y-8 mb-16 md:mb-20">
           {/* Brand Shard */}
           <div className="sm:col-span-2 lg:col-span-4">
-            <Link to="/" aria-label="Adhoc Network Tech" className="inline-flex items-center gap-3 mb-6 sm:mb-8 group">
-              <div className="w-8 h-8 sm:w-10 sm:h-10 signature-gradient rounded-xl flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform">
+            <Link to="/" className="inline-flex items-center gap-3 mb-6 sm:mb-8 group">
+              <div aria-hidden="true" className="w-8 h-8 sm:w-10 sm:h-10 signature-gradient rounded-xl flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform">
                 <span className="text-white font-headline font-bold text-lg sm:text-xl">A</span>
               </div>
               <span className="text-lg sm:text-xl font-headline font-bold tracking-tighter text-primary">Adhoc Network Tech</span>
@@ -134,7 +134,7 @@ export function Footer() {
         <div className="pt-8 pb-6 border-t border-surface-dim/20">
           <div className="flex flex-nowrap justify-center gap-2 md:gap-6 mb-6 whitespace-nowrap text-[8px] sm:text-[10px]">
             {links.legal.map(link => (
-              <Link key={link.name} to={link.href} aria-label={link.name} className="text-sm text-[#1a1a1a] dark:text-white/80 hover:text-primary dark:hover:text-white transition-colors py-2 px-1">
+              <Link key={link.name} to={link.href} className="text-sm text-[#1a1a1a] dark:text-white/80 hover:text-primary dark:hover:text-white transition-colors py-2 px-1">
                 {link.name}
               </Link>
             ))}
