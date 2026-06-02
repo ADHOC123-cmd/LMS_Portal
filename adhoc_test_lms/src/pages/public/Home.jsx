@@ -201,6 +201,7 @@ export default function Home() {
                     className="w-10 h-10 rounded-full border-2 border-surface shadow-sm object-cover"
                     alt="Learner"
                     loading="lazy"
+                    decoding="async"
                   />
                 ))}
               </div>
