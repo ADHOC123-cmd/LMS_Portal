@@ -21,6 +21,15 @@ function AdminDashboardContent() {
 
   const [analytics, setAnalytics] = React.useState(null)
   const [ticketStats, setTicketStats] = React.useState(null)
+  const [activeRange, setActiveRange] = React.useState('Weekly') // 'Weekly', 'Monthly', 'Yearly'
+
+  const chartData = React.useMemo(() => {
+    if (!analytics) return null
+    if (activeRange === 'Weekly') return analytics.weekly || []
+    if (activeRange === 'Monthly') return analytics.monthly || []
+    if (activeRange === 'Yearly') return analytics.yearly || []
+    return []
+  }, [analytics, activeRange])
 
   const BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000/api'
 
@@ -145,19 +154,26 @@ function AdminDashboardContent() {
                   Enrollment Velocity
                 </h3>
                 <div className="flex gap-2">
-                  {['24H', '7D', '30D'].map(p => (
-                    <button key={p} className={`px-4 py-1.5 rounded-full text-[10px] font-bold uppercase transition-all ${p === '7D' ? 'bg-primary-container text-white' : 'text-secondary hover:bg-surface-container'}`}>{p}</button>
+                  {['Weekly', 'Monthly', 'Yearly'].map(p => (
+                    <button 
+                      key={p} 
+                      onClick={() => setActiveRange(p)}
+                      className={`px-4 py-1.5 rounded-full text-[10px] font-bold uppercase transition-all ${activeRange === p ? 'bg-primary-container text-white' : 'text-secondary hover:bg-surface-container'}`}
+                    >
+                      {p}
+                    </button>
                   ))}
                 </div>
               </div>
               
               <div className="flex-grow flex items-end justify-between h-64 border-b-2 border-dashed border-surface-dim/30 pb-4 relative z-10 px-4">
-                {analytics?.monthlyRevenue ? (
-                  analytics.monthlyRevenue.map((data, index) => {
-                    const maxRevenue = Math.max(...analytics.monthlyRevenue.map(d => d.revenue)) || 1000;
+                {chartData && chartData.length > 0 ? (
+                  chartData.map((data, index) => {
+                    const maxRevenue = Math.max(...chartData.map(d => d.revenue)) || 1000;
                     const heightPercent = Math.max((data.revenue / maxRevenue) * 100, 5);
+                    const widthClass = activeRange === 'Yearly' ? 'w-1/4' : 'w-1/12';
                     return (
-                      <div key={index} className="flex flex-col items-center gap-2 group w-1/12 h-full justify-end">
+                      <div key={index} className={`flex flex-col items-center gap-2 group h-full justify-end ${widthClass}`}>
                         <div 
                           className="w-full bg-primary/20 group-hover:bg-primary transition-colors rounded-t-md relative"
                           style={{ height: `${heightPercent}%` }}
@@ -166,7 +182,7 @@ function AdminDashboardContent() {
                             ₹{data.revenue}
                           </div>
                         </div>
-                        <span className="text-[10px] font-bold text-secondary uppercase">{data.month}</span>
+                        <span className="text-[10px] font-bold text-secondary uppercase whitespace-nowrap">{data.label}</span>
                       </div>
                     )
                   })
