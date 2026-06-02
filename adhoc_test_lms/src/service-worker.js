@@ -29,5 +29,15 @@ self.addEventListener('fetch', (event) => {
         });
       })
     );
+  } else {
+    // Network-first for cross-origin requests with graceful fallback
+    event.respondWith(
+      fetch(event.request).catch(() => {
+        return new Response('Network error', {
+          status: 504,
+          statusText: 'Gateway Timeout',
+        });
+      })
+    );
   }
 });
