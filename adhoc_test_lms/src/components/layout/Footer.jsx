@@ -38,7 +38,6 @@ export function Footer() {
 
   return (
     <footer 
-      style={{ contentVisibility: 'auto', containIntrinsicSize: '1px 400px' }}
       className="bg-surface-container-lowest border-t border-surface-dim/20 pt-12 md:pt-20 pb-12 lg:pb-12 font-body relative overflow-hidden min-h-[400px]"
     >
       {/* Background Ambience */}

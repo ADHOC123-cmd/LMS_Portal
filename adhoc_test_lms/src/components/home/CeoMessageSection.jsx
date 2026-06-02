@@ -20,8 +20,8 @@ export default function CeoMessageSection() {
                 <img
                   src="/ceo-profile.webp"
                   alt="Devika Pakruthi - CEO"
-                  width="380"
-                  height="400"
+                  width="300"
+                  height="280"
                   className="w-full h-auto max-h-[400px] object-contain"
                 />
               </picture>
