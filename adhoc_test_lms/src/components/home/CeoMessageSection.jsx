@@ -22,6 +22,7 @@ export default function CeoMessageSection() {
                   alt="Devika Pakruthi - CEO"
                   width="300"
                   height="280"
+                  loading="lazy"
                   className="w-full h-auto max-h-[400px] object-contain"
                 />
               </picture>
