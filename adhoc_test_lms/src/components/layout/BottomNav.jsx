@@ -28,7 +28,8 @@ export function BottomNav({ customItems = null }) {
             <Link
               key={item.href}
               to={item.href}
-              className="relative flex flex-col items-center justify-center flex-1 h-full group"
+              aria-label={item.label}
+              className="relative flex flex-col items-center justify-center flex-1 h-full min-w-[48px] min-h-[48px] group"
             >
               {isActive && (
                 <motion.div

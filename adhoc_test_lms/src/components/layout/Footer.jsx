@@ -49,7 +49,7 @@ export function Footer() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-y-12 sm:gap-x-8 lg:gap-x-12 lg:gap-y-8 mb-16 md:mb-20">
           {/* Brand Shard */}
           <div className="sm:col-span-2 lg:col-span-4">
-            <Link to="/" className="inline-flex items-center gap-3 mb-6 sm:mb-8 group">
+            <Link to="/" aria-label="Adhoc Network Tech" className="inline-flex items-center gap-3 mb-6 sm:mb-8 group">
               <div className="w-8 h-8 sm:w-10 sm:h-10 signature-gradient rounded-xl flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform">
                 <span className="text-white font-headline font-bold text-lg sm:text-xl">A</span>
               </div>
@@ -69,7 +69,7 @@ export function Footer() {
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-surface-container border border-outline-variant flex items-center justify-center text-on-surface hover:bg-primary hover:text-on-primary transition-all shadow-sm"
+                  className="w-11 h-11 rounded-xl bg-surface-container border border-outline-variant flex items-center justify-center text-on-surface hover:bg-primary hover:text-on-primary transition-all shadow-sm"
                   aria-label={social.label}
                 >
                   <social.Icon className="w-4 h-4 sm:w-5 sm:h-5" strokeWidth={2.5} />
@@ -95,7 +95,7 @@ export function Footer() {
                   className="w-full px-4 py-2.5 bg-surface-container border border-outline-variant rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition"
                   autoComplete="email"
                 />
-                <button className="w-full sm:w-auto lg:w-full px-6 py-2.5 signature-gradient text-white rounded-lg text-sm font-semibold hover:opacity-90 transition-all active:scale-95 flex items-center justify-center gap-2">
+                <button aria-label="Subscribe to newsletter" className="w-full sm:w-auto lg:w-full px-6 py-2.5 signature-gradient text-white rounded-lg text-sm font-semibold hover:opacity-90 transition-all active:scale-95 flex items-center justify-center gap-2">
                   <Send className="w-4 h-4" />
                   Subscribe
                 </button>
@@ -134,7 +134,7 @@ export function Footer() {
         <div className="pt-8 pb-6 border-t border-surface-dim/20">
           <div className="flex flex-nowrap justify-center gap-2 md:gap-6 mb-6 whitespace-nowrap text-[8px] sm:text-[10px]">
             {links.legal.map(link => (
-              <Link key={link.name} to={link.href} className="text-sm text-[#1a1a1a] dark:text-white/80 hover:text-primary dark:hover:text-white transition-colors">
+              <Link key={link.name} to={link.href} aria-label={link.name} className="text-sm text-[#1a1a1a] dark:text-white/80 hover:text-primary dark:hover:text-white transition-colors py-2 px-1">
                 {link.name}
               </Link>
             ))}
