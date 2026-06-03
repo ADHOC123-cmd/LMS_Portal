@@ -13,6 +13,25 @@ export function SortControls({
   onDurationChange 
 }) {
   const [isFilterOpen, setIsFilterOpen] = React.useState(false)
+  const dropdownRef = React.useRef(null)
+
+  React.useEffect(() => {
+    function handleClickOutside(event) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsFilterOpen(false)
+      }
+    }
+    
+    if (isFilterOpen) {
+      document.addEventListener("mousedown", handleClickOutside)
+      document.addEventListener("touchstart", handleClickOutside)
+    }
+    
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside)
+      document.removeEventListener("touchstart", handleClickOutside)
+    }
+  }, [isFilterOpen])
 
   const sortOptions = [
     { value: "popular", label: "Most Popular" },
@@ -40,7 +59,7 @@ export function SortControls({
     <div className="relative">
       {/* Sort Dropdown */}
       <div className="flex flex-col sm:flex-row sm:items-center gap-3">
-        <div className="relative">
+        <div className="relative" ref={dropdownRef}>
           <button
             onClick={() => setIsFilterOpen(!isFilterOpen)}
             className="flex items-center gap-2 px-4 py-2 bg-surface-container-lowest border border-outline-variant rounded-lg text-on-surface hover:border-primary/50 transition-colors"
