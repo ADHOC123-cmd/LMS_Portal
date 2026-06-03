@@ -66,11 +66,11 @@ const request = async (endpoint, options = {}) => {
 export const api = {
   // Auth endpoints
   auth: {
-    login: (email, password) =>
-      request("/auth/login", { method: "POST", body: { email, password } }),
+    login: (email, password, deviceDetails = {}) =>
+      request("/auth/login", { method: "POST", body: { email, password, ...deviceDetails } }),
 
-    register: (userData) =>
-      request("/auth/register", { method: "POST", body: userData }),
+    register: (userData, deviceDetails = {}) =>
+      request("/auth/register", { method: "POST", body: { ...userData, ...deviceDetails } }),
 
     getMe: (token) => request("/auth/me", { token }),
 
@@ -266,6 +266,11 @@ export const api = {
 
     deleteQuestion: (id, token) =>
       request(`/quizzes/questions/${id}`, { method: "DELETE", token }),
+
+    // Device Management
+    getAllDevices: (token) => request("/admin/devices", { token }),
+    getUserDevices: (userId, token) => request(`/admin/users/${userId}/devices`, { token }),
+    deleteDevice: (deviceId, token) => request(`/admin/devices/${deviceId}`, { method: "DELETE", token }),
   },
 
   // Tickets / Doubts

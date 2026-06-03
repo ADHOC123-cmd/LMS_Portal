@@ -13,6 +13,7 @@ const sequelize = require('../config/database');
 const Ticket = require('./Ticket');
 const Blog = require('./Blog');
 const Feedback = require('./Feedback');
+const UserDevice = require('./UserDevice');
 
 // User associations
 User.hasMany(Subscription, { foreignKey: 'userId', as: 'subscriptions' });
@@ -29,6 +30,9 @@ QuizAttempt.belongsTo(User, { foreignKey: 'userId', as: 'user' });
 
 User.hasMany(Feedback, { foreignKey: 'userId', as: 'feedbacks' });
 Feedback.belongsTo(User, { foreignKey: 'userId', as: 'user' });
+
+User.hasMany(UserDevice, { foreignKey: 'userId', as: 'devices' });
+UserDevice.belongsTo(User, { foreignKey: 'userId', as: 'user' });
 
 // Course associations
 Course.hasMany(Module, { foreignKey: 'courseId', as: 'modules' });
@@ -85,4 +89,5 @@ module.exports = {
   Ticket,
   Blog,
   Feedback,
+  UserDevice,
 };

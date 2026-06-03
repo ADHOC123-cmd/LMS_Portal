@@ -6,6 +6,7 @@ const moduleController = require('../controllers/moduleController');
 const lessonController = require('../controllers/lessonController');
 const adminStatsController = require('../controllers/adminStatsController');
 const analyticsController = require('../controllers/analyticsController');
+const deviceController = require('../controllers/deviceController');
 
 // All admin routes require authentication and admin role
 router.use(protect);
@@ -13,6 +14,11 @@ router.use(adminOnly);
 
 // admin stats
 router.get('/stats', adminStatsController.getStats);
+
+// Device management routes
+router.get('/devices', deviceController.getAllDevices);
+router.get('/users/:userId/devices', deviceController.getUserDevices);
+router.delete('/devices/:id', deviceController.removeDevice);
 
 // Course routes
 router.post('/courses', courseController.createCourse);

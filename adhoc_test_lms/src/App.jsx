@@ -46,6 +46,7 @@ const BlogList = React.lazy(() => import("./pages/public/BlogList"));
 const BlogPost = React.lazy(() => import("./pages/public/BlogPost"));
 const AdminBlogs = React.lazy(() => import("./pages/admin/AdminBlogs"));
 const AdminFeedbacks = React.lazy(() => import("./pages/admin/AdminFeedbacks"));
+const AdminDevices = React.lazy(() => import("./pages/admin/AdminDevices"));
 const StudentFeedback = React.lazy(
   () => import("./pages/student/StudentFeedback"),
 );
@@ -239,6 +240,20 @@ function App() {
               <Route path="/admin/doubts" element={<AdminDoubts />} />
               <Route path="/admin/blogs" element={<AdminBlogs />} />
               <Route path="/admin/feedbacks" element={<AdminFeedbacks />} />
+              <Route
+                path="/admin/devices"
+                element={
+                  <React.Suspense
+                    fallback={
+                      <div className="flex items-center justify-center min-h-[50vh]">
+                        <div className="w-12 h-12 border-4 border-primary/20 border-t-primary rounded-full animate-spin"></div>
+                      </div>
+                    }
+                  >
+                    <AdminDevices />
+                  </React.Suspense>
+                }
+              />
               <Route path="/unauthorized" element={<Unauthorized />} />
               <Route path="/404" element={<NotFound />} />
               <Route path="*" element={<Navigate to="/404" replace />} />

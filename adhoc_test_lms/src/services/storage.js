@@ -2,6 +2,7 @@
 import { api } from "./api";
 import { getStorage, setStorage, removeStorage } from "../utils/storage";
 import { authStore } from "../utils/authStore";
+import { getDeviceDetails } from "../utils/fingerprint";
 
 // Keys for localStorage
 export const TOKEN_KEY = "lms_token";
@@ -104,7 +105,8 @@ export const StorageService = {
 
   login: async (email, password) => {
     try {
-      const data = await api.auth.login(email, password);
+      const deviceDetails = getDeviceDetails();
+      const data = await api.auth.login(email, password, deviceDetails);
 
       if (data.success) {
         StorageService.setToken(data.token);
@@ -118,6 +120,7 @@ export const StorageService = {
       console.error("Login error:", error);
       return {
         success: false,
+        code: error.data?.code || null,
         message: error.message || "Network error. Please try again.",
       };
     }
@@ -125,7 +128,8 @@ export const StorageService = {
 
   register: async (userData) => {
     try {
-      const data = await api.auth.register(userData);
+      const deviceDetails = getDeviceDetails();
+      const data = await api.auth.register(userData, deviceDetails);
 
       if (data.success) {
         StorageService.setToken(data.token);
@@ -142,6 +146,7 @@ export const StorageService = {
       console.error("Register error:", error);
       return {
         success: false,
+        code: error.data?.code || null,
         message: error.message || "Network error. Please try again.",
       };
     }

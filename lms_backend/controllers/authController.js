@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
-const { User, Subscription } = require('../models/associations');
+const { User, Subscription, UserDevice } = require('../models/associations');
 
 // Generate JWT Token
 const generateToken = (user) => {
@@ -15,13 +15,20 @@ const generateToken = (user) => {
 // Register User
 exports.register = async (req, res) => {
   try {
-    const { name, email, password, role = 'student', referralCode } = req.body;
+    const { name, email, password, role = 'student', referralCode, deviceFingerprint, deviceType, deviceName } = req.body;
 
     // Validate input
     if (!name || !email || !password) {
       return res.status(400).json({
         success: false,
         message: 'Please provide name, email and password',
+      });
+    }
+
+    if (role === 'student' && (!deviceFingerprint || !deviceType || !deviceName)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Device registration details are required.',
       });
     }
 
@@ -62,6 +69,18 @@ exports.register = async (req, res) => {
       availableDiscounts: referredById ? 1 : 0
     });
 
+    // Register the initial device
+    if (deviceFingerprint && deviceType && deviceName) {
+      await UserDevice.create({
+        userId: user.id,
+        deviceType,
+        deviceFingerprint,
+        deviceName,
+        isActive: true,
+        lastLogin: new Date()
+      });
+    }
+
     // Generate token
     const token = generateToken(user);
 
@@ -91,7 +110,7 @@ exports.register = async (req, res) => {
 // Login User
 exports.login = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { email, password, deviceFingerprint, deviceType, deviceName } = req.body;
 
     // Validate input
     if (!email || !password) {
@@ -117,6 +136,50 @@ exports.login = async (req, res) => {
         success: false,
         message: 'Invalid credentials',
       });
+    }
+
+    // Validate device if user is a student or device details are supplied
+    if (user.role === 'student' || (deviceFingerprint && deviceType)) {
+      if (!deviceFingerprint || !deviceType || !deviceName) {
+        return res.status(400).json({
+          success: false,
+          message: 'Device identification details are required.',
+        });
+      }
+
+      // Check if there is an active device of the same type
+      const activeDevice = await UserDevice.findOne({
+        where: {
+          userId: user.id,
+          deviceType,
+          isActive: true
+        }
+      });
+
+      if (activeDevice) {
+        // Compare fingerprints
+        if (activeDevice.deviceFingerprint !== deviceFingerprint) {
+          return res.status(403).json({
+            success: false,
+            code: 'DEVICE_LIMIT_EXCEEDED',
+            message: `Access denied. You already have a registered ${deviceType} device. Please contact support to authorize this device.`,
+          });
+        } else {
+          // Update lastLogin
+          activeDevice.lastLogin = new Date();
+          await activeDevice.save();
+        }
+      } else {
+        // Register new device
+        await UserDevice.create({
+          userId: user.id,
+          deviceType,
+          deviceFingerprint,
+          deviceName,
+          isActive: true,
+          lastLogin: new Date()
+        });
+      }
     }
 
     // Backfill referral code if missing for old users

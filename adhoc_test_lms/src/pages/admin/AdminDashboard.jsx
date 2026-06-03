@@ -14,6 +14,7 @@ import {
   ArrowUpRight,
   Search,
   MessageCircle,
+  Smartphone,
 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { api } from "../../services/api";
@@ -185,6 +186,13 @@ function AdminDashboardContent() {
             >
               <MessageCircle className="w-4 h-4" />
               Feedbacks
+            </Link>
+            <Link
+              to="/admin/devices"
+              className="px-8 py-4 bg-surface-container-low border border-surface-dim/20 rounded-2xl font-bold text-secondary text-sm hover:bg-surface-container transition-all flex items-center gap-2"
+            >
+              <Smartphone className="w-4 h-4" />
+              Devices
             </Link>
             <Link
               to="/admin/courses"
