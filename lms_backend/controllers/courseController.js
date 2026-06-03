@@ -1,14 +1,26 @@
 const { Course, Module, Lesson, Subscription,Quiz  } = require('../models/associations');
 const { Op } = require('sequelize');
 
+let cachedCourses = null;
+
+const clearCoursesCache = () => {
+  cachedCourses = null;
+};
+exports.clearCoursesCache = clearCoursesCache;
+
 // Get all courses (public)
 exports.getAllCourses = async (req, res) => {
   try {
-    // Get ALL courses regardless of login status
-    const courses = await Course.findAll({
-      attributes: ['id', 'title', 'description', 'thumbnail', 'price_1month', 'price_3months', 'price_6months', 'course_type', 'allowed_plan'],
-      order: [['createdAt', 'DESC']]
-    });
+    // Get ALL courses from cache or database
+    let courses = cachedCourses;
+    if (!courses) {
+      const dbCourses = await Course.findAll({
+        attributes: ['id', 'title', 'description', 'thumbnail', 'price_1month', 'price_3months', 'price_6months', 'course_type', 'allowed_plan'],
+        order: [['createdAt', 'DESC']]
+      });
+      courses = dbCourses.map(course => course.toJSON());
+      cachedCourses = courses;
+    }
 
     // If user is logged in, add access status
     let userAccess = {};
@@ -33,7 +45,7 @@ exports.getAllCourses = async (req, res) => {
 
     // Return ALL courses with access status
     const coursesWithAccess = courses.map(course => ({
-      ...course.toJSON(),
+      ...course,
       userAccess: userAccess[course.id] || { hasAccess: false }
     }));
 
@@ -230,6 +242,8 @@ exports.createCourse = async (req, res) => {
       allowed_plan: allowed_plan || '1month'
     });
 
+    clearCoursesCache();
+
     res.status(201).json({
       success: true,
       message: 'Course created successfully',
@@ -281,6 +295,8 @@ exports.updateCourse = async (req, res) => {
       allowed_plan: allowed_plan !== undefined ? allowed_plan : course.allowed_plan
     });
     
+    clearCoursesCache();
+    
     res.json({
       success: true,
       message: 'Course updated successfully',
@@ -320,6 +336,8 @@ exports.deleteCourse = async (req, res) => {
     }
     
     await course.destroy();
+    
+    clearCoursesCache();
     
     res.json({
       success: true,

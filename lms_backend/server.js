@@ -93,7 +93,24 @@ app.get('/health', (req, res) => {
 });
 
 // Serve static files from the React/Vite app (copied to the root dist folder)
-app.use(express.static(path.join(__dirname, '../dist')));
+// Set caching headers for optimized asset delivery:
+// - /assets (hashed JS/CSS/images) cached for 1 year (immutable)
+// - index.html and other dynamic files are never cached
+app.use(express.static(path.join(__dirname, '../dist'), {
+  maxAge: '1y',
+  setHeaders: (res, filePath) => {
+    const ext = path.extname(filePath).toLowerCase();
+    const isMediaOrFont = ['.webp', '.png', '.jpg', '.jpeg', '.gif', '.svg', '.ico', '.woff', '.woff2', '.ttf', '.eot'].includes(ext);
+
+    if (filePath.endsWith('.html')) {
+      res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+    } else if (/[\\/]assets[\\/]/.test(filePath) || filePath.includes('assets/') || isMediaOrFont) {
+      res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+    } else {
+      res.setHeader('Cache-Control', 'public, max-age=86400');
+    }
+  }
+}));
 
 // Serve index.html for all non-API paths (React Router fallback)
 // Note: In Express 5, catch-all routing requires a named parameter (e.g. /*splat)
@@ -101,6 +118,7 @@ app.get('/*splat', (req, res) => {
   if (req.path.startsWith('/api')) {
     return res.status(404).json({ success: false, message: 'API route not found' });
   }
+  res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
   res.sendFile(path.join(__dirname, '../dist/index.html'));
 });
 
@@ -120,7 +138,13 @@ const startDatabase = async () => {
   try {
     await sequelize.authenticate();
     console.log('Database connection has been established successfully.');
-    await sequelize.sync({ alter: true });
+    if (process.env.NODE_ENV === 'development' || process.env.SYNC_DB === 'true') {
+      await sequelize.sync({ alter: true });
+      console.log('Database synchronized with alter: true');
+    } else {
+      await sequelize.sync();
+      console.log('Database synchronized');
+    }
   } catch (error) {
     console.error('Database connection failed on startup:', error);
   }

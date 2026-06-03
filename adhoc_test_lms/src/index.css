@@ -54,8 +54,8 @@
   --text-4xl: clamp(2.25rem, 2rem + 1.25vw, 2.5rem);
   --text-5xl: clamp(3rem, 2.5rem + 2.5vw, 3.75rem);
 
-  --font-manrope: 'Manrope', sans-serif;
-  --font-inter: 'Inter', sans-serif;
+  --font-manrope: "Manrope", sans-serif;
+  --font-inter: "Inter", sans-serif;
 }
 
 .dark {
@@ -180,6 +180,11 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
+
+  .content-visibility-auto {
+    content-visibility: auto;
+    contain-intrinsic-size: 1px 500px;
+  }
 }
 
 .safe-bottom {
@@ -230,4 +235,16 @@
   font-weight: bold;
   color: var(--on-surface);
   font-size: 24px;
+}
+
+/* Ensure minimum touch target sizes for header, footer, and navigation links/buttons to pass accessibility audits */
+header a,
+header button,
+footer a,
+footer button,
+.safe-bottom a {
+  min-width: 44px;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
 }

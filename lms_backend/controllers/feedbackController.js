@@ -1,5 +1,12 @@
 const { Feedback, User } = require('../models/associations');
 
+let cachedHomeFeedbacks = null;
+
+const clearFeedbackCache = () => {
+  cachedHomeFeedbacks = null;
+};
+exports.clearFeedbackCache = clearFeedbackCache;
+
 exports.submitFeedback = async (req, res) => {
   try {
     const { content, rating } = req.body;
@@ -14,6 +21,8 @@ exports.submitFeedback = async (req, res) => {
       content,
       rating
     });
+
+    clearFeedbackCache();
 
     res.status(201).json({ success: true, data: feedback });
   } catch (error) {
@@ -48,6 +57,8 @@ exports.updateFeedbackDisplay = async (req, res) => {
     feedback.showOnHome = showOnHome;
     await feedback.save();
 
+    clearFeedbackCache();
+
     res.status(200).json({ success: true, data: feedback });
   } catch (error) {
     console.error('Error updating feedback:', error);
@@ -55,13 +66,19 @@ exports.updateFeedbackDisplay = async (req, res) => {
   }
 };
 
+// Get feedbacks configured to show on homepage
 exports.getHomeFeedbacks = async (req, res) => {
   try {
-    const feedbacks = await Feedback.findAll({
-      where: { showOnHome: true },
-      include: [{ model: User, as: 'user', attributes: ['name', 'role'] }],
-      order: [['createdAt', 'DESC']]
-    });
+    let feedbacks = cachedHomeFeedbacks;
+    if (!feedbacks) {
+      const dbFeedbacks = await Feedback.findAll({
+        where: { showOnHome: true },
+        include: [{ model: User, as: 'user', attributes: ['name', 'role'] }],
+        order: [['createdAt', 'DESC']]
+      });
+      feedbacks = dbFeedbacks.map(f => f.toJSON());
+      cachedHomeFeedbacks = feedbacks;
+    }
     res.status(200).json({ success: true, data: feedbacks });
   } catch (error) {
     console.error('Error fetching home feedbacks:', error);
@@ -78,6 +95,9 @@ exports.deleteFeedback = async (req, res) => {
     }
     
     await feedback.destroy();
+    
+    clearFeedbackCache();
+    
     res.status(200).json({ success: true, message: 'Feedback deleted successfully.' });
   } catch (error) {
     console.error('Error deleting feedback:', error);
