@@ -13,17 +13,21 @@ self.addEventListener("activate", (event) => {
 self.addEventListener("fetch", (event) => {
   const url = new URL(event.request.url);
   if (url.origin === location.origin) {
-    event.respondWith(
-      caches.open("static-assets").then((cache) =>
-        cache.match(event.request).then(
-          (response) =>
-            response ||
-            fetch(event.request).then((networkResponse) => {
-              cache.put(event.request, networkResponse.clone());
-              return networkResponse;
-            }),
+    if (event.request.method === "GET" && !url.pathname.startsWith("/api")) {
+      event.respondWith(
+        caches.open("static-assets").then((cache) =>
+          cache.match(event.request).then(
+            (response) =>
+              response ||
+              fetch(event.request).then((networkResponse) => {
+                if (networkResponse.status === 200) {
+                  cache.put(event.request, networkResponse.clone());
+                }
+                return networkResponse;
+              }),
+          ),
         ),
-      ),
-    );
+      );
+    }
   }
 });

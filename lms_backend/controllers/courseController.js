@@ -1,26 +1,20 @@
 const { Course, Module, Lesson, Subscription,Quiz  } = require('../models/associations');
 const { Op } = require('sequelize');
 
-let cachedCourses = null;
-
 const clearCoursesCache = () => {
-  cachedCourses = null;
+  // Cache disabled to ensure direct database modifications are immediately visible
 };
 exports.clearCoursesCache = clearCoursesCache;
 
 // Get all courses (public)
 exports.getAllCourses = async (req, res) => {
   try {
-    // Get ALL courses from cache or database
-    let courses = cachedCourses;
-    if (!courses) {
-      const dbCourses = await Course.findAll({
-        attributes: ['id', 'title', 'description', 'thumbnail', 'price_1month', 'price_3months', 'price_6months', 'course_type', 'allowed_plan'],
-        order: [['createdAt', 'DESC']]
-      });
-      courses = dbCourses.map(course => course.toJSON());
-      cachedCourses = courses;
-    }
+    // Get ALL courses directly from the database to avoid stale cache issues
+    const dbCourses = await Course.findAll({
+      attributes: ['id', 'title', 'description', 'thumbnail', 'price_1month', 'price_3months', 'price_6months', 'course_type', 'allowed_plan'],
+      order: [['createdAt', 'DESC']]
+    });
+    const courses = dbCourses.map(course => course.toJSON());
 
     // If user is logged in, add access status
     let userAccess = {};

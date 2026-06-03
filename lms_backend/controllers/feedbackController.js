@@ -1,9 +1,7 @@
 const { Feedback, User } = require('../models/associations');
 
-let cachedHomeFeedbacks = null;
-
 const clearFeedbackCache = () => {
-  cachedHomeFeedbacks = null;
+  // Cache disabled to ensure direct database modifications are immediately visible
 };
 exports.clearFeedbackCache = clearFeedbackCache;
 
@@ -69,16 +67,13 @@ exports.updateFeedbackDisplay = async (req, res) => {
 // Get feedbacks configured to show on homepage
 exports.getHomeFeedbacks = async (req, res) => {
   try {
-    let feedbacks = cachedHomeFeedbacks;
-    if (!feedbacks) {
-      const dbFeedbacks = await Feedback.findAll({
-        where: { showOnHome: true },
-        include: [{ model: User, as: 'user', attributes: ['name', 'role'] }],
-        order: [['createdAt', 'DESC']]
-      });
-      feedbacks = dbFeedbacks.map(f => f.toJSON());
-      cachedHomeFeedbacks = feedbacks;
-    }
+    // Fetch directly from the database to avoid stale cache issues
+    const dbFeedbacks = await Feedback.findAll({
+      where: { showOnHome: true },
+      include: [{ model: User, as: 'user', attributes: ['name', 'role'] }],
+      order: [['createdAt', 'DESC']]
+    });
+    const feedbacks = dbFeedbacks.map(f => f.toJSON());
     res.status(200).json({ success: true, data: feedbacks });
   } catch (error) {
     console.error('Error fetching home feedbacks:', error);

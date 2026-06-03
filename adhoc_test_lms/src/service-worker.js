@@ -16,19 +16,23 @@ self.addEventListener("fetch", (event) => {
   const url = new URL(event.request.url);
   // Cache-first strategy for same-origin assets (CSS, JS, images)
   if (url.origin === location.origin) {
-    event.respondWith(
-      caches.open("static-assets").then((cache) => {
-        return cache.match(event.request).then((response) => {
-          return (
-            response ||
-            fetch(event.request).then((networkResponse) => {
-              cache.put(event.request, networkResponse.clone());
-              return networkResponse;
-            })
-          );
-        });
-      }),
-    );
+    if (event.request.method === "GET" && !url.pathname.startsWith("/api")) {
+      event.respondWith(
+        caches.open("static-assets").then((cache) => {
+          return cache.match(event.request).then((response) => {
+            return (
+              response ||
+              fetch(event.request).then((networkResponse) => {
+                if (networkResponse.status === 200) {
+                  cache.put(event.request, networkResponse.clone());
+                }
+                return networkResponse;
+              })
+            );
+          });
+        }),
+      );
+    }
   } else {
     // Network-first for cross-origin requests with graceful fallback
     event.respondWith(
