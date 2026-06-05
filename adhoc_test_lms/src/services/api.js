@@ -31,7 +31,7 @@ const handleResponse = async (response) => {
     window.dispatchEvent(
       new CustomEvent("storage-update-lms_auth", { detail: null }),
     );
-    throw new ApiError("Session expired. Please login again.", 401);
+    throw new ApiError("Invalid credentials", 401);
   }
 
   if (!response.ok) {
