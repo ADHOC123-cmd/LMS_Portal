@@ -77,7 +77,7 @@ export function Footer() {
             </p>
             <div className="flex items-center gap-4">
               {[
-                { Icon: XIcon, href: "#", label: "X (Twitter)" },
+                { Icon: XIcon, href: "https://x.com/adhocnetwork05?s=11", label: "X (Twitter)" },
                 {
                   Icon: Instagram,
                   href: "https://www.instagram.com/adhocnetworktech?igsh=MXFkcXZqb2w2ajRubg%3D%3D&utm_source=qr",
