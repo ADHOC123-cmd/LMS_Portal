@@ -155,6 +155,7 @@ export function ChatbotWidget() {
                   dragControls.start(e);
                 }
               }}
+              style={{ touchAction: "none" }}
               className="signature-gradient p-5 text-white flex justify-between items-center relative overflow-hidden cursor-grab active:cursor-grabbing select-none"
             >
               {/* Background Glow */}
