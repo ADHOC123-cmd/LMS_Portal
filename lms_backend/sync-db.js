@@ -67,6 +67,31 @@ async function syncDatabase() {
         throw err;
       }
     }
+
+    // 6. Try to add refreshToken column to user_devices table
+    try {
+      await sequelize.query("ALTER TABLE user_devices ADD COLUMN refreshToken VARCHAR(500) NULL;");
+      console.log('Added refreshToken column to user_devices successfully.');
+    } catch (err) {
+      if (err.parent && (err.parent.code === 'ER_DUP_FIELDNAME' || err.parent.errno === 1060)) {
+        console.log('refreshToken column already exists.');
+      } else {
+        throw err;
+      }
+    }
+
+    // 7. Try to add refreshTokenExpiresAt column to user_devices table
+    try {
+      await sequelize.query("ALTER TABLE user_devices ADD COLUMN refreshTokenExpiresAt DATETIME NULL;");
+      console.log('Added refreshTokenExpiresAt column to user_devices successfully.');
+    } catch (err) {
+      if (err.parent && (err.parent.code === 'ER_DUP_FIELDNAME' || err.parent.errno === 1060)) {
+        console.log('refreshTokenExpiresAt column already exists.');
+      } else {
+        throw err;
+      }
+    }
+
     
     // 2. Try to add foreign key constraint for moduleId
     try {

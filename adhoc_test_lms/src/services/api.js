@@ -13,7 +13,19 @@ export class ApiError extends Error {
   }
 }
 
-const handleResponse = async (response) => {
+let isRefreshing = false;
+let refreshSubscribers = [];
+
+const subscribeTokenRefresh = (cb) => {
+  refreshSubscribers.push(cb);
+};
+
+const onRefreshed = (token) => {
+  refreshSubscribers.forEach((cb) => cb(token));
+  refreshSubscribers = [];
+};
+
+const handleResponse = async (response, originalRequestConfig) => {
   if (response.status === 401) {
     // If it's a login request, don't clear local storage and show the specific error message
     if (response.url && response.url.includes('/auth/login')) {
@@ -25,13 +37,80 @@ const handleResponse = async (response) => {
       );
     }
 
-    // Unauthorized - clear session
-    localStorage.removeItem("lms_token");
-    localStorage.removeItem("lms_user");
-    window.dispatchEvent(
-      new CustomEvent("storage-update-lms_auth", { detail: null }),
-    );
-    throw new ApiError("Invalid credentials", 401);
+    // If it's the refresh token endpoint itself, clear session and throw to prevent infinite loops
+    if (response.url && response.url.includes('/auth/refresh')) {
+      localStorage.removeItem("lms_token");
+      localStorage.removeItem("lms_refresh_token");
+      localStorage.removeItem("lms_user");
+      window.dispatchEvent(
+        new CustomEvent("storage-update-lms_auth", { detail: null }),
+      );
+      throw new ApiError("Session expired", 401);
+    }
+
+    const refreshToken = localStorage.getItem("lms_refresh_token");
+    if (!refreshToken) {
+      // Unauthorized - clear session
+      localStorage.removeItem("lms_token");
+      localStorage.removeItem("lms_refresh_token");
+      localStorage.removeItem("lms_user");
+      window.dispatchEvent(
+        new CustomEvent("storage-update-lms_auth", { detail: null }),
+      );
+      throw new ApiError("Session expired. Please login again.", 401);
+    }
+
+    if (!isRefreshing) {
+      isRefreshing = true;
+      api.auth.refresh(refreshToken)
+        .then((data) => {
+          isRefreshing = false;
+          if (data.success && data.token) {
+            localStorage.setItem("lms_token", data.token);
+            if (data.refreshToken) {
+              localStorage.setItem("lms_refresh_token", data.refreshToken);
+            }
+            onRefreshed(data.token);
+          } else {
+            // Refresh failed
+            localStorage.removeItem("lms_token");
+            localStorage.removeItem("lms_refresh_token");
+            localStorage.removeItem("lms_user");
+            window.dispatchEvent(
+              new CustomEvent("storage-update-lms_auth", { detail: null }),
+            );
+            onRefreshed(null);
+          }
+        })
+        .catch(() => {
+          isRefreshing = false;
+          localStorage.removeItem("lms_token");
+          localStorage.removeItem("lms_refresh_token");
+          localStorage.removeItem("lms_user");
+          window.dispatchEvent(
+            new CustomEvent("storage-update-lms_auth", { detail: null }),
+          );
+          onRefreshed(null);
+        });
+    }
+
+    // Return a promise that waits for the refresh to complete and retries the original request
+    return new Promise((resolve, reject) => {
+      subscribeTokenRefresh((newToken) => {
+        if (newToken) {
+          // Clone request options and update authorization header
+          const newOptions = { ...originalRequestConfig };
+          newOptions.headers = {
+            ...newOptions.headers,
+            'Authorization': `Bearer ${newToken}`
+          };
+          // Retry the request
+          resolve(fetch(response.url, newOptions).then((res) => handleResponse(res, newOptions)));
+        } else {
+          reject(new ApiError("Session expired. Please login again.", 401));
+        }
+      });
+    });
   }
 
   if (!response.ok) {
@@ -59,18 +138,21 @@ const request = async (endpoint, options = {}) => {
     ...customOptions.headers,
   };
 
-  if (token) {
-    headers["Authorization"] = `Bearer ${token}`;
+  const currentToken = localStorage.getItem("lms_token") || token;
+  if (currentToken) {
+    headers["Authorization"] = `Bearer ${currentToken}`;
   }
 
-  const response = await fetch(`${API_URL}${endpoint}`, {
+  const fetchOptions = {
     method,
     headers,
     body: body ? JSON.stringify(body) : undefined,
     ...customOptions,
-  });
+  };
 
-  return handleResponse(response);
+  const response = await fetch(`${API_URL}${endpoint}`, fetchOptions);
+
+  return handleResponse(response, fetchOptions);
 };
 
 export const api = {
@@ -81,6 +163,9 @@ export const api = {
 
     register: (userData, deviceDetails = {}) =>
       request("/auth/register", { method: "POST", body: { ...userData, ...deviceDetails } }),
+
+    refresh: (refreshToken) =>
+      request("/auth/refresh", { method: "POST", body: { refreshToken } }),
 
     getMe: (token) => request("/auth/me", { token }),
 

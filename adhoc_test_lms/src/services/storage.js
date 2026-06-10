@@ -6,6 +6,7 @@ import { getDeviceDetails } from "../utils/fingerprint";
 
 // Keys for localStorage
 export const TOKEN_KEY = "lms_token";
+export const REFRESH_TOKEN_KEY = "lms_refresh_token";
 export const USER_KEY = "lms_user";
 export const FAVORITES_KEY = "lms_favorites";
 export const AUTH_KEY = "lms_auth";
@@ -47,6 +48,14 @@ export const StorageService = {
   getToken: () => getStorage(TOKEN_KEY),
 
   removeToken: () => removeStorage(TOKEN_KEY),
+
+  setRefreshToken: (token) => {
+    if (token) setStorage(REFRESH_TOKEN_KEY, token);
+  },
+
+  getRefreshToken: () => getStorage(REFRESH_TOKEN_KEY),
+
+  removeRefreshToken: () => removeStorage(REFRESH_TOKEN_KEY),
 
   setUser: (user) => {
     if (user) setStorage(USER_KEY, user);
@@ -110,6 +119,7 @@ export const StorageService = {
 
       if (data.success) {
         StorageService.setToken(data.token);
+        StorageService.setRefreshToken(data.refreshToken);
         StorageService.setUser(data.user);
         authStore.notify(data.user);
         return { success: true, user: data.user };
@@ -133,6 +143,7 @@ export const StorageService = {
 
       if (data.success) {
         StorageService.setToken(data.token);
+        StorageService.setRefreshToken(data.refreshToken);
         StorageService.setUser(data.user);
         authStore.notify(data.user);
         return { success: true, user: data.user };
@@ -178,6 +189,7 @@ export const StorageService = {
 
   logout: () => {
     StorageService.removeToken();
+    StorageService.removeRefreshToken();
     StorageService.removeUser();
     authStore.notify(null);
   },

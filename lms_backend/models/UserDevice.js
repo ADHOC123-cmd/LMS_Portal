@@ -39,6 +39,14 @@ const UserDevice = sequelize.define('UserDevice', {
     type: DataTypes.STRING,
     allowNull: true,
   },
+  refreshToken: {
+    type: DataTypes.STRING(500),
+    allowNull: true,
+  },
+  refreshTokenExpiresAt: {
+    type: DataTypes.DATE,
+    allowNull: true,
+  },
   lastLogin: {
     type: DataTypes.DATE,
     defaultValue: DataTypes.NOW,

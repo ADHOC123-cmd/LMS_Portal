@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 const { User, Subscription, UserDevice } = require('../models/associations');
 
-// Generate JWT Token
+// Generate JWT Token (Access Token)
 const generateToken = (user, deviceFingerprint = null, deviceType = null) => {
   return jwt.sign(
     { 
@@ -14,9 +14,15 @@ const generateToken = (user, deviceFingerprint = null, deviceType = null) => {
       deviceType 
     },
     process.env.JWT_SECRET,
-    { expiresIn: '30d' }
+    { expiresIn: '15m' }
   );
 };
+
+// Generate Refresh Token
+const generateRefreshToken = () => {
+  return crypto.randomBytes(40).toString('hex');
+};
+
 
 // Register User
 exports.register = async (req, res) => {
@@ -76,7 +82,12 @@ exports.register = async (req, res) => {
     });
 
     // Register the initial device
+    let refreshToken = null;
     if (role === 'student') {
+      refreshToken = generateRefreshToken();
+      const refreshTokenExpiresAt = new Date();
+      refreshTokenExpiresAt.setDate(refreshTokenExpiresAt.getDate() + 30);
+
       await UserDevice.create({
         userId: user.id,
         deviceType: finalDeviceType,
@@ -84,7 +95,9 @@ exports.register = async (req, res) => {
         deviceName: finalDeviceName,
         ipAddress: ip,
         isActive: true,
-        lastLogin: new Date()
+        lastLogin: new Date(),
+        refreshToken,
+        refreshTokenExpiresAt
       });
     }
 
@@ -95,6 +108,7 @@ exports.register = async (req, res) => {
       success: true,
       message: 'User registered successfully',
       token,
+      refreshToken,
       user: {
         id: user.id,
         name: user.name,
@@ -152,6 +166,11 @@ exports.login = async (req, res) => {
     const finalDeviceType = deviceType || (/mobile|android|iphone|ipad/i.test(userAgent) ? 'mobile' : 'desktop');
     const finalDeviceName = deviceName || (userAgent !== 'unknown' ? userAgent.substring(0, 50) : 'Unknown Device');
 
+    // Generate a fresh refresh token
+    const refreshToken = generateRefreshToken();
+    const refreshTokenExpiresAt = new Date();
+    refreshTokenExpiresAt.setDate(refreshTokenExpiresAt.getDate() + 30); // 30 days
+
     // Validate device if user is a student or device details are supplied
     if (user.role === 'student' || (deviceFingerprint && deviceType)) {
       // Check if there is an active device of the same type
@@ -172,6 +191,8 @@ exports.login = async (req, res) => {
           if (activeDevice.ipAddress && activeDevice.ipAddress === ip && ip !== 'unknown') {
             activeDevice.deviceFingerprint = finalDeviceFingerprint;
             activeDevice.lastLogin = new Date();
+            activeDevice.refreshToken = refreshToken;
+            activeDevice.refreshTokenExpiresAt = refreshTokenExpiresAt;
             await activeDevice.save();
           } else {
             return res.status(403).json({
@@ -184,6 +205,8 @@ exports.login = async (req, res) => {
           // Update lastLogin and update IP address in case it changed
           activeDevice.lastLogin = new Date();
           activeDevice.ipAddress = ip;
+          activeDevice.refreshToken = refreshToken;
+          activeDevice.refreshTokenExpiresAt = refreshTokenExpiresAt;
           await activeDevice.save();
         }
       } else {
@@ -195,7 +218,9 @@ exports.login = async (req, res) => {
           deviceName: finalDeviceName,
           ipAddress: ip,
           isActive: true,
-          lastLogin: new Date()
+          lastLogin: new Date(),
+          refreshToken,
+          refreshTokenExpiresAt
         });
       }
     }
@@ -214,6 +239,7 @@ exports.login = async (req, res) => {
       success: true,
       message: 'Login successful',
       token,
+      refreshToken: (user.role === 'student' || (deviceFingerprint && deviceType)) ? refreshToken : null,
       user: {
         id: user.id,
         name: user.name,
@@ -258,3 +284,72 @@ exports.getMe = async (req, res) => {
     });
   }
 };
+
+// Refresh Access Token
+exports.refreshToken = async (req, res) => {
+  try {
+    const { refreshToken } = req.body;
+
+    if (!refreshToken) {
+      return res.status(400).json({
+        success: false,
+        message: 'Refresh token is required'
+      });
+    }
+
+    // Find the device associated with this active refresh token
+    const device = await UserDevice.findOne({
+      where: {
+        refreshToken,
+        isActive: true
+      },
+      include: [{ model: User, as: 'user' }]
+    });
+
+    if (!device || !device.user) {
+      return res.status(401).json({
+        success: false,
+        message: 'Invalid or expired session. Please log in again.'
+      });
+    }
+
+    // Check if refresh token is expired
+    if (device.refreshTokenExpiresAt && new Date() > new Date(device.refreshTokenExpiresAt)) {
+      // Clear the expired token
+      device.refreshToken = null;
+      device.refreshTokenExpiresAt = null;
+      await device.save();
+
+      return res.status(401).json({
+        success: false,
+        message: 'Session expired. Please log in again.'
+      });
+    }
+
+    // Generate new access token
+    const newAccessToken = generateToken(device.user, device.deviceFingerprint, device.deviceType);
+
+    // Rotate the refresh token for security
+    const newRefreshToken = generateRefreshToken();
+    const newExpiresAt = new Date();
+    newExpiresAt.setDate(newExpiresAt.getDate() + 30); // 30 days expiry
+
+    device.refreshToken = newRefreshToken;
+    device.refreshTokenExpiresAt = newExpiresAt;
+    device.lastLogin = new Date();
+    await device.save();
+
+    res.json({
+      success: true,
+      token: newAccessToken,
+      refreshToken: newRefreshToken
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Server error',
+      error: error.message
+    });
+  }
+};
+

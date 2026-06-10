@@ -164,6 +164,31 @@ const startDatabase = async () => {
       }
     }
 
+    // Implicitly add refreshToken column to user_devices table if it does not exist
+    try {
+      await sequelize.query("ALTER TABLE user_devices ADD COLUMN refreshToken VARCHAR(500) NULL;");
+      console.log('Implicitly added refreshToken column to user_devices table.');
+    } catch (err) {
+      if (err.parent && (err.parent.code === 'ER_DUP_FIELDNAME' || err.parent.errno === 1060)) {
+        console.log('refreshToken column already exists in user_devices table.');
+      } else {
+        console.error('Failed to implicitly add refreshToken column:', err.message);
+      }
+    }
+
+    // Implicitly add refreshTokenExpiresAt column to user_devices table if it does not exist
+    try {
+      await sequelize.query("ALTER TABLE user_devices ADD COLUMN refreshTokenExpiresAt DATETIME NULL;");
+      console.log('Implicitly added refreshTokenExpiresAt column to user_devices table.');
+    } catch (err) {
+      if (err.parent && (err.parent.code === 'ER_DUP_FIELDNAME' || err.parent.errno === 1060)) {
+        console.log('refreshTokenExpiresAt column already exists in user_devices table.');
+      } else {
+        console.error('Failed to implicitly add refreshTokenExpiresAt column:', err.message);
+      }
+    }
+
+
     if (process.env.NODE_ENV === 'development' || process.env.SYNC_DB === 'true') {
       await sequelize.sync({ alter: true });
       console.log('Database synchronized with alter: true');
