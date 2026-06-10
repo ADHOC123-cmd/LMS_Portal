@@ -1,4 +1,5 @@
-// src/services/api.js
+import { authStore } from "../utils/authStore";
+
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
 
 /**
@@ -42,6 +43,7 @@ const handleResponse = async (response, originalRequestConfig) => {
       localStorage.removeItem("lms_token");
       localStorage.removeItem("lms_refresh_token");
       localStorage.removeItem("lms_user");
+      authStore.notify(null);
       window.dispatchEvent(
         new CustomEvent("storage-update-lms_auth", { detail: null }),
       );
@@ -54,6 +56,7 @@ const handleResponse = async (response, originalRequestConfig) => {
       localStorage.removeItem("lms_token");
       localStorage.removeItem("lms_refresh_token");
       localStorage.removeItem("lms_user");
+      authStore.notify(null);
       window.dispatchEvent(
         new CustomEvent("storage-update-lms_auth", { detail: null }),
       );
@@ -76,6 +79,7 @@ const handleResponse = async (response, originalRequestConfig) => {
             localStorage.removeItem("lms_token");
             localStorage.removeItem("lms_refresh_token");
             localStorage.removeItem("lms_user");
+            authStore.notify(null);
             window.dispatchEvent(
               new CustomEvent("storage-update-lms_auth", { detail: null }),
             );
@@ -87,6 +91,7 @@ const handleResponse = async (response, originalRequestConfig) => {
           localStorage.removeItem("lms_token");
           localStorage.removeItem("lms_refresh_token");
           localStorage.removeItem("lms_user");
+          authStore.notify(null);
           window.dispatchEvent(
             new CustomEvent("storage-update-lms_auth", { detail: null }),
           );

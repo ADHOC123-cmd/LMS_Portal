@@ -15,6 +15,8 @@ import { Footer } from "./components/layout/Footer";
 import { BottomNav } from "./components/layout/BottomNav";
 import Home from "./pages/public/Home";
 import { ChatbotWidget } from "./components/chatbot/ChatbotWidget";
+import { api } from "./services/api";
+import { authStore } from "./utils/authStore";
 
 // Lazy Pages
 const Catalog = React.lazy(() => import("./pages/public/Catalog"));
@@ -55,6 +57,37 @@ const AboutUs = React.lazy(() => import("./components/AboutUs"));
 import { ErrorBoundary } from "./components/common/ErrorBoundary";
 
 function App() {
+  React.useEffect(() => {
+    const checkSession = async () => {
+      const state = authStore.getState();
+      if (state.isAuthenticated) {
+        try {
+          await api.auth.getMe();
+        } catch (err) {
+          // 401 response is handled by api.js interceptor automatically
+          console.warn("Session auto-validation failed:", err.message);
+        }
+      }
+    };
+
+    // Initial check on mount
+    checkSession();
+
+    // Check periodically every 30 seconds
+    const interval = setInterval(checkSession, 30000);
+
+    // Check when window gains focus
+    const handleFocus = () => {
+      checkSession();
+    };
+    window.addEventListener("focus", handleFocus);
+
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener("focus", handleFocus);
+    };
+  }, []);
+
   return (
     <ErrorBoundary>
       <Router>
