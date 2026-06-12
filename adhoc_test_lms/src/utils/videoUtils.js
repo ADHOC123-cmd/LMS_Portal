@@ -10,9 +10,16 @@ export function getEmbedUrl(url) {
     const pathname = urlObj.pathname;
 
     // --- Vimeo ---
-    const vimeoMatch = url.match(/vimeo\.com\/(\d+)/);
+    // Matches standard Vimeo URLs (vimeo.com/123456) and unlisted/private ones with a hash (vimeo.com/123456/abcdef1234)
+    const vimeoMatch = url.match(/vimeo\.com\/(\d+)(?:\/([a-zA-Z0-9]+))?/);
     if (vimeoMatch) {
-      return `https://player.vimeo.com/video/${vimeoMatch[1]}?autoplay=1&badge=0&byline=0&portrait=0&title=0`;
+      const videoId = vimeoMatch[1];
+      const hash = vimeoMatch[2];
+      let embedUrl = `https://player.vimeo.com/video/${videoId}?autoplay=1&badge=0&byline=0&portrait=0&title=0`;
+      if (hash) {
+        embedUrl += `&h=${hash}`;
+      }
+      return embedUrl;
     }
 
     // --- YouTube ---
