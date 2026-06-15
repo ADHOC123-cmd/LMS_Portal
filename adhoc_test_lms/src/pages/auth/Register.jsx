@@ -100,7 +100,7 @@ export default function Register() {
             </div>
             <div className="space-y-3">
               <a 
-                href={`mailto:support@adhocnetwork.tech?subject=Device Access Reset Request&body=Hi Support,%0D%0A%0D%0AI would like to request a reset of my registered device for account: ${formData.email}`}
+                href={`mailto:daniel@adhocnetwork.tech?subject=Device Access Reset Request&body=Hi Support,%0D%0A%0D%0AI would like to request a reset of my registered device for account: ${formData.email}`}
                 className="block w-full py-3 signature-gradient text-white rounded-xl font-bold hover:opacity-90 transition-all text-sm"
               >
                 Email Support Request
