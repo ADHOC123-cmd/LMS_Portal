@@ -53,7 +53,7 @@ export function Footer() {
       <div className="max-w-7xl mx-auto px-4 sm:px-8 relative z-10">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-y-12 sm:gap-x-8 lg:gap-x-12 lg:gap-y-8 mb-16 md:mb-20">
           {/* Brand Shard */}
-          <div className="sm:col-span-2 lg:col-span-4">
+          <div className="sm:col-span-2 lg:col-span-3">
             <Link
               to="/"
               className="inline-flex items-center gap-3 mb-6 sm:mb-8 group"
@@ -107,7 +107,7 @@ export function Footer() {
           </div>
 
           {/* Newsletter Signup */}
-          <div className="sm:col-span-2 lg:col-span-4">
+          <div className="sm:col-span-2 lg:col-span-3">
             <h2 className="text-[10px] sm:text-xs font-bold text-primary uppercase tracking-[0.3em] mb-6 sm:mb-8 italic">
               Newsletter
             </h2>
@@ -143,7 +143,7 @@ export function Footer() {
           </div>
 
           {/* Contact Base */}
-          <div className="sm:col-span-2 lg:col-span-4">
+          <div className="sm:col-span-2 lg:col-span-3">
             <h2 className="text-xs font-bold text-primary uppercase tracking-[0.3em] mb-6 sm:mb-8 italic">
               Base
             </h2>
@@ -178,6 +178,25 @@ export function Footer() {
                 </span>
               </li>
             </ul>
+          </div>
+
+          {/* Location Map */}
+          <div className="sm:col-span-2 lg:col-span-3">
+            <h2 className="text-xs font-bold text-primary uppercase tracking-[0.3em] mb-6 sm:mb-8 italic">
+              Map Location
+            </h2>
+            <div className="w-full h-48 rounded-2xl overflow-hidden border border-outline-variant shadow-sm">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3798.619497471326!2d83.38521197464533!3d17.809571183151437!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a395b2fdd660765%3A0xb60e68803c5ce302!2sAdhoc%20Network!5e0!3m2!1sen!2sin!4v1781865483499!5m2!1sen!2sin"
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                allowFullScreen=""
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                title="Adhoc Network Office Map"
+              />
+            </div>
           </div>
         </div>
 
