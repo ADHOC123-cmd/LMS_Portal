@@ -434,3 +434,44 @@ exports.getQuestion = async (req, res) => {
     });
   }
 };
+
+// Admin: Reorder quizzes
+exports.reorderQuizzes = async (req, res) => {
+  try {
+    const { items } = req.body;
+
+    if (!items || !Array.isArray(items)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Items array is required'
+      });
+    }
+
+    const { sequelize } = require('../models/associations');
+
+    await sequelize.transaction(async (t) => {
+      for (const item of items) {
+        const { id, order } = item;
+        await Quiz.update(
+          { order },
+          { 
+            where: { id },
+            transaction: t
+          }
+        );
+      }
+    });
+
+    res.json({
+      success: true,
+      message: 'Quizzes reordered successfully'
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Server error',
+      error: error.message
+    });
+  }
+};
+

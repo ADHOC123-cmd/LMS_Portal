@@ -151,3 +151,44 @@ exports.deleteModule = async (req, res) => {
     });
   }
 };
+
+// Admin: Reorder modules
+exports.reorderModules = async (req, res) => {
+  try {
+    const { items } = req.body;
+
+    if (!items || !Array.isArray(items)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Items array is required'
+      });
+    }
+
+    const { sequelize } = require('../models/associations');
+    
+    await sequelize.transaction(async (t) => {
+      for (const item of items) {
+        const { id, order } = item;
+        await Module.update(
+          { order },
+          { 
+            where: { id },
+            transaction: t
+          }
+        );
+      }
+    });
+
+    res.json({
+      success: true,
+      message: 'Modules reordered successfully'
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Server error',
+      error: error.message
+    });
+  }
+};
+

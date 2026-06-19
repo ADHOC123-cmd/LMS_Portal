@@ -7,6 +7,7 @@ const lessonController = require('../controllers/lessonController');
 const adminStatsController = require('../controllers/adminStatsController');
 const analyticsController = require('../controllers/analyticsController');
 const deviceController = require('../controllers/deviceController');
+const quizController = require('../controllers/quizController');
 
 // All admin routes require authentication and admin role
 router.use(protect);
@@ -28,13 +29,18 @@ router.get('/analytics', analyticsController.getAnalytics);
 
 // Module routes
 router.post('/courses/:courseId/modules', moduleController.addModule);
+router.put('/modules/reorder', moduleController.reorderModules);
 router.put('/modules/:id', moduleController.updateModule);
 router.delete('/modules/:id', moduleController.deleteModule);
 
 // Lesson routes
 router.post('/modules/:moduleId/lessons', lessonController.addLesson);
+router.put('/lessons/reorder', lessonController.reorderLessons);
 router.put('/lessons/:id', lessonController.updateLesson);
 router.delete('/lessons/:id', lessonController.deleteLesson);
+
+// Quiz reordering route
+router.put('/quizzes/reorder', quizController.reorderQuizzes);
 
 // Database synchronization route
 router.post('/sync-db', async (req, res) => {
