@@ -508,7 +508,7 @@ export default function CourseDetail() {
                   <>
                     <div className="mb-6">
                       <span className="text-[10px] font-bold text-secondary uppercase tracking-[0.3em] block mb-2">
-                        Selected Plan
+                        Plan Details
                       </span>
                       <div className="w-full p-4 rounded-xl border-2 border-primary bg-primary/5 text-left">
                         <div className="flex justify-between items-center">
