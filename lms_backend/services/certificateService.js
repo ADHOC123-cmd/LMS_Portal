@@ -89,21 +89,21 @@ exports.generatePDF = async (certificateId) => {
     }
     
     // Add Logo Image
-    const logoPath = path.join(__dirname, '../assets/logo.jpg');
+    const logoPath = path.join(__dirname, '../assets/logo.png');
     if (fs.existsSync(logoPath)) {
-      doc.image(logoPath, 100, 65, { width: 70, height: 70 });
+      doc.image(logoPath, 100, 50, { width: 90, height: 90 });
     }
     
-    // Add header text next to logo
+    // Add header text centered on the page
     doc.fontSize(46)
        .font('Helvetica-Bold')
        .fillColor('#0d3a78')
-       .text('CERTIFICATE', 185, 65);
+       .text('CERTIFICATE', 0, 55, { align: 'center', width: doc.page.width });
     
     doc.fontSize(20)
        .font('Helvetica-Bold')
        .fillColor('#0d3a78')
-       .text('OF COMPLETION', 185, 115, { characterSpacing: 4 });
+       .text('OF COMPLETION', 0, 105, { characterSpacing: 4, align: 'center', width: doc.page.width });
     
     // Add presenter subtitle
     doc.fontSize(16)
@@ -144,6 +144,11 @@ exports.generatePDF = async (certificateId) => {
        .lineWidth(1)
        .stroke();
        
+    const sigPath = path.join(__dirname, '../assets/signature.png');
+    if (fs.existsSync(sigPath)) {
+      doc.image(sigPath, doc.page.width / 2 - 60, sigLineY - 45, { width: 120 });
+    }
+       
     doc.fontSize(13)
        .font('Helvetica-Bold')
        .fillColor('#111111')
@@ -157,7 +162,7 @@ exports.generatePDF = async (certificateId) => {
     const metaY = 525;
     doc.fontSize(8)
        .font('Helvetica')
-       .fillColor('#777777')
+       .fillColor('#373737')
        .text(`Certificate No: ${certificate.certificateNumber}`, 50, metaY)
        .text(`Verification Code: ${certificate.verificationCode}`, 50, metaY + 11)
        .text(`Issue Date: ${new Date(certificate.issueDate).toLocaleDateString()}`, 50, metaY + 22);
