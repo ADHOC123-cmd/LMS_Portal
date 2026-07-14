@@ -104,7 +104,8 @@ export const StorageService = {
   removeUser: () => removeStorage(USER_KEY),
 
   isAuthenticated: () => {
-    return !!StorageService.getToken();
+    const token = StorageService.getToken();
+    return !!token && token !== "undefined" && token !== "null";
   },
 
   getAuthState: () => ({
@@ -456,7 +457,7 @@ export const StorageService = {
           rzp.open();
         } catch (error) {
           console.error("Enroll error:", error);
-          resolve({ success: false, message: "Network error" });
+          resolve({ success: false, message: error.message || "Network error" });
         }
       };
       initiateEnrollment();

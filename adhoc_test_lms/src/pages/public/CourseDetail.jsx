@@ -143,7 +143,8 @@ export default function CourseDetail() {
   const handleEnroll = async () => {
     const auth = StorageService.getAuthState();
     if (!auth.isAuthenticated) {
-      navigate("/auth");
+      toast.error("Please login to enroll in this course.", { duration: 4000 });
+      navigate("/login");
       return;
     }
 

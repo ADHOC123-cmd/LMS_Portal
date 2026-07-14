@@ -34,6 +34,47 @@ export function ChatbotWidget() {
   }, []);
 
   const [isOpen, setIsOpen] = useState(false);
+  const [isLeft, setIsLeft] = useState(false);
+
+  // Dynamic drag constraints to prevent button and window from going off-screen
+  const getDragConstraints = () => {
+    const buttonWidth = 56;
+    const margin = 24;
+    const chatWidth = windowSize.width > 640 ? 400 : windowSize.width * 0.9;
+    
+    const minLeft = -windowSize.width + margin + buttonWidth; // keeps button on screen at left
+    const maxRight = 0; // keeps button on screen at right (initial position is right-6)
+    const minTop = -windowSize.height + margin + buttonWidth; // keeps button on screen at top
+    const maxBottom = 0; // keeps button on screen at bottom (initial position is bottom-6)
+
+    if (!isOpen) {
+      return { left: minLeft, right: maxRight, top: minTop, bottom: maxBottom };
+    }
+
+    // When open, limit top/bottom to keep 550px panel on-screen
+    const openMinTop = -windowSize.height + 550 + (2 * margin) + buttonWidth;
+
+    if (isLeft) {
+      // Chat window is on the right of the button
+      const limitRight = buttonWidth - chatWidth;
+      return {
+        left: minLeft,
+        right: Math.min(0, limitRight),
+        top: Math.max(minTop, openMinTop),
+        bottom: maxBottom
+      };
+    } else {
+      // Chat window is on the left of the button
+      const limitLeft = -windowSize.width + (2 * margin) + chatWidth;
+      return {
+        left: Math.max(minLeft, limitLeft),
+        right: maxRight,
+        top: Math.max(minTop, openMinTop),
+        bottom: maxBottom
+      };
+    }
+  };
+
   const [messages, setMessages] = useState([
     {
       id: "welcome",
@@ -132,13 +173,15 @@ export function ChatbotWidget() {
       dragControls={dragControls}
       dragListener={false}
       dragMomentum={false}
-      dragConstraints={{
-        left: -windowSize.width + (isOpen ? (windowSize.width > 450 ? 450 : windowSize.width * 0.95) : 80),
-        right: 0,
-        top: -windowSize.height + (isOpen ? 600 : 80),
-        bottom: 0,
+      dragConstraints={getDragConstraints()}
+      onDrag={(event, info) => {
+        setIsLeft(info.point.x < windowSize.width / 2);
       }}
-      className="fixed bottom-6 right-6 z-[999] flex flex-col items-end"
+      className="fixed bottom-6 right-6 z-[999]"
+      style={{
+        width: 56,
+        height: 56,
+      }}
     >
       <AnimatePresence>
         {/* Chat Widget Panel */}
@@ -148,7 +191,7 @@ export function ChatbotWidget() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 50, scale: 0.9 }}
             transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            className="w-[90vw] sm:w-[400px] h-[550px] bg-surface-container-lowest/95 backdrop-blur-md rounded-[2.5rem] border border-surface-dim/30 shadow-2xl flex flex-col overflow-hidden mb-4"
+            className={`absolute bottom-[72px] ${isLeft ? "left-0" : "right-0"} w-[90vw] sm:w-[400px] h-[550px] bg-surface-container-lowest/95 backdrop-blur-md rounded-[2.5rem] border border-surface-dim/30 shadow-2xl flex flex-col overflow-hidden`}
           >
             {/* Header */}
             <div 

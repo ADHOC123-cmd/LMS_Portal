@@ -18,7 +18,7 @@ const getAuthState = () => {
       }
     }
     return {
-      isAuthenticated: !!token,
+      isAuthenticated: !!token && token !== "undefined" && token !== "null",
       user: user
     };
   } catch (e) {
