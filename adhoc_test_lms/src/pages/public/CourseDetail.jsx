@@ -282,7 +282,7 @@ export default function CourseDetail() {
   const stats = [
     {
       label: "Duration",
-      value: `${course?.durationHours || 20} hours`,
+      value: `${course?.duration || 20} hours`,
       icon: Clock,
     },
     { label: "Level", value: course?.level || "Intermediate", icon: BarChart },
