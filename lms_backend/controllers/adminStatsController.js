@@ -3,24 +3,24 @@ const { Op } = require('sequelize');
 
 exports.getStats = async (req, res) => {
   try {
-        
-    const totalStudents = await User.count({ where: { role: 'student' } });
-    const totalAdmins = await User.count({ where: { role: 'admin' } });
-    const totalCourses = await Course.count();
-    
-    const activeSubscriptions = await Subscription.count({
-      where: {
-        status: 'active',
-        endDate: { [Op.gt]: new Date() }
-      }
-    });
-    
-    const revenueResult = await Subscription.sum('amount', {
-      where: { 
-        status: 'active',
-        endDate: { [Op.gt]: new Date() }
-      }
-    });
+    const now = new Date();
+    const [totalStudents, totalAdmins, totalCourses, activeSubscriptions, revenueResult] = await Promise.all([
+      User.count({ where: { role: 'student' } }),
+      User.count({ where: { role: 'admin' } }),
+      Course.count(),
+      Subscription.count({
+        where: {
+          status: 'active',
+          endDate: { [Op.gt]: now }
+        }
+      }),
+      Subscription.sum('amount', {
+        where: { 
+          status: 'active',
+          endDate: { [Op.gt]: now }
+        }
+      })
+    ]);
     
     const totalRevenue = revenueResult || 0;
     

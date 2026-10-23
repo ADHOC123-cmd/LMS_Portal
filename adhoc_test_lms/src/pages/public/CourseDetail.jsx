@@ -308,6 +308,10 @@ export default function CourseDetail() {
           }
           className="absolute inset-0 w-full h-full object-cover scale-105 z-0"
           alt={course.title}
+          onError={(e) => {
+            e.target.onerror = null;
+            e.target.src = "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=2560&auto=format&fit=crop&q=100";
+          }}
         />
         {/* Semi-transparent white overlay to ensure high contrast and text readability */}
         <div className="absolute inset-0 bg-white/75 backdrop-blur-[2px] z-0"></div>

@@ -529,10 +529,12 @@ function PlayerContent() {
               <Play className="w-12 h-12" />
             </div>
             <h3 className="text-3xl font-headline font-bold text-primary italic">
-              Select a Lesson
+              {totalLessonsCount === 0 ? "No Lessons Published Yet" : "Select a Lesson"}
             </h3>
             <p className="text-outline text-lg font-medium mt-4 max-w-sm">
-              Choose a lesson or quiz from the sidebar to begin.
+              {totalLessonsCount === 0
+                ? "This course does not have any active lessons available yet. Please check back later."
+                : "Choose a lesson or quiz from the sidebar to begin."}
             </p>
           </div>
         ) : activeType === "lesson" ? (
@@ -583,11 +585,15 @@ function PlayerContent() {
                   <>
                     <img
                       src={
-                        course.thumbnail ||
+                        course?.thumbnail ||
                         "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=2560&q=100"
                       }
                       className="absolute inset-0 w-full h-full object-cover opacity-60 blur-[2px] scale-105"
                       alt="Video Static"
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=2560&q=100";
+                      }}
                     />
                     <div className="relative z-10 w-24 h-24 rounded-full bg-white/20 backdrop-blur-xl border border-white/30 flex items-center justify-center text-white cursor-pointer">
                       <Play className="w-10 h-10 fill-current" />

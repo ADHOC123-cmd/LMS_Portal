@@ -40,6 +40,9 @@ const Lesson = sequelize.define('Lesson', {
 }, {
   timestamps: true,
   tableName: 'lessons',
+  indexes: [
+    { fields: ['moduleId', 'order'] },
+  ],
 });
 
 module.exports = Lesson;

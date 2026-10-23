@@ -19,7 +19,7 @@ if (databaseUrl) {
     dialect: 'mysql',
     logging: false,
     pool: {
-      max: 5,
+      max: 20,
       min: 0,
       acquire: 30000,
       idle: 10000
@@ -36,7 +36,7 @@ if (databaseUrl) {
       dialect: 'mysql',
       logging: false,
       pool: {
-        max: 5,
+        max: 20,
         min: 0,
         acquire: 30000,
         idle: 10000

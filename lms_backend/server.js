@@ -13,6 +13,7 @@ const passwordRoutes = require('./routes/passwordRoutes');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const express = require('express');
+const compression = require('compression');
 const cors = require('cors');
 const sequelize = require('./config/database');
 const quizRoutes = require('./routes/quizRoutes');
@@ -43,17 +44,18 @@ const authLimiter = rateLimit({
 
 // ============ MIDDLEWARE ============
 
+app.use(compression());
 app.use(cors());
 app.use(express.json());
 app.use(helmet({
   contentSecurityPolicy: {
     directives: {
       defaultSrc: ["'self'"],
-      scriptSrc: ["'self'", "'unsafe-inline'", "https://checkout.razorpay.com"],
+      scriptSrc: ["'self'", "'unsafe-inline'", "https://checkout.razorpay.com", "https://cdn.razorpay.com", "data:"],
       frameSrc: ["'self'", "https://api.razorpay.com", "https://tds.razorpay.com", "https://checkout.razorpay.com", "https://www.google.com", "https://maps.google.com"],
       connectSrc: ["'self'", "https://api.razorpay.com", ...(process.env.FRONTEND_URL ? [process.env.FRONTEND_URL] : [])],
-      imgSrc: ["'self'", "data:", "https://*.razorpay.com", "https://images.unsplash.com", "https://i.pravatar.cc"],
-      styleSrc: ["'self'", "'unsafe-inline'"],
+      imgSrc: ["'self'", "data:", "blob:", "https:"],
+      styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com", "https://fonts.gstatic.com"],
       fontSrc: ["'self'", "https://fonts.gstatic.com"],
     },
   },

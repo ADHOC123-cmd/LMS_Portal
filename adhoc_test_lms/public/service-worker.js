@@ -59,12 +59,14 @@ self.addEventListener("fetch", (event) => {
         cache.match(event.request).then(
           (response) =>
             response ||
-            fetch(event.request).then((networkResponse) => {
-              if (networkResponse.status === 200) {
-                cache.put(event.request, networkResponse.clone());
-              }
-              return networkResponse;
-            }),
+            fetch(event.request)
+              .then((networkResponse) => {
+                if (networkResponse && networkResponse.status === 200) {
+                  cache.put(event.request, networkResponse.clone());
+                }
+                return networkResponse;
+              })
+              .catch(() => caches.match(event.request)),
         ),
       ),
     );

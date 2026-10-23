@@ -73,8 +73,8 @@ function App() {
     // Initial check on mount
     checkSession();
 
-    // Check periodically every 5 seconds
-    const interval = setInterval(checkSession, 5000);
+    // Check periodically every 60 seconds (window focus listener handles immediate tab checks)
+    const interval = setInterval(checkSession, 60000);
 
     // Check when window gains focus
     const handleFocus = () => {
@@ -294,6 +294,8 @@ function App() {
               <Route path="/terms" element={<Terms />} />
               <Route path="/privacy" element={<Privacy />} />
               <Route path="/RefundPolicy" element={<RefundPolicy />} />
+              <Route path="/refund-policy" element={<RefundPolicy />} />
+              <Route path="/refund" element={<Navigate to="/RefundPolicy" replace />} />
               <Route path="/about-us" element={<AboutUs />} />
             </Routes>
           </main>

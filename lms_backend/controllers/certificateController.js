@@ -144,10 +144,11 @@ exports.downloadCertificate = async (req, res) => {
        .text('This certificate is proudly presented to', 0, 195, { align: 'center' });
     
     // Add student name (large, bold, elegant)
+    const studentName = certificate.user?.name || 'Valued Learner';
     doc.fontSize(38)
        .font('Helvetica-Bold')
        .fillColor('#111111')
-       .text(certificate.user.name, 0, 240, { align: 'center' });
+       .text(studentName, 0, 240, { align: 'center' });
     
     // Add horizontal line under name
     doc.moveTo(width / 2 - 225, 295)
@@ -157,13 +158,14 @@ exports.downloadCertificate = async (req, res) => {
        .stroke();
     
     // Add course completion text
+    const courseTitle = certificate.course?.title || 'Professional Certification Course';
     doc.fontSize(14)
        .font('Helvetica')
        .fillColor('#555555')
        .text('For successfully completing the comprehensive training program in', 0, 320, { align: 'center' })
        .font('Helvetica-Bold')
        .fillColor('#111111')
-       .text(`"${certificate.course.title}"`, 0, 350, { align: 'center' })
+       .text(`"${courseTitle}"`, 0, 350, { align: 'center' })
        .font('Helvetica')
        .fillColor('#555555')
        .text('on our Learning Management Portal, demonstrating excellence in all modules.', 0, 380, { align: 'center' });

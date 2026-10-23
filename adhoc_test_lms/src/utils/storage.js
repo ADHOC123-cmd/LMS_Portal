@@ -49,11 +49,9 @@ const memoryStore = {};
 export const getStorage = (key, fallback = null) => {
   if (typeof window === "undefined") return fallback;
   
-  let item = null;
-  let fromLocalStorage = false;
+  let item;
   try {
     item = localStorage.getItem(key);
-    if (item) fromLocalStorage = true;
   } catch (error) {
     console.warn(`localStorage read failed for key "${key}", using memory backup:`, error);
     item = memoryStore[key] !== undefined ? memoryStore[key] : null;
