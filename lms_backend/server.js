@@ -52,8 +52,24 @@ app.use(helmet({
     directives: {
       defaultSrc: ["'self'"],
       scriptSrc: ["'self'", "'unsafe-inline'", "https://checkout.razorpay.com", "https://cdn.razorpay.com", "data:"],
-      frameSrc: ["'self'", "https://api.razorpay.com", "https://tds.razorpay.com", "https://checkout.razorpay.com", "https://www.google.com", "https://maps.google.com"],
-      connectSrc: ["'self'", "https://api.razorpay.com", ...(process.env.FRONTEND_URL ? [process.env.FRONTEND_URL] : [])],
+      frameSrc: [
+        "'self'",
+        "https://vimeo.com",
+        "https://player.vimeo.com",
+        "https://*.vimeo.com",
+        "https://api.razorpay.com",
+        "https://tds.razorpay.com",
+        "https://checkout.razorpay.com",
+        "https://www.google.com",
+        "https://maps.google.com"
+      ],
+      connectSrc: [
+        "'self'",
+        "https://api.razorpay.com",
+        "https://*.vimeo.com",
+        "https://*.vimeocdn.com",
+        ...(process.env.FRONTEND_URL ? [process.env.FRONTEND_URL] : [])
+      ],
       imgSrc: ["'self'", "data:", "blob:", "https:"],
       styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com", "https://fonts.gstatic.com"],
       fontSrc: ["'self'", "https://fonts.gstatic.com"],
