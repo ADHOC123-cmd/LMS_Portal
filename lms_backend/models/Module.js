@@ -26,6 +26,9 @@ const Module = sequelize.define('Module', {
 }, {
   timestamps: true,
   tableName: 'modules',
+  indexes: [
+    { fields: ['courseId', 'order'] },
+  ],
 });
 
 module.exports = Module;

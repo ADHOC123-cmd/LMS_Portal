@@ -3,39 +3,16 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      rel="preload"
-      fetchpriority="high"
-      as="image"
-      href="/hero-optimized.webp"
-      imagesrcset="/hero-optimized-mobile.webp 600w, /hero-optimized.webp 1200w"
-      imagesizes="(max-width: 768px) 100vw, 50vw"
-      media="(min-width: 640px)"
-    />
     <link rel="icon" type="image/svg+xml" href="/icon.svg" />
     <link rel="canonical" href="https://adhocnetwork.tech/" />
     <meta
       http-equiv="Content-Security-Policy"
-      content="default-src 'self' https: data:; script-src 'self' 'unsafe-inline' https://checkout.razorpay.com https://cdn.razorpay.com data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.gstatic.com; img-src 'self' data: https:; font-src https://fonts.gstatic.com; frame-src 'self' https://api.razorpay.com https://tds.razorpay.com https://checkout.razorpay.com https://www.google.com https://maps.google.com; connect-src 'self' https://api.razorpay.com;"
+      content="default-src 'self' https: data:; script-src 'self' 'unsafe-inline' https://checkout.razorpay.com https://cdn.razorpay.com data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.gstatic.com; img-src 'self' data: blob: https:; font-src https://fonts.gstatic.com; frame-src 'self' https://api.razorpay.com https://tds.razorpay.com https://checkout.razorpay.com https://www.google.com https://maps.google.com; connect-src 'self' https://api.razorpay.com;"
     />
 
-    <!-- Secondary Meta & Preloading -->
-    <link
-      rel="preload"
-      href="/api/courses"
-      as="fetch"
-      crossorigin="anonymous"
-    />
-    <link
-      rel="preload"
-      href="/api/feedbacks/home"
-      as="fetch"
-      crossorigin="anonymous"
-    />
+    <!-- Secondary Meta & Preconnecting -->
     <link rel="preconnect" href="https://checkout.razorpay.com" />
     <link rel="preconnect" href="https://api.razorpay.com" />
-    <link rel="preload" href="/src/index.css" as="style" />
-    <link rel="preload" href="/src/main.jsx" as="script" />
     <meta name="theme-color" content="#002244" />
     <meta
       name="description"

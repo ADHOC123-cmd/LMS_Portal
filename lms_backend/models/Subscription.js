@@ -60,6 +60,10 @@ const Subscription = sequelize.define('Subscription', {
 }, {
   timestamps: true,
   tableName: 'subscriptions',
+  indexes: [
+    { fields: ['userId', 'courseId', 'status'] },
+    { fields: ['status', 'endDate'] },
+  ],
 });
 
 module.exports = Subscription;

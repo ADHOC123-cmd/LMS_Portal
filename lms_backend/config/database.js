@@ -2,9 +2,10 @@ const { Sequelize } = require('sequelize');
 const dotenv = require('dotenv');
 const path = require('path');
 
-// Load environment variables from root (../../.env), backend (../.env), and local (.env) directories
+// Load environment variables from root (../../.env), backend (../.env, ../.env.production), and local (.env) directories
 dotenv.config({ path: path.join(__dirname, '../../.env') });
 dotenv.config({ path: path.join(__dirname, '../.env') });
+dotenv.config({ path: path.join(__dirname, '../.env.production') });
 dotenv.config({ path: path.join(__dirname, '.env') });
 dotenv.config();
 
@@ -19,7 +20,7 @@ if (databaseUrl) {
     dialect: 'mysql',
     logging: false,
     pool: {
-      max: 5,
+      max: 20,
       min: 0,
       acquire: 30000,
       idle: 10000
@@ -36,7 +37,7 @@ if (databaseUrl) {
       dialect: 'mysql',
       logging: false,
       pool: {
-        max: 5,
+        max: 20,
         min: 0,
         acquire: 30000,
         idle: 10000

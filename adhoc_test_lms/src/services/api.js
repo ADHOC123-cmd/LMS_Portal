@@ -26,6 +26,16 @@ const onRefreshed = (token) => {
   refreshSubscribers = [];
 };
 
+const clearAuthSession = () => {
+  localStorage.removeItem("lms_token");
+  localStorage.removeItem("lms_refresh_token");
+  localStorage.removeItem("lms_user");
+  authStore.notify(null);
+  window.dispatchEvent(
+    new CustomEvent("storage-update-lms_auth", { detail: null }),
+  );
+};
+
 const handleResponse = async (response, originalRequestConfig) => {
   if (response.status === 401) {
     // If it's a login request, don't clear local storage and show the specific error message
@@ -40,26 +50,20 @@ const handleResponse = async (response, originalRequestConfig) => {
 
     // If it's the refresh token endpoint itself, clear session and throw to prevent infinite loops
     if (response.url && response.url.includes('/auth/refresh')) {
-      localStorage.removeItem("lms_token");
-      localStorage.removeItem("lms_refresh_token");
-      localStorage.removeItem("lms_user");
-      authStore.notify(null);
-      window.dispatchEvent(
-        new CustomEvent("storage-update-lms_auth", { detail: null }),
-      );
+      clearAuthSession();
       throw new ApiError("Session expired", 401);
+    }
+
+    // Guard against infinite retry loops: if this request was already retried once, abort immediately
+    if (originalRequestConfig && originalRequestConfig._retry) {
+      clearAuthSession();
+      throw new ApiError("Session expired. Please login again.", 401);
     }
 
     const refreshToken = localStorage.getItem("lms_refresh_token");
     if (!refreshToken) {
       // Unauthorized - clear session
-      localStorage.removeItem("lms_token");
-      localStorage.removeItem("lms_refresh_token");
-      localStorage.removeItem("lms_user");
-      authStore.notify(null);
-      window.dispatchEvent(
-        new CustomEvent("storage-update-lms_auth", { detail: null }),
-      );
+      clearAuthSession();
       throw new ApiError("Session expired. Please login again.", 401);
     }
 
@@ -68,7 +72,7 @@ const handleResponse = async (response, originalRequestConfig) => {
       api.auth.refresh(refreshToken)
         .then((data) => {
           isRefreshing = false;
-          if (data.success && data.token) {
+          if (data && data.success && data.token) {
             localStorage.setItem("lms_token", data.token);
             if (data.refreshToken) {
               localStorage.setItem("lms_refresh_token", data.refreshToken);
@@ -76,38 +80,29 @@ const handleResponse = async (response, originalRequestConfig) => {
             onRefreshed(data.token);
           } else {
             // Refresh failed
-            localStorage.removeItem("lms_token");
-            localStorage.removeItem("lms_refresh_token");
-            localStorage.removeItem("lms_user");
-            authStore.notify(null);
-            window.dispatchEvent(
-              new CustomEvent("storage-update-lms_auth", { detail: null }),
-            );
+            clearAuthSession();
             onRefreshed(null);
           }
         })
         .catch(() => {
           isRefreshing = false;
-          localStorage.removeItem("lms_token");
-          localStorage.removeItem("lms_refresh_token");
-          localStorage.removeItem("lms_user");
-          authStore.notify(null);
-          window.dispatchEvent(
-            new CustomEvent("storage-update-lms_auth", { detail: null }),
-          );
+          clearAuthSession();
           onRefreshed(null);
         });
     }
 
-    // Return a promise that waits for the refresh to complete and retries the original request
+    // Return a promise that waits for the refresh to complete and retries the original request ONCE
     return new Promise((resolve, reject) => {
       subscribeTokenRefresh((newToken) => {
         if (newToken) {
-          // Clone request options and update authorization header
-          const newOptions = { ...originalRequestConfig };
-          newOptions.headers = {
-            ...newOptions.headers,
-            'Authorization': `Bearer ${newToken}`
+          // Clone request options, mark _retry flag, and update authorization header
+          const newOptions = {
+            ...originalRequestConfig,
+            _retry: true,
+            headers: {
+              ...originalRequestConfig.headers,
+              'Authorization': `Bearer ${newToken}`
+            }
           };
           // Retry the request
           resolve(fetch(response.url, newOptions).then((res) => handleResponse(res, newOptions)));

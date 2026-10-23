@@ -145,7 +145,7 @@ exports.submitQuiz = async (req, res) => {
       }
     }
     
-    const percentage = Math.round((earnedPoints / totalPoints) * 100);
+    const percentage = totalPoints > 0 ? Math.round((earnedPoints / totalPoints) * 100) : 0;
     const passed = percentage >= quiz.passingScore;
     
     const attempt = await QuizAttempt.create({

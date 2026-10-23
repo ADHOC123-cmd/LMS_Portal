@@ -47,9 +47,9 @@ export default function Catalog() {
         setCourses(cached);
         setLoading(false);
 
-        // Background refresh to ensure data is up to date
+        // Background refresh to ensure data is up to date (e.g. edited titles, prices, thumbnails)
         const fresh = await StorageService.getCourses(true);
-        if (fresh?.length !== cached?.length) {
+        if (fresh && JSON.stringify(fresh) !== JSON.stringify(cached)) {
           setCourses(fresh);
         }
       } else {

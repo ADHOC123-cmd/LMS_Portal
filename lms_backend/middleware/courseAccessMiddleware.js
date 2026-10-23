@@ -4,14 +4,11 @@ const { Op } = require('sequelize');
 // Check if user has access to a specific course
 exports.checkCourseAccess = async (req, res, next) => {
   try {
-    // IMPORTANT: Get courseId from different possible locations
     let courseId = req.params.courseId || req.params.id;
-    
-                
+
     // If still no courseId, check the URL path
     if (!courseId) {
       const pathParts = req.path.split('/');
-      // Look for a number in the path (course ID)
       for (const part of pathParts) {
         if (/^\d+$/.test(part)) {
           courseId = parseInt(part);
@@ -21,7 +18,7 @@ exports.checkCourseAccess = async (req, res, next) => {
     }
 
     if (!courseId) {
-            return res.status(400).json({
+      return res.status(400).json({
         success: false,
         message: 'Course ID is required'
       });
@@ -30,7 +27,7 @@ exports.checkCourseAccess = async (req, res, next) => {
     // Get course details
     const Course = require('../models/Course');
     const course = await Course.findByPk(courseId);
-    
+
     if (!course) {
       return res.status(404).json({
         success: false,
@@ -48,7 +45,6 @@ exports.checkCourseAccess = async (req, res, next) => {
       }
     });
 
-    
     if (!subscription) {
       return res.status(403).json({
         success: false,

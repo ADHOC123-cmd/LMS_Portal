@@ -55,6 +55,10 @@ const UserDevice = sequelize.define('UserDevice', {
 }, {
   timestamps: true,
   tableName: 'user_devices',
+  indexes: [
+    { fields: ['userId', 'deviceType', 'isActive'] },
+    { fields: ['deviceFingerprint'] },
+  ],
 });
 
 module.exports = UserDevice;

@@ -82,38 +82,12 @@ exports.verifyPayment = async (req, res) => {
         const { razorpay_order_id, razorpay_payment_id, razorpay_signature, courseId, plan, coinsUsed } = req.body;
         const userId = req.user.id;
 
-        if (!razorpay_order_id && !razorpay_payment_id) {
-            isFree = true;
-        } else {
-            console.log('--- Razorpay Verification Debug ---');
-            console.log('Order ID:', razorpay_order_id);
-            console.log('Payment ID:', razorpay_payment_id);
-            const body = razorpay_order_id + "|" + razorpay_payment_id;
-            const secret = (process.env.RAZORPAY_KEY_SECRET || '').trim();
-            
-            console.log('Verifying signature for Order:', razorpay_order_id);
-            if (!secret) {
-                console.error('RAZORPAY_KEY_SECRET is missing on backend!');
-                return res.status(500).json({ success: false, message: 'Razorpay secret not configured on server' });
-            }
-
-            const expectedSignature = crypto.createHmac('sha256', secret)
-                .update(body)
-                .digest('hex');
-
-            if (expectedSignature !== razorpay_signature) {
-                console.error('SIGNATURE MISMATCH!');
-                console.log('Received Signature:', razorpay_signature);
-                // DO NOT log the full secret, but log its length to verify it's loaded
-                console.log('Secret Length:', secret.length);
-                return res.status(400).json({ success: false, message: 'Invalid payment signature' });
-            }
-            console.log('Signature verified successfully.');
-        }
-
         const course = await Course.findByPk(courseId);
         if (!course) {
             return res.status(404).json({ success: false, message: 'Course not found' });
+        }
+        if (!PLANS[plan]) {
+            return res.status(400).json({ success: false, message: 'Invalid plan selected' });
         }
 
         const user = await User.findByPk(userId);
@@ -127,6 +101,33 @@ exports.verifyPayment = async (req, res) => {
         let amountPaid = amount;
         if (user && coinsToDeduct > 0 && user.coins >= coinsToDeduct) {
             amountPaid = Math.max(0, amount - coinsToDeduct);
+        }
+
+        // Enforce strict signature verification for paid courses
+        if (amountPaid > 0) {
+            if (!razorpay_order_id || !razorpay_payment_id || !razorpay_signature) {
+                return res.status(400).json({ success: false, message: 'Missing required payment verification details' });
+            }
+
+            const body = razorpay_order_id + "|" + razorpay_payment_id;
+            const secret = (process.env.RAZORPAY_KEY_SECRET || '').trim();
+            if (!secret) {
+                console.error('RAZORPAY_KEY_SECRET is missing on backend!');
+                return res.status(500).json({ success: false, message: 'Razorpay secret not configured on server' });
+            }
+
+            const expectedSignature = crypto.createHmac('sha256', secret)
+                .update(body)
+                .digest('hex');
+
+            if (expectedSignature !== razorpay_signature) {
+                console.error('SIGNATURE MISMATCH!');
+                return res.status(400).json({ success: false, message: 'Invalid payment signature' });
+            }
+        }
+
+        // Deduct coins & discounts now that payment is confirmed
+        if (user && coinsToDeduct > 0 && user.coins >= coinsToDeduct) {
             await user.decrement('coins', { by: coinsToDeduct });
         }
         if (discountApplied && user) {
@@ -157,7 +158,18 @@ exports.verifyPayment = async (req, res) => {
             orderId: razorpay_order_id || 'free_order'
         });
 
-        res.json({ success: true, message: 'Payment verified successfully! Course purchased.', data: { subscriptionId: subscription.id, courseId, plan, amount: amountPaid, expiresAt: endDate, daysRemaining: PLANS[plan].duration } });
+        res.json({
+            success: true,
+            message: 'Payment verified successfully! Course purchased.',
+            data: {
+                subscriptionId: subscription.id,
+                courseId,
+                plan,
+                amount: amountPaid,
+                expiresAt: endDate,
+                daysRemaining: PLANS[plan].duration
+            }
+        });
     } catch (error) {
         res.status(500).json({ success: false, message: 'Payment verification failed', error: error.message });
     }

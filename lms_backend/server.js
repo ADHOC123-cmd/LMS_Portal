@@ -1,18 +1,19 @@
 const dotenv = require('dotenv');
 const path = require('path');
-// Load environment variables from local (.env) and root (../.env) directories
+// Load environment variables from local (.env / .env.production) and root (../.env) directories
 dotenv.config({ path: path.join(__dirname, '.env') });
+dotenv.config({ path: path.join(__dirname, '.env.production') });
 dotenv.config({ path: path.join(__dirname, '../.env') });
 dotenv.config();
 
 // Explicitly load models and associations
 require('./models');
 
-
 const passwordRoutes = require('./routes/passwordRoutes');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const express = require('express');
+const compression = require('compression');
 const cors = require('cors');
 const sequelize = require('./config/database');
 const quizRoutes = require('./routes/quizRoutes');
@@ -43,17 +44,18 @@ const authLimiter = rateLimit({
 
 // ============ MIDDLEWARE ============
 
+app.use(compression());
 app.use(cors());
 app.use(express.json());
 app.use(helmet({
   contentSecurityPolicy: {
     directives: {
       defaultSrc: ["'self'"],
-      scriptSrc: ["'self'", "'unsafe-inline'", "https://checkout.razorpay.com"],
+      scriptSrc: ["'self'", "'unsafe-inline'", "https://checkout.razorpay.com", "https://cdn.razorpay.com", "data:"],
       frameSrc: ["'self'", "https://api.razorpay.com", "https://tds.razorpay.com", "https://checkout.razorpay.com", "https://www.google.com", "https://maps.google.com"],
       connectSrc: ["'self'", "https://api.razorpay.com", ...(process.env.FRONTEND_URL ? [process.env.FRONTEND_URL] : [])],
-      imgSrc: ["'self'", "data:", "https://*.razorpay.com", "https://images.unsplash.com", "https://i.pravatar.cc"],
-      styleSrc: ["'self'", "'unsafe-inline'"],
+      imgSrc: ["'self'", "data:", "blob:", "https:"],
+      styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com", "https://fonts.gstatic.com"],
       fontSrc: ["'self'", "https://fonts.gstatic.com"],
     },
   },
@@ -114,7 +116,6 @@ app.use(express.static(path.join(__dirname, '../dist'), {
 }));
 
 // Serve index.html for all non-API paths (React Router fallback)
-// Note: In Express 5, catch-all routing requires a named parameter (e.g. /*splat)
 app.get('/*splat', (req, res) => {
   if (req.path.startsWith('/api')) {
     return res.status(404).json({ success: false, message: 'API route not found' });
@@ -122,10 +123,6 @@ app.get('/*splat', (req, res) => {
   res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
   res.sendFile(path.join(__dirname, '../dist/index.html'));
 });
-
-
-
-
 
 // ============ START SERVER ============
 
@@ -138,63 +135,27 @@ app.listen(PORT, () => {
 const startDatabase = async () => {
   try {
     await sequelize.authenticate();
-    console.log('Database connection has been established successfully.');
-    
-    // Implicitly add level column to courses table if it does not exist
-    try {
-      await sequelize.query("ALTER TABLE courses ADD COLUMN level VARCHAR(255) DEFAULT 'beginner';");
-      console.log('Implicitly added level column to courses table.');
-    } catch (err) {
-      if (err.parent && (err.parent.code === 'ER_DUP_FIELDNAME' || err.parent.errno === 1060)) {
-        console.log('level column already exists in courses table.');
-      } else {
-        console.error('Failed to implicitly add level column:', err.message);
-      }
-    }
 
-    // Implicitly add ipAddress column to user_devices table if it does not exist
-    try {
-      await sequelize.query("ALTER TABLE user_devices ADD COLUMN ipAddress VARCHAR(255) NULL;");
-      console.log('Implicitly added ipAddress column to user_devices table.');
-    } catch (err) {
-      if (err.parent && (err.parent.code === 'ER_DUP_FIELDNAME' || err.parent.errno === 1060)) {
-        console.log('ipAddress column already exists in user_devices table.');
-      } else {
-        console.error('Failed to implicitly add ipAddress column:', err.message);
+    // Ensure columns exist on tables without spamming console
+    const safeAlter = async (query) => {
+      try {
+        await sequelize.query(query);
+      } catch (err) {
+        if (!err.parent || (err.parent.code !== 'ER_DUP_FIELDNAME' && err.parent.errno !== 1060)) {
+          console.error('Migration notice:', err.message);
+        }
       }
-    }
+    };
 
-    // Implicitly add refreshToken column to user_devices table if it does not exist
-    try {
-      await sequelize.query("ALTER TABLE user_devices ADD COLUMN refreshToken VARCHAR(500) NULL;");
-      console.log('Implicitly added refreshToken column to user_devices table.');
-    } catch (err) {
-      if (err.parent && (err.parent.code === 'ER_DUP_FIELDNAME' || err.parent.errno === 1060)) {
-        console.log('refreshToken column already exists in user_devices table.');
-      } else {
-        console.error('Failed to implicitly add refreshToken column:', err.message);
-      }
-    }
-
-    // Implicitly add refreshTokenExpiresAt column to user_devices table if it does not exist
-    try {
-      await sequelize.query("ALTER TABLE user_devices ADD COLUMN refreshTokenExpiresAt DATETIME NULL;");
-      console.log('Implicitly added refreshTokenExpiresAt column to user_devices table.');
-    } catch (err) {
-      if (err.parent && (err.parent.code === 'ER_DUP_FIELDNAME' || err.parent.errno === 1060)) {
-        console.log('refreshTokenExpiresAt column already exists in user_devices table.');
-      } else {
-        console.error('Failed to implicitly add refreshTokenExpiresAt column:', err.message);
-      }
-    }
-
+    await safeAlter("ALTER TABLE courses ADD COLUMN level VARCHAR(255) DEFAULT 'beginner';");
+    await safeAlter("ALTER TABLE user_devices ADD COLUMN ipAddress VARCHAR(255) NULL;");
+    await safeAlter("ALTER TABLE user_devices ADD COLUMN refreshToken VARCHAR(500) NULL;");
+    await safeAlter("ALTER TABLE user_devices ADD COLUMN refreshTokenExpiresAt DATETIME NULL;");
 
     if (process.env.NODE_ENV === 'development' || process.env.SYNC_DB === 'true') {
       await sequelize.sync({ alter: true });
-      console.log('Database synchronized with alter: true');
     } else {
       await sequelize.sync();
-      console.log('Database synchronized');
     }
   } catch (error) {
     console.error('Database connection failed on startup:', error);
