@@ -50,8 +50,7 @@ app.use(helmet({
     directives: {
       defaultSrc: ["'self'"],
       scriptSrc: ["'self'", "'unsafe-inline'", "https://checkout.razorpay.com"],
-      frameSrc: ["'self'", "https://api.razorpay.com", "https://tds.razorpay.com", "https://checkout.razorpay.com","https://www.google.com",
-       "https://maps.google.com"],
+      frameSrc: ["'self'", "https://api.razorpay.com", "https://tds.razorpay.com", "https://checkout.razorpay.com", "https://www.google.com", "https://maps.google.com"],
       connectSrc: ["'self'", "https://api.razorpay.com", ...(process.env.FRONTEND_URL ? [process.env.FRONTEND_URL] : [])],
       imgSrc: ["'self'", "data:", "https://*.razorpay.com", "https://images.unsplash.com", "https://i.pravatar.cc"],
       styleSrc: ["'self'", "'unsafe-inline'"],
@@ -97,14 +96,14 @@ app.get('/health', (req, res) => {
 // Serve static files from the React/Vite app (copied to the root dist folder)
 // Set caching headers for optimized asset delivery:
 // - /assets (hashed JS/CSS/images) cached for 1 year (immutable)
-// - index.html and other dynamic files are never cached
+// - index.html and dynamic/service-worker files are never cached
 app.use(express.static(path.join(__dirname, '../dist'), {
   maxAge: '1y',
   setHeaders: (res, filePath) => {
     const ext = path.extname(filePath).toLowerCase();
     const isMediaOrFont = ['.webp', '.png', '.jpg', '.jpeg', '.gif', '.svg', '.ico', '.woff', '.woff2', '.ttf', '.eot'].includes(ext);
 
-    if (filePath.endsWith('.html')) {
+    if (filePath.endsWith('.html') || filePath.endsWith('service-worker.js')) {
       res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
     } else if (/[\\/]assets[\\/]/.test(filePath) || filePath.includes('assets/') || isMediaOrFont) {
       res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
