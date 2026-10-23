@@ -1,6 +1,6 @@
 // public/service-worker.js
-// Service Worker with versioned cache and Network-First navigation.
-const CACHE_NAME = "static-assets-v2";
+// Service Worker with versioned cache, Network-First navigation, and safe fallback responses.
+const CACHE_NAME = "static-assets-v3";
 
 self.addEventListener("install", () => {
   self.skipWaiting();
@@ -32,7 +32,6 @@ self.addEventListener("fetch", (event) => {
   }
 
   // Network-First for HTML navigation / document requests
-  // Ensures returning users immediately get the latest deployed site
   if (
     event.request.mode === "navigate" ||
     url.pathname.endsWith(".html") ||
@@ -41,13 +40,28 @@ self.addEventListener("fetch", (event) => {
     event.respondWith(
       fetch(event.request)
         .then((networkResponse) => {
-          if (networkResponse.status === 200) {
+          if (networkResponse && networkResponse.status === 200) {
             const clone = networkResponse.clone();
             caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
           }
           return networkResponse;
         })
-        .catch(() => caches.match(event.request)),
+        .catch(async () => {
+          // 1. Try exact cached request
+          const cached = await caches.match(event.request);
+          if (cached) return cached;
+
+          // 2. Fall back to root/index.html in SPA
+          const fallback = (await caches.match("/")) || (await caches.match("/index.html"));
+          if (fallback) return fallback;
+
+          // 3. Guaranteed valid Response object to prevent TypeError: Failed to convert value to 'Response'
+          return new Response("Offline content not available", {
+            status: 503,
+            statusText: "Service Unavailable",
+            headers: { "Content-Type": "text/plain" }
+          });
+        }),
     );
     return;
   }
@@ -55,20 +69,27 @@ self.addEventListener("fetch", (event) => {
   // Cache-First for static assets (hashed JS, CSS, images, etc.)
   if (event.request.method === "GET") {
     event.respondWith(
-      caches.open(CACHE_NAME).then((cache) =>
-        cache.match(event.request).then(
-          (response) =>
-            response ||
-            fetch(event.request)
-              .then((networkResponse) => {
-                if (networkResponse && networkResponse.status === 200) {
-                  cache.put(event.request, networkResponse.clone());
-                }
-                return networkResponse;
-              })
-              .catch(() => caches.match(event.request)),
-        ),
-      ),
+      caches.open(CACHE_NAME).then(async (cache) => {
+        const cached = await cache.match(event.request);
+        if (cached) return cached;
+
+        try {
+          const networkResponse = await fetch(event.request);
+          if (networkResponse && networkResponse.status === 200) {
+            cache.put(event.request, networkResponse.clone());
+          }
+          return networkResponse;
+        } catch {
+          const fallback = await cache.match(event.request);
+          if (fallback) return fallback;
+
+          return new Response("Resource unavailable", {
+            status: 404,
+            statusText: "Not Found",
+            headers: { "Content-Type": "text/plain" }
+          });
+        }
+      }),
     );
   }
 });
