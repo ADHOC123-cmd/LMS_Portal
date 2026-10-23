@@ -68,8 +68,6 @@ function AdminCoursesContent() {
 
   // FIXED: Better modal opening with proper data mapping
   const handleOpenModal = (course = null) => {
-    console.log("Opening modal with course:", course); // Debug log
-
     if (course) {
       setEditingCourse(course);
 
@@ -173,10 +171,7 @@ function AdminCoursesContent() {
           ? priceNum
           : editingCourse?.price_6months || 0;
 
-      console.log("Submitting payload:", payload); // Debug log
-
       if (editingCourse) {
-        console.log("Updating course ID:", editingCourse.id);
         await api.admin.updateCourse(editingCourse.id, payload, token);
         toast.success("Course updated successfully");
       } else {
@@ -340,7 +335,6 @@ function AdminCoursesContent() {
                   {/* Content Management Button */}
                   <button
                     onClick={() => {
-                      console.log("Navigating to course:", course.id);
                       navigate(`/admin/courses/${course.id}`);
                     }}
                     className="px-6 py-3 bg-surface-container-high text-primary rounded-xl font-bold hover:bg-primary hover:text-on-primary transition-colors flex items-center justify-center gap-2"
@@ -351,11 +345,6 @@ function AdminCoursesContent() {
                   {/* FIXED EDIT BUTTON */}
                   <button
                     onClick={() => {
-                      console.log(
-                        "Edit button clicked for course:",
-                        course.id,
-                        course.title,
-                      );
                       handleOpenModal(course);
                     }}
                     className="px-6 py-3 bg-surface-container-high text-secondary rounded-xl font-bold hover:bg-primary hover:text-on-primary transition-colors flex items-center justify-center gap-2"

@@ -98,6 +98,11 @@ exports.downloadCertificate = async (req, res) => {
     if (!certificate) {
       return res.status(404).json({ success: false, message: 'Certificate not found' });
     }
+
+    // Authorization check: user must own the certificate or be an admin
+    if (req.user.role !== 'admin' && certificate.userId !== req.user.id) {
+      return res.status(403).json({ success: false, message: 'Not authorized to download this certificate' });
+    }
     
     // Create PDF
     const doc = new PDFDocument({

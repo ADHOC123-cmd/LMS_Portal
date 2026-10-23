@@ -58,27 +58,36 @@ import { ErrorBoundary } from "./components/common/ErrorBoundary";
 
 function App() {
   React.useEffect(() => {
+    let isChecking = false;
+
     const checkSession = async () => {
       const state = authStore.getState();
-      if (state.isAuthenticated) {
-        try {
-          await api.auth.getMe();
-        } catch (err) {
-          // 401 response is handled by api.js interceptor automatically
-          console.warn("Session auto-validation failed:", err.message);
-        }
+      if (!state.isAuthenticated || isChecking) return;
+
+      isChecking = true;
+      try {
+        await api.auth.getMe();
+      } catch {
+        // 401 response is handled by api.js interceptor automatically
+      } finally {
+        isChecking = false;
       }
     };
 
     // Initial check on mount
     checkSession();
 
-    // Check periodically every 60 seconds (window focus listener handles immediate tab checks)
+    // Check periodically every 60 seconds
     const interval = setInterval(checkSession, 60000);
 
-    // Check when window gains focus
+    // Debounced window focus check (minimum 15 seconds between checks)
+    let lastFocusCheck = 0;
     const handleFocus = () => {
-      checkSession();
+      const now = Date.now();
+      if (now - lastFocusCheck > 15000) {
+        lastFocusCheck = now;
+        checkSession();
+      }
     };
     window.addEventListener("focus", handleFocus);
 
