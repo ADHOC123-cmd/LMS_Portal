@@ -57,6 +57,9 @@ app.use(helmet({
         "https://vimeo.com",
         "https://player.vimeo.com",
         "https://*.vimeo.com",
+        "https://www.youtube.com",
+        "https://*.youtube.com",
+        "https://youtube.com",
         "https://api.razorpay.com",
         "https://tds.razorpay.com",
         "https://checkout.razorpay.com",
@@ -70,6 +73,7 @@ app.use(helmet({
         "https://*.vimeocdn.com",
         ...(process.env.FRONTEND_URL ? [process.env.FRONTEND_URL] : [])
       ],
+      mediaSrc: ["'self'", "blob:", "data:", "https:"],
       imgSrc: ["'self'", "data:", "blob:", "https:"],
       styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com", "https://fonts.gstatic.com"],
       fontSrc: ["'self'", "https://fonts.gstatic.com"],

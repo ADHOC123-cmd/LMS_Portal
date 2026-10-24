@@ -10,16 +10,25 @@ export function getEmbedUrl(url) {
     const pathname = urlObj.pathname;
 
     // --- Vimeo ---
-    // Matches standard Vimeo URLs (vimeo.com/123456) and unlisted/private ones with a hash (vimeo.com/123456/abcdef1234)
-    const vimeoMatch = url.match(/vimeo\.com\/(\d+)(?:\/([a-zA-Z0-9]+))?/);
-    if (vimeoMatch) {
-      const videoId = vimeoMatch[1];
-      const hash = vimeoMatch[2];
-      let embedUrl = `https://player.vimeo.com/video/${videoId}?autoplay=1&badge=0&byline=0&portrait=0&title=0`;
-      if (hash) {
-        embedUrl += `&h=${hash}`;
+    if (url.includes("player.vimeo.com")) {
+      return url;
+    }
+
+    if (urlObj.hostname.includes("vimeo.com")) {
+      const segments = pathname.split("/").filter(Boolean);
+      // Find first numeric segment (the Vimeo video ID)
+      const idIndex = segments.findIndex((s) => /^\d+$/.test(s));
+      if (idIndex !== -1) {
+        const videoId = segments[idIndex];
+        // Next segment or ?h= query param might be the unlisted/privacy hash
+        const nextSegment = segments[idIndex + 1];
+        const hash = urlObj.searchParams.get("h") || (nextSegment && !["videos", "channels"].includes(nextSegment) ? nextSegment : null);
+        let embedUrl = `https://player.vimeo.com/video/${videoId}?autoplay=1&badge=0&byline=0&portrait=0&title=0`;
+        if (hash) {
+          embedUrl += `&h=${hash}`;
+        }
+        return embedUrl;
       }
-      return embedUrl;
     }
 
     // --- YouTube ---
